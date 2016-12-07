@@ -13,10 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\PredictiveTextEngine">
+      <UniqueIdentifier>{906c2fdc-8e03-4878-b203-4c6b106398b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PredictiveTextEngine\WordTree">
+      <UniqueIdentifier>{c252fd12-997a-4a3d-93d3-3eff8e2cff7e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PredictiveTextEngine\PredictiveTextEngine.c">
+      <Filter>Source Files\PredictiveTextEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PredictiveTextEngine\WordTree\WordTree.c">
+      <Filter>Source Files\PredictiveTextEngine\WordTree</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PredictiveTextEngine\PredictiveTextEngine.h">
+      <Filter>Source Files\PredictiveTextEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PredictiveTextEngine\WordTree\WordTree.h">
+      <Filter>Source Files\PredictiveTextEngine\WordTree</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
