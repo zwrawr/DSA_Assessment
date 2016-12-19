@@ -49,15 +49,16 @@ WordTree *wordTree_Constructor(void)
 	wordTree = malloc(sizeof(WordTree));
 
 	FILE* file = getWordsFile();
-	char** words =getWordArray(file);
+	int lines = 0;
+	char** words = getWordArray(file, &lines);
 
 	//sort the array first as it is quicker than do lots of sorted inserts into the tree.
-	sortWordArray(words);
+	sortWordArray(words,lines);
 
 	// the root node in the tree is a space
 	wordTree->root = treeElement_Constructor(" ");
 	// add the words to the word tree
-
+	addSortedWordsToTree(words,lines);
 
 	return wordTree;
 }
@@ -148,9 +149,9 @@ int getNumberOfLinesInFile(FILE* file)
 	return count;
 }
 
-char** getWordsArray(FILE* file)
+char** getWordsArray(FILE* file, int* lines)
 {
-	int lines = getNumberOfLinesInFile(file);
+	*lines = getNumberOfLinesInFile(file);
 	char** words = malloc(lines);
 
 	for (int i = 0; i < lines; i++)
@@ -169,7 +170,7 @@ char** getWordsArray(FILE* file)
 	return words;
 }
 
-void sortWordArray(char** words)
+void sortWordArray(char** words, int length)
 {
 	//TODO: impliment quick sort
 	//TODO: impliment mergesort or selection sort
@@ -179,4 +180,22 @@ void sortWordArray(char** words)
 
 	// This is buble sort and should be nuked and replaced with a better sort at some point
 
+	for (int i = 0; i < length; i++)
+	{
+		for (int j = 0; j < (length-i); j++)
+		{
+			if (strcmp(words[j], words[j + 1]))
+			{
+
+				char* tmp = words[j];
+				words[j] = words[j+1];
+				words[j+1] = words[j];
+			}
+		}
+	}
+}
+
+void addSortedWordsToTree(char** words, int length)
+{
+	// is this a binary tree or will it have 26(*2) children (one for each possible letter)
 }
