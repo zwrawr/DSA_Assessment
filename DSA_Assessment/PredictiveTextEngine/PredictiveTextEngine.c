@@ -32,15 +32,23 @@ struct PredictiveTextEngine
 /// ====
 PredictiveTextEngine *predictiveTextEngine_Constructor(void)
 {
-	PredictiveTextEngine* ptEngine = malloc(sizeof(PredictiveTextEngine));
+	PredictiveTextEngine* ptEngine;
+	ptEngine = malloc(sizeof(PredictiveTextEngine));
+
 	ptEngine->wTree = wordTree_Constructor();
 
-	return;
+	return ptEngine;
 }
 
 void predictiveTextEngine_Deconstructor(PredictiveTextEngine *ptEngine)
 {
-	wordTree_Destructor(ptEngine->wTree);
+	if (ptEngine == NULL)
+	{
+		printf("WARNING :: \t Attempted to Deconstruct a NULL PredictiveTextEngine");
+		return;
+	}
+
+	wordTree_Deconstructor(ptEngine->wTree);
 	free(ptEngine);
 
 	return;

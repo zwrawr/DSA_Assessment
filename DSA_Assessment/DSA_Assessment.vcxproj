@@ -160,6 +160,11 @@
     <ClInclude Include="PredictiveTextEngine\PredictiveTextEngine.h" />
     <ClInclude Include="PredictiveTextEngine\WordTree\WordTree.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Data\words.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </Text>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

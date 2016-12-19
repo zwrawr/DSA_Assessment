@@ -5,8 +5,7 @@
 /// ====
 ///	Prototypes
 /// ====
-void init(PredictiveTextEngine* ptEngine);
-void deinit(PredictiveTextEngine* ptEngine);
+void waitForInput(char* message);
 
 /// ====
 ///	Main
@@ -14,43 +13,23 @@ void deinit(PredictiveTextEngine* ptEngine);
 // Entry point
 int main(void)
 {
-	PredictiveTextEngine* ptEngine;
-	init(ptEngine);
+    PredictiveTextEngine* ptEngine;
+    ptEngine = predictiveTextEngine_Constructor();
 
 
 
-	waitForInput("Press any key to exit.");
-	deinit(ptEngine);
+    waitForInput("Press any key to exit.");
+    predictiveTextEngine_Deconstructor(ptEngine);
 
-	return 0;
-}
-
-
-/// ====
-///	Functions
-/// ====
-// Sets up datastructres.
-void init(PredictiveTextEngine* ptEngine)
-{
-	ptEngine = predictiveTextEngine_Constructor();
-
-	return;
-}
-
-// Tears down datastructres.
-void deinit(PredictiveTextEngine* ptEngine)
-{
-	predictiveTextEngine_Deconstructor(ptEngine);
-
-	return;
+    return 0;
 }
 
 // Block exicution till theres an input.
 void waitForInput(char* message)
 {
-	printf("\n%s\n=> ",message);
-	getchar();
-	printf("\n");
-	
-	return;
+    printf("\n%s\n=> ",message);
+    getchar();
+    printf("\n");
+
+    return;
 }
