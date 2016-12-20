@@ -168,7 +168,9 @@ char** getWordsArray(FILE* file, int* lines)
 		words[i] = malloc(sizeof(char) * 64);
 		if (fgets(words[i], 64, file) != NULL)
 		{
-			printf("Read %s from file\n", words[i]);
+			// this removes the trailing \n from a word
+			words[i][strcspn(words[i], "\n")] = 0;
+			printf("Read word %d from file : %s \n", i, words[i]);
 		}
 		else
 		{
@@ -198,7 +200,7 @@ void sortWordArray(char** words, int length)
 
 				char* tmp = words[j];
 				words[j] = words[j+1];
-				words[j+1] = words[j];
+				words[j+1] = tmp;
 			}
 		}
 	}
@@ -243,7 +245,7 @@ TreeElement* addSortedWords(WordTree* wordTree, char** words, int start, int end
 	// we only have a single value left
 	if (end == start)
 	{
-		printf("Added word %d %s to tree", start, words[start]);
+		printf("Added word %d %s to tree\n", start, words[start]);
 		TreeElement* treeElement = treeElement_Constructor(words[start]);
 		wordTree->size++;
 		return treeElement;
@@ -251,7 +253,7 @@ TreeElement* addSortedWords(WordTree* wordTree, char** words, int start, int end
 	// we only have two values left so we cannot make a midpoint
 	if (end == start + 1)
 	{
-		printf("Added word %d %s to tree", start, words[start]);
+		printf("Added word %d %s to tree\n", start, words[start]);
 		TreeElement* treeElement = treeElement_Constructor(words[end]);
 		wordTree->size++;
 
@@ -264,7 +266,7 @@ TreeElement* addSortedWords(WordTree* wordTree, char** words, int start, int end
 
 	int midpoint = start + (end - start) / 2;
 
-	printf("Added word %d %s to tree", midpoint, words[midpoint]);
+	printf("Added word %d %s to tree\n", midpoint, words[midpoint]);
 	TreeElement* treeElement = treeElement_Constructor(words[midpoint]);
 	wordTree->size++;
 
