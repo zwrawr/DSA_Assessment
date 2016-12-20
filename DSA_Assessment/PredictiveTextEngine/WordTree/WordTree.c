@@ -5,7 +5,7 @@
 /// ====
 /// Defines
 /// ====
-#define WORDSFILE "Data/words.txt"
+#define WORDSFILE "Data/100words.txt"
 #define WORDTREESIZE 64
 #define MAXWORDLENGTH 128
 /// ====
@@ -19,9 +19,13 @@ typedef struct TreeElement TreeElement;
 /// Prototypes
 /// ====
 FILE* getWordsFile();
+char** getWordsArray(FILE* file, int* lines);
 TreeElement* treeElement_Constructor(char* word);
 void treeElement_Deconstructor(TreeElement* treeElement);
 int getNumberOfLinesInFile(FILE* file);
+void sortWordArray(char** words, int length);
+void addSortedWordsToTree(WordTree * wordTree, char** words, int length);
+TreeElement* addSortedWords(WordTree* wordTree, char** words, int start, int end);
 
 /// ====
 /// Structures
@@ -32,6 +36,7 @@ struct WordTree
 	TreeElement* root; //the root element of the tree
 };
 
+// Should this be a binary tree or should it have a child for each possible letter?
 struct TreeElement
 {
 	char word[MAXWORDLENGTH];
@@ -50,15 +55,13 @@ WordTree *wordTree_Constructor(void)
 
 	FILE* file = getWordsFile();
 	int lines = 0;
-	char** words = getWordArray(file, &lines);
+	char** words = getWordsArray(file, &lines);
 
 	//sort the array first as it is quicker than do lots of sorted inserts into the tree.
 	sortWordArray(words,lines);
 
-	// the root node in the tree is a space
-	wordTree->root = treeElement_Constructor(" ");
 	// add the words to the word tree
-	addSortedWordsToTree(words,lines);
+	addSortedWordsToTree(wordTree, words, lines);
 
 	return wordTree;
 }
@@ -137,6 +140,9 @@ FILE* getWordsFile()
 
 int getNumberOfLinesInFile(FILE* file)
 {
+	//make sure were at the begging of the file
+	fseek(file, 0, SEEK_SET);
+
 	int count = 0;
 	char buf[64];
 	while (fgets(buf, sizeof(buf) ,file) != NULL)
@@ -144,7 +150,7 @@ int getNumberOfLinesInFile(FILE* file)
 		count++;
 	}
 
-	printf("The file contains %d lines/words",count);
+	printf("The file contains %d lines/words\n",count);
 
 	return count;
 }
@@ -152,18 +158,21 @@ int getNumberOfLinesInFile(FILE* file)
 char** getWordsArray(FILE* file, int* lines)
 {
 	*lines = getNumberOfLinesInFile(file);
-	char** words = malloc(lines);
+	char** words = malloc(*lines * sizeof(char*));
 
-	for (int i = 0; i < lines; i++)
+	//make sure were at the begging of the file
+	fseek(file, 0, SEEK_SET);
+
+	for (int i = 0; i < *lines; i++)
 	{
-		char* buf = malloc(sizeof(char) * 64);
-		if (fgets(buf, 64, file) != NULL)
+		words[i] = malloc(sizeof(char) * 64);
+		if (fgets(words[i], 64, file) != NULL)
 		{
-			words[i] = buf;
+			printf("Read %s from file\n", words[i]);
 		}
 		else
 		{
-			words[i] = NULL;
+			printf("WARNING :: \t Unable to read line %d form file\n",i);
 		}
 	}
 
@@ -182,7 +191,7 @@ void sortWordArray(char** words, int length)
 
 	for (int i = 0; i < length; i++)
 	{
-		for (int j = 0; j < (length-i); j++)
+		for (int j = 0; j < (length-i-1); j++)
 		{
 			if (strcmp(words[j], words[j + 1]))
 			{
@@ -195,7 +204,74 @@ void sortWordArray(char** words, int length)
 	}
 }
 
-void addSortedWordsToTree(char** words, int length)
+void addSortedWordsToTree(WordTree * wordTree, char** words, int length)
 {
-	// is this a binary tree or will it have 26(*2) children (one for each possible letter)
+
+	wordTree->root = addSortedWords(wordTree, words, 0, length-1);
+
+}
+
+TreeElement* addSortedWords(WordTree* wordTree, char** words, int start, int end)
+{
+
+	// we want to add the center node as a new element and the continue recursivly for both sides.
+	
+	/*	e.g.
+	*	if start == 0 and end == 99
+	*	we create a new tree element with words[0 + (99 - 0)/2] (words[50])
+	*	then we recursivly find the left and right
+	*	left has start == 0 and end = 49
+	*	right has start == 51 and end == 99
+	*/
+
+	/*	e.g.
+	*	if start == 51 and end == 99
+	*	we create a new tree element with words[51 + (99 - 51)/2] (words[75])
+	*	then we recursivly find the left and right
+	*	left has start == 51 and end = 74
+	*	right has start == 76 and end == 99
+	*/
+
+	/*	e.g.
+	*	if start == 0 and end == 3
+	*	we create a new tree element with words[0 + (3 - 0)/2] (words[1])
+	*	then we recursivly find the left and right
+	*	left has start == 0 and end = 0
+	*	right has start == 2 and end == 2
+	*/
+
+	// we only have a single value left
+	if (end == start)
+	{
+		printf("Added word %d %s to tree", start, words[start]);
+		TreeElement* treeElement = treeElement_Constructor(words[start]);
+		wordTree->size++;
+		return treeElement;
+	}
+	// we only have two values left so we cannot make a midpoint
+	if (end == start + 1)
+	{
+		printf("Added word %d %s to tree", start, words[start]);
+		TreeElement* treeElement = treeElement_Constructor(words[end]);
+		wordTree->size++;
+
+		treeElement->left = treeElement_Constructor(words[start]);
+		wordTree->size++;
+
+		return treeElement;
+	}
+
+
+	int midpoint = start + (end - start) / 2;
+
+	printf("Added word %d %s to tree", midpoint, words[midpoint]);
+	TreeElement* treeElement = treeElement_Constructor(words[midpoint]);
+	wordTree->size++;
+
+	//left half
+	treeElement->left = addSortedWords(wordTree, words, start, midpoint-1);
+	//right half
+	treeElement->right = addSortedWords(wordTree, words, midpoint+1, end);
+
+	return treeElement;
 }

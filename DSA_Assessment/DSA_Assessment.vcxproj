@@ -161,6 +161,9 @@
     <ClInclude Include="PredictiveTextEngine\WordTree\WordTree.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Data\100words.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </Text>
     <Text Include="Data\words.txt">
       <DeploymentContent>true</DeploymentContent>
     </Text>
