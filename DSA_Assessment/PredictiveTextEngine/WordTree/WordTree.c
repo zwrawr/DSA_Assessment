@@ -5,7 +5,7 @@
 /// ====
 /// Defines
 /// ====
-#define WORDSFILE "Data/words.txt"
+#define WORDSFILE "Data/words.txt"// "Data/words.txt" or "Data/100words.txt"
 #define WORDTREESIZE 64
 #define MAXWORDLENGTH 128
 /// ====
@@ -26,6 +26,7 @@ int getNumberOfLinesInFile(FILE* file);
 void sortWordArray(char** words, int length);
 void addSortedWordsToTree(WordTree * wordTree, char** words, int length);
 TreeElement* addSortedWords(WordTree* wordTree, char** words, int start, int end);
+void freeWordsArray(char** words, int length);
 
 /// ====
 /// Structures
@@ -62,6 +63,9 @@ WordTree *wordTree_Constructor(void)
 
 	// add the words to the word tree
 	addSortedWordsToTree(wordTree, words, lines);
+
+	// remember to free the tmp array we created
+	freeWordsArray(words,lines);
 
 	return wordTree;
 }
@@ -294,4 +298,18 @@ TreeElement* addSortedWords(WordTree* wordTree, char** words, int start, int end
 	treeElement->right = addSortedWords(wordTree, words, midpoint+1, end);
 
 	return treeElement;
+}
+
+void freeWordsArray(char** words, int length)
+{
+	printf("[    ] Freeing temporay array");
+
+	for (int i = 0; i < length; i++)
+	{
+		free(words[i]);
+		printf("\r[....] Freeing temporay array, word %d of %d", i, length);
+	}
+	free(words);
+
+	printf("\r[DONE] Freed temporay array\t\t\t\t");
 }
