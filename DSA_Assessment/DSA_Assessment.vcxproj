@@ -95,7 +95,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>start $(SolutionDir)/astyle/astyle.exe $(MSBuildProjectDirectory)\*.c $(MSBuildProjectDirectory)\*.h $(SolutionDir)/astyle/Artistic_Style.astylerc</Command>
+      <Command>cd $(SolutionDir) &amp;&amp; call "astyle/astyle.exe" --recursive DSA_Assessment/*.c DSA_Assessment/*.h --options=astyle/Artistic_Style.astylerc</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -130,7 +130,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>start $(SolutionDir)/astyle/astyle.exe $(MSBuildProjectDirectory)\*.c $(MSBuildProjectDirectory)\*.h $(SolutionDir)/astyle/Artistic_Style.astylerc</Command>
+      <Command>cd $(SolutionDir) &amp;&amp; call "astyle/astyle.exe" --recursive DSA_Assessment/*.c DSA_Assessment/*.h --options=astyle/Artistic_Style.astylerc</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

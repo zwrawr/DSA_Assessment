@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "WordTree/WordTree.h"
 
 /// ====
@@ -23,7 +24,7 @@ typedef struct PredictiveTextEngine PredictiveTextEngine;
 /// ====
 struct PredictiveTextEngine
 {
-	WordTree* wTree;
+    WordTree *wTree;
 };
 
 
@@ -32,32 +33,42 @@ struct PredictiveTextEngine
 /// ====
 PredictiveTextEngine *predictiveTextEngine_Constructor(void)
 {
-	PredictiveTextEngine* ptEngine;
-	ptEngine = malloc(sizeof(PredictiveTextEngine));
-
-	ptEngine->wTree = wordTree_Constructor();
-
-	return ptEngine;
+    PredictiveTextEngine *ptEngine;
+    ptEngine = malloc(sizeof(PredictiveTextEngine));
+    
+    ptEngine->wTree = wordTree_Constructor();
+    
+    return ptEngine;
 }
 
 void predictiveTextEngine_Deconstructor(PredictiveTextEngine *ptEngine)
 {
-	if (ptEngine == NULL)
-	{
-		printf("WARNING :: \t Attempted to Deconstruct a NULL PredictiveTextEngine");
-		return;
-	}
-
-	wordTree_Deconstructor(ptEngine->wTree);
-	free(ptEngine);
-
-	return;
+    if (ptEngine == NULL)
+    {
+        printf("WARNING :: \t Attempted to Deconstruct a NULL PredictiveTextEngine");
+        return;
+    }
+    
+    wordTree_Deconstructor(ptEngine->wTree);
+    free(ptEngine);
+    
+    return;
 }
 
 
 /// ====
 /// Interface Functions
 /// ====
+char *predictWord(PredictiveTextEngine *pte, char *partialWord)
+{
+    // This is probably the most important function
+    
+    // TODO : improve this function.
+    
+    int len = strlen(partialWord) ;
+    
+    
+}
 
 
 /// ====

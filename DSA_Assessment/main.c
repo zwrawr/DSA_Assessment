@@ -3,33 +3,33 @@
 #include "PredictiveTextEngine/PredictiveTextEngine.h"
 
 /// ====
-///	Prototypes
+/// Prototypes
 /// ====
-void waitForInput(char* message);
+void waitForInput(char *message);
 
 /// ====
-///	Main
+/// Main
 /// ====
 // Entry point
 int main(void)
 {
-    PredictiveTextEngine* ptEngine;
+    PredictiveTextEngine *ptEngine;
     ptEngine = predictiveTextEngine_Constructor();
-
-
-
+    
+    
+    
     waitForInput("Press any key to exit.");
     predictiveTextEngine_Deconstructor(ptEngine);
-
+    
     return 0;
 }
 
 // Block exicution till theres an input.
-void waitForInput(char* message)
+void waitForInput(char *message)
 {
-    printf("\n%s\n=> ",message);
+    printf("\n%s\n=> ", message);
     getchar();
     printf("\n");
-
+    
     return;
 }
