@@ -5,7 +5,7 @@
 /// ====
 /// Defines
 /// ====
-#define WORDSFILE "Data/100words.txt"
+#define WORDSFILE "Data/words.txt"
 #define WORDTREESIZE 64
 #define MAXWORDLENGTH 128
 /// ====
@@ -127,11 +127,11 @@ FILE* getWordsFile()
 
 	if (err == 0)
 	{
-		printf("The file '%s' was opened\n",WORDSFILE);
+		printf("[DONE] Opened file '%s' \n",WORDSFILE);
 	}
 	else
 	{
-		printf("ERROR :: \t The file '%s' was not be opened\n Exiting",WORDSFILE);
+		printf("[ERR!]\t Unable to open file '%s' \n[EXIT] Exiting\n",WORDSFILE);
 		exit(1);
 	}
 
@@ -140,6 +140,7 @@ FILE* getWordsFile()
 
 int getNumberOfLinesInFile(FILE* file)
 {
+	printf("[    ] Counting lines in file");
 	//make sure were at the begging of the file
 	fseek(file, 0, SEEK_SET);
 
@@ -148,20 +149,24 @@ int getNumberOfLinesInFile(FILE* file)
 	while (fgets(buf, sizeof(buf) ,file) != NULL)
 	{
 		count++;
+		printf("\r[....] Counted %d lines in file", count);
 	}
 
-	printf("The file contains %d lines/words\n",count);
+	printf("\r[DONE]\n");
 
 	return count;
 }
 
 char** getWordsArray(FILE* file, int* lines)
 {
+
 	*lines = getNumberOfLinesInFile(file);
 	char** words = malloc(*lines * sizeof(char*));
 
 	//make sure were at the begging of the file
 	fseek(file, 0, SEEK_SET);
+
+	printf("[    ] Getting Words from file");
 
 	for (int i = 0; i < *lines; i++)
 	{
@@ -170,14 +175,15 @@ char** getWordsArray(FILE* file, int* lines)
 		{
 			// this removes the trailing \n from a word
 			words[i][strcspn(words[i], "\n")] = 0;
-			printf("Read word %d from file : %s \n", i, words[i]);
+			printf("\r[....]Reading word 0-%d from file : %s \t\t\t\t", i, words[i]);
 		}
 		else
 		{
-			printf("WARNING :: \t Unable to read line %d form file\n",i);
+			printf("\n[WARN]\t Unable to read line %d form file\t\t\n",i);
 		}
 	}
 
+	printf("\r[DONE] Got Words from file \t\t\t\t\n");
 	return words;
 }
 
@@ -191,26 +197,38 @@ void sortWordArray(char** words, int length)
 
 	// This is buble sort and should be nuked and replaced with a better sort at some point
 
+	printf("[    ] Sorting Words");
+	int swaps;
+
 	for (int i = 0; i < length; i++)
 	{
+		swaps = 0;
 		for (int j = 0; j < (length-i-1); j++)
 		{
 			if (strcmp(words[j], words[j + 1]))
 			{
-
+				swaps++;
 				char* tmp = words[j];
 				words[j] = words[j+1];
 				words[j+1] = tmp;
 			}
 		}
+		printf("\r[....] Sorting Words, %d swaps\t\t",swaps);
+
+		if (swaps == 0)
+		{
+			break;
+		}
 	}
+	printf("\r[DONE] Sorted Words\t\t\t\t\n");
+
 }
 
 void addSortedWordsToTree(WordTree * wordTree, char** words, int length)
 {
-
+	printf("[    ] Adding words to tree\r");
 	wordTree->root = addSortedWords(wordTree, words, 0, length-1);
-
+	printf("\r[DONE] Added words to tree\t\t\t\t\n");
 }
 
 TreeElement* addSortedWords(WordTree* wordTree, char** words, int start, int end)
@@ -245,7 +263,7 @@ TreeElement* addSortedWords(WordTree* wordTree, char** words, int start, int end
 	// we only have a single value left
 	if (end == start)
 	{
-		printf("Added word %d %s to tree\n", start, words[start]);
+		printf("\r[....] Added word 0-%d %s to tree \t\t\t\t", start, words[start]);
 		TreeElement* treeElement = treeElement_Constructor(words[start]);
 		wordTree->size++;
 		return treeElement;
@@ -253,7 +271,7 @@ TreeElement* addSortedWords(WordTree* wordTree, char** words, int start, int end
 	// we only have two values left so we cannot make a midpoint
 	if (end == start + 1)
 	{
-		printf("Added word %d %s to tree\n", start, words[start]);
+		printf("\r[....] Added words 0-%d %s to tree \t\t\t\t", start, words[start]);
 		TreeElement* treeElement = treeElement_Constructor(words[end]);
 		wordTree->size++;
 
@@ -266,7 +284,7 @@ TreeElement* addSortedWords(WordTree* wordTree, char** words, int start, int end
 
 	int midpoint = start + (end - start) / 2;
 
-	printf("Added word %d %s to tree\n", midpoint, words[midpoint]);
+	printf("\r[....] Added words 0-%d %s to tree \t\t\t\t", midpoint, words[midpoint]);
 	TreeElement* treeElement = treeElement_Constructor(words[midpoint]);
 	wordTree->size++;
 
