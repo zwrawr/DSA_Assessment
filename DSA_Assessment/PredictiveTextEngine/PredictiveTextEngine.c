@@ -9,7 +9,7 @@
 
 
 /// ====
-/// TypeDefs
+/// Type Definitions
 /// ====
 typedef struct PredictiveTextEngine PredictiveTextEngine;
 
@@ -65,7 +65,7 @@ char *predictWord(PredictiveTextEngine *pte, char *partialWord)
     
     // TODO : improve this function.
     
-    int len = strlen(partialWord) ;
+    int len = strlen(partialWord);
     
     
 }

@@ -9,7 +9,7 @@
 #define WORDTREESIZE 64
 #define MAXWORDLENGTH 128
 /// ====
-/// TypeDefs
+/// Type Definitions
 /// ====
 typedef struct WordTree WordTree;
 typedef struct TreeElement TreeElement;
@@ -64,7 +64,7 @@ WordTree *wordTree_Constructor(void)
     // add the words to the word tree
     addSortedWordsToTree(wordTree, words, lines);
     
-    // remember to free the tmp array we created
+    // remember to free the temp array we created
     freeWordsArray(words, lines);
     
     return wordTree;
@@ -196,13 +196,13 @@ char **getWordsArray(FILE *file, int *lines)
 
 void sortWordArray(char **words, int length)
 {
-    //TODO: impliment quick sort
-    //TODO: impliment mergesort or selection sort
-    //TODO: make merge sort use quicksort if theres less than 256 items to be sorted
+    //TODO: implement quick sort
+    //TODO: implement merge sort or selection sort
+    //TODO: make merge sort use quick sort if theres less than 256 items to be sorted
     //TODO: benchmark the above
-    //TODO: multithread?
+    //TODO: multi thread?
     
-    // This is buble sort and should be nuked and replaced with a better sort at some point
+    // This is bubble sort and should be nuked and replaced with a better sort at some point
     
     printf("[    ] Sorting Words");
     int swaps;
@@ -244,12 +244,12 @@ void addSortedWordsToTree(WordTree *wordTree, char **words, int length)
 TreeElement *addSortedWords(WordTree *wordTree, char **words, int start, int end)
 {
 
-    // we want to add the center node as a new element and the continue recursivly for both sides.
+    // we want to add the center node as a new element and the continue recursively for both sides.
     
     /*  e.g.
     *   if start == 0 and end == 99
     *   we create a new tree element with words[0 + (99 - 0)/2] (words[50])
-    *   then we recursivly find the left and right
+    *   then we recursively find the left and right
     *   left has start == 0 and end = 49
     *   right has start == 51 and end == 99
     */
@@ -257,7 +257,7 @@ TreeElement *addSortedWords(WordTree *wordTree, char **words, int start, int end
     /*  e.g.
     *   if start == 51 and end == 99
     *   we create a new tree element with words[51 + (99 - 51)/2] (words[75])
-    *   then we recursivly find the left and right
+    *   then we recursively find the left and right
     *   left has start == 51 and end = 74
     *   right has start == 76 and end == 99
     */
@@ -265,7 +265,7 @@ TreeElement *addSortedWords(WordTree *wordTree, char **words, int start, int end
     /*  e.g.
     *   if start == 0 and end == 3
     *   we create a new tree element with words[0 + (3 - 0)/2] (words[1])
-    *   then we recursivly find the left and right
+    *   then we recursively find the left and right
     *   left has start == 0 and end = 0
     *   right has start == 2 and end == 2
     */
@@ -309,15 +309,15 @@ TreeElement *addSortedWords(WordTree *wordTree, char **words, int start, int end
 
 void freeWordsArray(char **words, int length)
 {
-    printf("[    ] Freeing temporay array");
+    printf("[    ] Freeing temporary array");
     
     for (int i = 0; i < length; i++)
     {
         free(words[i]);
-        printf("\r[....] Freeing temporay array, word %d of %d", i, length);
+        printf("\r[....] Freeing temporary array, word %d of %d", i, length);
     }
     
     free(words);
     
-    printf("\r[DONE] Freed temporay array\t\t\t\t");
+    printf("\r[DONE] Freed temporary array\t\t\t\t");
 }

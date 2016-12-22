@@ -24,7 +24,7 @@ int main(void)
     return 0;
 }
 
-// Block exicution till theres an input.
+// Block execution till theres an input.
 void waitForInput(char *message)
 {
     printf("\n%s\n=> ", message);

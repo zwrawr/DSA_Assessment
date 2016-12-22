@@ -8,7 +8,7 @@
 
 
 /// ====
-/// TypeDefs
+/// Type Definitions
 /// ====
 typedef struct WordTree WordTree;
 
