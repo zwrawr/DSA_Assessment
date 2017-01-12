@@ -120,11 +120,66 @@ void treeElement_Deconstructor(TreeElement *treeElement)
 /// ====
 /// Interface Functions
 /// ====
+char* wordTree_getWordBeginningWith(WordTree* wordTree, char* partialWord)
+{
+	char word[MAXWORDLENGTH];
+
+	// see if partial word is a word
+	if (tryFindWord(wordTree, partialWord, &word))
+	{
+		return word;
+	}
+
+	// see if theres a word beginning with partialWord
+	if (tryFindWordBegginingWith(wordTree,partialWord,&word))
+	{
+		return word;
+	}
+
+	//TODO: some kind of back tracking. Assume the last letter typed may be wrong
+
+	//TODO: if we still don't have any words then try similar words. this will be slow but shouldn't have to do it very often.
+}
 
 
 /// ====
 /// Hidden Functions
 /// ====
+int tryFindWordBegginingWith(WordTree* wordTree, char* partialWord, char*word)
+{
+	// attempt to find a word beginning with partialWord
+	
+	//TODO: when we use a better data structure this function will have to be changed
+
+	TreeElement *curr = wordTree->root;
+
+
+	while (-+
+		(curr->left != NULL) && (curr->right != NULL))
+	{
+		// check to see if this node starts with the partial word
+
+		if (prefix(partialWord,curr->word)==1)
+		{
+			//this node is prefixed by partial word
+			strcpy_s(word, sizeof(curr->word), curr->word);
+			return 1;
+		}
+		else
+		{
+
+			// look to see if the left is a better match
+
+			// look to see if the right is a better match
+
+			// if neither children are better matches than the current then return 0.
+			
+		}
+		
+	}
+
+}
+
 FILE *getWordsFile()
 {
     FILE *file;
@@ -320,4 +375,16 @@ void freeWordsArray(char **words, int length)
     free(words);
     
     printf("\r[DONE] Freed temporary array\t\t\t\t");
+}
+
+int prefix(const char *pre, const char *str)
+{
+	if (strncmp(pre, str, strlen(pre)) == 0)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }

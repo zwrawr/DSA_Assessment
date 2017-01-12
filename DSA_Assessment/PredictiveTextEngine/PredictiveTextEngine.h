@@ -23,7 +23,7 @@ void predictiveTextEngine_Deconstructor(PredictiveTextEngine *predictiveTextEngi
 /// ====
 /// Functions
 /// ====
-char *predictWord(char *partialWord);
+char *predictiveTextEngine_predictWord(char *partialWord);
 
 
 

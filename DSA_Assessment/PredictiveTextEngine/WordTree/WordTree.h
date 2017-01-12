@@ -23,6 +23,7 @@ void wordTree_Deconstructor(WordTree *wordTree);
 /// ====
 /// Functions
 /// ====
+char* wordTree_getWordBeginningWith(WordTree* wordTree, char* partialWord);
 
 
 

@@ -59,15 +59,24 @@ void predictiveTextEngine_Deconstructor(PredictiveTextEngine *ptEngine)
 /// ====
 /// Interface Functions
 /// ====
-char *predictWord(PredictiveTextEngine *pte, char *partialWord)
+char *predictiveTextEngine_predictWord(PredictiveTextEngine *pte, char *partialWord)
 {
     // This is probably the most important function
     
     // TODO : improve this function.
     
+
     int len = strlen(partialWord);
+	if (len < 2)
+	{
+		char buf = malloc(sizeof(char)*strlen(partialWord)+1);
+		strcpy_s(buf, sizeof(buf), partialWord);
+		return buf;
+	}
     
-    
+    // we will need to walk the word tree until we find a node that starts with partial word. 
+	wordTree_getWordBeginningWith(pte->wTree, partialWord);
+
 }
 
 
