@@ -24,12 +24,18 @@
     <ClCompile Include="PredictiveTextEngine\PredictiveTextEngine.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Libarys\Trie.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PredictiveTextEngine\WordTree\WordTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PredictiveTextEngine\PredictiveTextEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libarys\Trie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

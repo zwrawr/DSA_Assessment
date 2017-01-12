@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../../Libarys/Trie.h"
 
 /// ====
 /// Defines
@@ -58,6 +59,12 @@ WordTree *wordTree_Constructor(void)
     int lines = 0;
     char **words = getWordsArray(file, &lines);
     
+	///============================================
+	Trie* t = trie_Constructor();
+	trie_AddMultiple(t, words);
+	trie_Print(t);
+	///============================================
+
     //sort the array first as it is quicker than do lots of sorted inserts into the tree.
     sortWordArray(words, lines);
     
@@ -122,19 +129,19 @@ void treeElement_Deconstructor(TreeElement *treeElement)
 /// ====
 char* wordTree_getWordBeginningWith(WordTree* wordTree, char* partialWord)
 {
-	char word[MAXWORDLENGTH];
+	//char word[MAXWORDLENGTH];
 
 	// see if partial word is a word
-	if (tryFindWord(wordTree, partialWord, &word))
-	{
-		return word;
-	}
+	//if (tryFindWord(wordTree, partialWord, &word))
+	//{
+	//	return word;
+	//}
 
 	// see if theres a word beginning with partialWord
-	if (tryFindWordBegginingWith(wordTree,partialWord,&word))
-	{
-		return word;
-	}
+	//if (tryFindWordBegginingWith(wordTree,partialWord,&word))
+	//{
+	//	return word;
+	//}
 
 	//TODO: some kind of back tracking. Assume the last letter typed may be wrong
 
