@@ -155,12 +155,10 @@
     <ClCompile Include="Libarys\Trie.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="PredictiveTextEngine\PredictiveTextEngine.c" />
-    <ClCompile Include="PredictiveTextEngine\WordTree\WordTree.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Libarys\Trie.h" />
     <ClInclude Include="PredictiveTextEngine\PredictiveTextEngine.h" />
-    <ClInclude Include="PredictiveTextEngine\WordTree\WordTree.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Data\100words.txt">

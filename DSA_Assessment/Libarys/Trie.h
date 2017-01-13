@@ -35,5 +35,9 @@ int trie_AddMultiple(Trie* trie, char** items);
 // prints out the words in the trie in alphabetical order
 void trie_Print(Trie* trie);
 
+// tests to see if a word is in the trie
+// Returns 1 if item is in the trie
+int trie_Contains(Trie* trie, char* item);
+
 #endif // TRIE_H_INCLUDED
 

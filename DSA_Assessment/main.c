@@ -16,8 +16,8 @@ int main(void)
     PredictiveTextEngine *ptEngine;
     ptEngine = predictiveTextEngine_Constructor();
     
-	char* guess = predictiveTextEngine_predictWord("th");
-	printf("=>\t guessing that 'th' is %s\n", guess);
+	//char* guess = predictiveTextEngine_predictWord("th");
+	//printf("=>\t guessing that 'th' is %s\n", guess);
     
     waitForInput("Press any key to exit.");
     predictiveTextEngine_Deconstructor(ptEngine);

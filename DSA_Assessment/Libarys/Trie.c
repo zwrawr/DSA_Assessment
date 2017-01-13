@@ -112,8 +112,9 @@ void trieElement_Deconstructor(TrieElement* trieElement)
 /// Interface Functions
 /// ====
 
-// adds the item(word) to the trie data structure
-// returns 1 if addition was succesful
+// Adds the item(word) to the trie data structure
+// Returns 1 if addition was succesful
+// Returns 0 if unsuccesful
 int trie_Add(Trie* trie, char* item)
 {
 	if (trie == NULL || trie->root == NULL )
@@ -132,8 +133,9 @@ int trie_Add(Trie* trie, char* item)
 	return 1;
 }
 
-// adds the items(words) to the trie data structure
-// returns 1 if additions were succesful
+// Adds the items(words) to the trie data structure
+// Returns 1 if additions were succesful
+// Returns 0 if unsuccesful
 int trie_AddMultiple(Trie* trie, char** items, int num)
 {
 	if (items == NULL)
@@ -172,6 +174,44 @@ void trie_Print(Trie* trie)
 
 	recursivePrint(curr, &string, depth);
 
+}
+
+// Tests to see if a word is in the trie
+// Returns 1 if item is in the trie and starred (its considered a word)
+// Returns 0 if the item is in the trie but not starred (its a partial word)
+// Returns -1 if its not in the trie
+int trie_Contains(Trie* trie, char* item)
+{
+	//TODO:: VALIDITY CHECKS
+
+	int len = (int)strlen(item);
+	TrieElement* curr = trie->root;
+
+	// for each letter in the string
+	for (int i = 0; i < len; i++)
+	{
+		// if this element has a child element in the position that matchs the letter in the string
+		// then move to that element or return -1 (item isnt in the trie)
+		if (curr->children[charToIndex(item[i])] != NULL) 
+		{
+			curr = curr->children[charToIndex(item[i])];
+		}
+		else
+		{
+			return -1;
+		}
+	}
+
+	// if we get here then curr is the node in the trie that represents item
+	// return value depends on curr is starred (curr is a word or partial word)
+	if (curr->starred == 1)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 
@@ -217,7 +257,10 @@ int charToIndex(char c)
 	return 0;
 }
 
-// turns an index to a char 1=a, 2=b, ... , 26=z
+///TODO:: Do we want this function to be so permisive? why not return ' ' if 1 > index or index > 26 ??
+
+// turns an index to a char
+// 1=a, 2=b, ... , 26=z
 char indexToChar(int index)
 {
 	return 96 + index % 26;
@@ -253,8 +296,9 @@ int insert(Trie* trie, char* string)
 
 	while (i < valueLength)
 	{
-		index = charToIndex(string[i]); // gives a=1, A=1, b=2, B=2, ...
-		curr->children[index - 1] = trieElement_Constructor();
+		index = charToIndex(string[i]) - 1; // gives a=0, A=0, b=1, B=1, ...
+		curr->children[index] = trieElement_Constructor();
+		curr = curr->children[index];
 		i++;
 	}
 
