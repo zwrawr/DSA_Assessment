@@ -18,5 +18,33 @@
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PredictiveTextEngine\WordTree\WordTree.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PredictiveTextEngine\PredictiveTextEngine.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libarys\Trie.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PredictiveTextEngine\WordTree\WordTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PredictiveTextEngine\PredictiveTextEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libarys\Trie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Data\words.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Data\100words.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
