@@ -4,7 +4,7 @@
 % This is a simple template for a LaTeX document using the "article" class.
 % See "book", "report", "letter" for other types of document.
 
-\documentclass[11pt]{article} % use larger type; default would be 10pt
+\documentclass[10pt]{article} % use larger type; default would be 10pt
 
 \usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
 \usepackage[english]{babel}
@@ -102,13 +102,46 @@ sorting=ynt
 	\tableofcontents
 	\newpage
 	
-	\section{How the program works}
-		dummy text
+	\section{What is a predictive Text system and how do they work}
+		A predictive text system's (also known as  auto-complete or word completion) role is to take a partial word and return a list of suggestions. They use some form of dictionary of known words to offer these suggestions.
 		\subsection{How users interact with the program}
-			dummy text
-		\subsection{How the prediction function works}
-			dummy text
+			Users interact with predictive text systems via some kind of text input device. Most users interact with some kind of predictive text system on a daily basis on either their PC or mobile device. The UI for both desktop and mobile devices follow the same basic pattern. The user begins by entering text normally via a keyboard or touch screen and once there are a sufficient number of letters for the system to make a reasonable guess (often two letters), the system presents the user with a list of predicted words. The user is then able to press a key to select which of the suggestions they want to use or continue typing and ignore the systems suggestions. The word they were typing replaces the partial word so that the user can move on the the next word.
+		\subsection{Behaviour of predictive text systems}
+			Predictive text system often return result that fall into a few broad categories.
+			\begin{description}
+				\item [The input.] One of the options in a predictive text system is always to keep the partial word that you already have. This is often achieved by returning the input as one of the items in the suggestion list. This behaviour can also happen if the partial word is actually a valid word from the predictive text systems dictionary.
+				\item [A word prefixed by the partial word.] The most common results from predictive text systems are words that are prefixed by the partial word the user has entered (e.g. ``hel" may return [``hel\textit{p}",``hel\textit{l}",``hel\textit{lo}"]). 
+				\item [A word that shares a prefix with the partial word.] (e.g. ``applez" may return [``apple",``apples",``app"]) 
+			\end{description}
+			
+			More sophisticated system may also use frequency analysis techniques, lexicographical distance algorithms and consider context to make smarter suggestions. These are out side of the scope of this project ( Our dictionary doesn't contain any frequency data or phrase data).
 
+	\section{Requirements}
+		Now that a predictive text systems behaviour has been defined, a set of success criteria can be derived.
+		\begin{enumerate}
+			\item The system must use ANSI C .
+			\item The system must compile with minGW (gcc)
+			\item The system must compile and exicute correctly on the university lab machines in PT108.
+			\item The system must load a word dictionary from file. \textit{(provided file words.txt)}
+			
+			\item The system must be capable of adding the loaded words into a data structure to store them whilst the program is running
+			\item The system must store these words in a space efficient data structure.
+			\item The system must be able to access these words in a time efficient manner.
+			
+			\item The system must be able to check to see if a partial word is contained in that data structure.
+			\item The system must be able to check to see if a partial word is a valid word from the dictionary
+			\item The system must be able to make suggestions of words that are prefixed by a partial word.
+			\item The system must be able to make suggestions of words that share a common prefix with a partial word.
+			
+			\item The system must let the user enter a string of text.
+			\item The system must present the users with suggestions as they are typing (preferred) or the user should be able to trigger a suggestion mode where they will be presented with a set of suggestions.
+			\item The system should let the user select the one of these suggestions.
+			\item The system should replace the partial word with the selected word.
+			
+			\item The system could be extended to deal with punctuation.
+			\item The system could be extended to deal with Capitalisation.
+			
+		\end{enumerate}
 	\section{Data Structures}
 		A predictive text program needs a to be able to access a set of common words.
 		 Storing and accessing these words efficiently is one of the challenges in creating a fast predictive text engine.
