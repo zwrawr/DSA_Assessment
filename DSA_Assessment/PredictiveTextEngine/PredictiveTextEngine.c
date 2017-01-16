@@ -40,18 +40,23 @@ PredictiveTextEngine *predictiveTextEngine_Constructor(void)
 {
     PredictiveTextEngine *ptEngine;
     ptEngine = malloc(sizeof(PredictiveTextEngine));
-    
+	if (ptEngine == NULL)
+	{
+		printf("[ERR!] \tUnable to assign memory for ptEngine\n");
+		return NULL;
+	}
+
     ptEngine->trie = trie_Constructor();
 
-	// populate the trie
+	// get the words for the trie
 	FILE* wordsfile = loadFile(WORDSFILE);
 	int len = 0;
 	char** words = getWordsArray(wordsfile,&len);
 	closeFile(wordsfile);
 
-	trie_AddMultiple(ptEngine->trie, words);
+	//populate the trie
+	trie_AddMultiple(ptEngine->trie, words, len);
 	freeWordsArray(words,len);
-	trie_Print(ptEngine->trie);
 
     return ptEngine;
 }
@@ -74,32 +79,52 @@ void predictiveTextEngine_Deconstructor(PredictiveTextEngine *ptEngine)
 /// ====
 /// Interface Functions
 /// ====
-char *predictiveTextEngine_predictWord(PredictiveTextEngine *pte, char *partialWord)
+
+// Predicts a word from a partialWord
+// Returns 1 if the partial word is a word
+// Returns 0 if possible word is found
+// Returns -1 if no word is found
+int predictiveTextEngine_predictWord(PredictiveTextEngine *pte, char *partialWord, char* buf)
 {
     // This is probably the most important function
-    
     // TODO : improve this function.
     
+	// TODO:: validity checks
 
     int len = (int)strlen(partialWord);
 
 	// dont make guesses for words less than 2 letters long just return the input
 	if (len < 2)
 	{
-		char *buf = malloc(sizeof(char)*strlen(partialWord)+1);
+		printf("[MESG] \t Partial word is too short to make a guess, must be at least 2 letters long.\n");
 		strcpy_s(buf, sizeof(buf), partialWord);
-		return buf;
-	}
-    
-	// check to see if the partial word is in the trie
-	if (trie_Contains(pte->trie, partialWord) == 1)
-	{
-		char *buf = malloc(sizeof(char)*strlen(partialWord) + 1);
-		strcpy_s(buf, sizeof(buf), partialWord);
-		return buf;
+		return -1;
 	}
 
-	return NULL;
+	//TODO:: switch/case statemnet
+	//TODO:: have some defines in stead of checking against 0 , 1, -1
+    
+	// check to see if the partial word is in the trie
+	int info = trie_Contains(pte->trie, partialWord);
+	if (info == 1)
+	{
+		// word is in the trie so 
+		strcpy_s(buf, sizeof(buf), partialWord);
+		return 1;
+	}
+	else if ( info == 0)
+	{
+		// there is a word in the trie that is prefixed by this partial word
+	}
+	else
+	{
+		// there is not a word in the the trie is directly prefixed by this trie
+	}
+
+	// check too see if there are words prefixed with partial word
+
+
+	return -1;
 }
 
 
@@ -158,7 +183,7 @@ int countLinesInFile(FILE *file)
 		printf("\r[....] Counted %d lines in file", count);
 	}
 
-	printf("\r[DONE]\n");
+	printf("\r[DONE]\t\t\t\t\n");
 
 	return count;
 }
@@ -169,6 +194,12 @@ char **getWordsArray(FILE *file, int *lines)
 {
 
 	*lines = countLinesInFile(file);
+	if (*lines < 1)
+	{
+		printf("[ERR!] there wasn't any lines in the dictionary file, Exiting\n");
+		exit(-1);
+	}
+
 	char **words = malloc(*lines * sizeof(char *));
 
 	//make sure were at the begging of the file
@@ -184,7 +215,7 @@ char **getWordsArray(FILE *file, int *lines)
 		{
 			// this removes the trailing \n from a word
 			words[i][strcspn(words[i], "\n")] = 0;
-			printf("\r[....]Reading word 0-%d from file : %s \t\t\t\t", i, words[i]);
+			if (i % 100 == 0) printf("\r[....]Reading word 0-%d from file : %s \t\t\t\t", i, words[i]);
 		}
 		else
 		{
@@ -204,10 +235,12 @@ void freeWordsArray(char **words, int length)
 	for (int i = 0; i < length; i++)
 	{
 		free(words[i]);
-		printf("\r[....] Freeing array, word %d of %d", i, length);
+		if (i%100==0) printf("\r[....] Freeing array, word %d of %d", i, length);
 	}
 
 	free(words);
 
-	printf("\r[DONE] Freed array\t\t\t\t");
+	printf("\r[DONE] Freed array\t\t\t\t\n");
+
+	return;
 }

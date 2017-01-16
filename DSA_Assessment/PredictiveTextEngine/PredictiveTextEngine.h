@@ -23,7 +23,12 @@ void predictiveTextEngine_Deconstructor(PredictiveTextEngine *predictiveTextEngi
 /// ====
 /// Functions
 /// ====
-char *predictiveTextEngine_predictWord(char *partialWord);
+
+// Predicts a word from a partialWord
+// Returns 1 if the partial word is a word
+// Returns 0 if possible word is found
+// Returns -1 if no word is found
+int predictiveTextEngine_predictWord(PredictiveTextEngine *pte, char *partialWord, char* buf);
 
 
 

@@ -12,11 +12,15 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.1}Trie}{2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {2.1.1}What is a trie and why I've used it}{2}
+\contentsline {subsubsection}{\numberline {2.1.1}What is a trie}{2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {2.1.2}How I have implemented the trie}{3}
+\contentsline {subsubsection}{\numberline {2.1.2}Time complexity of a trie}{3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2}Alternitive Data structures}{3}
+\contentsline {subsubsection}{\numberline {2.1.3}Space complexity of a trie}{3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {2.1.4}How I have implemented the trie}{3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2}Alternative Data structures}{3}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {2.2.1}Binary Trees vs Tries}{3}
 \defcounter {refsection}{0}\relax 
@@ -27,6 +31,8 @@
 \contentsline {section}{\numberline {3}Testing}{3}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.1}Complixity}{3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.1.1}Time Complexity of Tries}{3}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.2}Unit Testing}{3}
 \defcounter {refsection}{0}\relax 
