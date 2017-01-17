@@ -1,4 +1,4 @@
-
+# The task
 > #Data Structures and Algorithms Assessment
 > ## Task: Predictive Text
 > You are to design and implement a program that can perform a predictive text function similar to
@@ -45,3 +45,6 @@ Readability and formatting 4
 Testing strategy (how did you test your design?) 2  
 
 [*Assesment pdf*](http://www.elec.york.ac.uk/internal_web/meng/yr2/modules/DSA/DSA/Assessment/DSAAssessment2016.pdf)
+
+# My report 
+[pdf of the report](https://github.com/zwrawr/DSA_Assessment/blob/master/Report/DSA_AssesmentReport.pdf)
