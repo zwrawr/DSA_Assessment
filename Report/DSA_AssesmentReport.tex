@@ -66,7 +66,7 @@
 % biblatex for citations
 \usepackage{csquotes}
 \usepackage[
-backend=bibtex,
+backend=biber,
 style=numeric,
 sorting=ynt
 ]{biblatex}
@@ -121,7 +121,7 @@ sorting=ynt
 		\begin{enumerate}
 			\item The system must use ANSI C .
 			\item The system must compile with minGW (gcc)
-			\item The system must compile and exicute correctly on the university lab machines in PT108.
+			\item The system must compile and execute correctly on the university lab machines in PT108.
 			\item The system must load a word dictionary from file. \textit{(provided file words.txt)}
 			
 			\item The system must be capable of adding the loaded words into a data structure to store them whilst the program is running
@@ -159,19 +159,21 @@ sorting=ynt
 				
 				The trie is a tree-like data structure often used for storing strings. Each node in the trie represents a single letter in a string. Each node in a trie has a fixed number of child nodes like a binary search tree. Unlike the binary search tree the trie does not have two child nodes, it has one for each letter of the alphabet. This allows the trie nodes to not store their value because their position determines it. A node's children share a common prefix, that prefix is the value of there parent node.
 
-There are many features of tries that make them a good choice for a predictive text system. One of them is that values can be look up by their prefixes. Predictive text systems use a partial word (a prefix) to search for possible full words. So it's important that prefix lookups are fast and efficient. [TODO:: ADD MORE STUFF HERE]
+                There are many features of tries that make them a good choice for a predictive text system. One of them is that values can be look up by their prefixes. Predictive text systems use a partial word (a prefix) to search for possible full words. So it's important that prefix look-ups are fast and efficient. [TODO:: ADD MORE STUFF HERE]
 				
 			\subsubsection{Time complexity of a trie}
-				The search time for a value in a trie is \begin{math}O(len(string))\end{math}, where \begin{math}len(string)\end{math} is the length of the word to look up\cite{book:ADS:complexity}. This means that searches in a trie are linear with respect to the number of items in the trie. A predictive text function relies upon looks. Every time a user presses a key the system will preform at least one lookup and so it is vital that these searches be fast. 
+				The search time for a value in a trie is \begin{math}O(len(string))\end{math}, where \begin{math}len(string)\end{math} is the length of the word to look up\cite{book:ADS:complexity}. This gives the trie a \begin{math} O(1) \end{math} search time. Meaning that searches in a trie do not depend on the number of items in the trie. A predictive text function relies upon looks. Every time a user presses a key the system will preform at least one look up and so it is vital that these searches be fast. 
 				
 				The time complexity of deletion in a trie is also linear. Deletions time complexity is 
 				\begin{math}O(\vert A \vert len(string))\end{math}, where \begin{math}len(string)\end{math} is the length of the word to look up and \begin{math}\vert A \vert \end{math} is the size of the alphabet\cite{book:ADS:complexity}. In the use case as a Predictive text engine deletions will be very rare or non-existent. A simple implementation of predictive text may not allow the user to delete words form the dictionary at all. 
 				
 				The time complexity of insertion in a trie is the same as for deletions. Insertion time complexity is \begin{math}O(\vert A \vert len(string))\end{math}, where \begin{math}len(string)\end{math} is the length of the word to look up and \begin{math}\vert A \vert \end{math} is the size of the alphabet\cite{book:ADS:complexity}. When used in a predictive text engine most of the insertion into the trie will be made when loading the dictionary from file. 
 			\subsubsection{Space complexity of a trie}
-			
-				
-			\subsubsection{How I have implemented the trie}
+			    The space complexity of a trie is \begin{math} O(\vert A \vert \Sigma_i len(w_i))\end{math} where there are strings \begin{math} w_0 \end{math} to \begin{math} w_n \end{math} and \begin{math}\vert A \vert \end{math} is the size of the alphabet \cite{book:ADS:complexity}. This is saying that the space complexity of a trie is equal to the size of the alphabet by the total length of all the strings. Expressed in therms of \begin{math} n \end{math} this becomes \begin{math} O(\vert A \vert * n * l )\end{math} where \begin{math}\vert A \vert \end{math} is the size of the alphabet and \begin{math} l \end{math} is the average length of the words. In this form it is easy to see that the space required to store is governed by a  \begin{math} O(n) \end{math} relationship ship.
+			    
+            \subsubsection{Space vs Time}
+                The tire data structure sacrifices a good space complexity for time complexity that doesn't depend on the number of strings that it is storing. 
+                
 		\subsection{Alternative Data structures}
 			\subsubsection{Binary Trees vs Tries}
 			
@@ -189,4 +191,5 @@ There are many features of tries that make them a good choice for a predictive t
 	\newpage
 	\printbibliography
 	\newpage
+	
 \end{document}
