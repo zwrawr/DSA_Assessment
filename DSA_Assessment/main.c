@@ -81,7 +81,7 @@ void doPrediction(char* partial)
 {
 	//TODO:: expose MAXWORDLENGTH
 	char guess[64];
-	int info = predictiveTextEngine_predictWord(ptEngine, partial, guess);
+	int info = predictiveTextEngine_predictWords(ptEngine, partial, guess);
 
 	// TODO:: switch statement and expose some defines that make this more maintainable
 	if (info == 1)

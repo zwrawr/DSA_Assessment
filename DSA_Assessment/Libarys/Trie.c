@@ -24,6 +24,7 @@ void recursivePrint(TrieElement* curr, char* string, int depth);
 int charToIndex(char c);
 char indexToChar(int index);
 int insert(Trie* trie, char* string);
+TrieElement* findElement(Trie* trie, char* item);
 
 
 
@@ -221,11 +222,76 @@ int trie_Contains(Trie* trie, char* item)
 {
 	//TODO:: VALIDITY CHECKS
 
+	TrieElement* found = findElement(trie, item);
+
+	// if we get here then curr is the node in the trie that represents item
+	// return value depends on curr is starred (curr is a word or partial word)
+	if (found == NULL)
+	{
+		return -1;
+	}
+	else if (found->starred == 1)
+	{
+		// if the found node was starred then it was a compleate word.
+		return 1;
+	}
+	else
+	{
+		// wasn't a compleate word.
+		return 0;
+	}
+}
+
+// searches the trie for words prefixed by partial word.
+// Returns a value > 0 and < numPredictions if words were found.
+// Returns -1 if no words where found.
+int trie_searchPrefixedBy(Trie* trie, char* item, char** result, int num)
+{
+
+	int info = trie_Contains(trie, item);
+	if (info == -1)
+	{
+		printf("[WARN] item isn't in the trie so its impossible for any word to be prefixed by it.");
+		return -1;
+	}
+
+	// ideally we want to find the results with the minimum extra letters
+	// e.g. for input "hel" , we want "help" or "helm" before we want "hello" before we want "helicopter"
+	// this means we want to proform level order traversal
+
+	// until we find enough results or hit the bottom of the tree. we visit each layer and see if it has any words.
+
+	int depth = 0, found =0, childrenOnLayer = 0;
+	TrieElement* curr = findElement(trie,item);
+
+	for (int i = 0; i < ALPHABETSIZE; i++)
+	{
+		if (curr->children[i] != NULL)
+		{
+			
+		}
+	}
+
+	// until we hit the bottom or get enough results
+	while ( !(found == num) || (childrenOnLayer == 0) )
+
+}
+ 
+
+/// ====
+/// Hidden Functions
+/// ====
+
+// Finds an Element that represents item.
+// Returns a Non-NULL TrieElement if item is in the trie.
+// Returns NULL if item isn't in the trie.
+TrieElement* findElement(Trie* trie, char* item)
+{
 	int len = (int)strlen(item);
 	TrieElement* curr = trie->root;
 
 	// for each letter in the string
-	for(int i = 0; i < len; i++)
+	for (int i = 0; i < len; i++)
 	{
 		int index = charToIndex(item[i]);
 
@@ -242,27 +308,13 @@ int trie_Contains(Trie* trie, char* item)
 			else
 			{
 				// we cannot walk the trie any deeper so it cannot contain the string were looking for 
-				return -1;
+				return NULL;
 			}
 		}
 	}
 
-	// if we get here then curr is the node in the trie that represents item
-	// return value depends on curr is starred (curr is a word or partial word)
-	if (curr->starred == 1)
-	{
-		return 1;
-	}
-	else
-	{
-		return 0;
-	}
+	return curr;
 }
-
-
-/// ====
-/// Hidden Functions
-/// ====
 
 // recurively prints the trie
 void recursivePrint(TrieElement* curr, char* string, int depth)
