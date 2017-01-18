@@ -54,6 +54,8 @@ void textEntryLoop()
 		char* info = fgets(inputBuffer, 256, stdin);
 		//TODO :: Check info
 
+		printf("\n=>\t %s \n", inputBuffer);
+
 		// proccess to find just the last word.
 
 		//TODO:: expose MAXWORDLENGTH in interface then use that here
@@ -67,11 +69,20 @@ void textEntryLoop()
 
 		//TODO:: theres an error condition if theres no spaces in the word.
 
+		char* lastSpace = strrchr(inputBuffer, ' ');
+		if (lastSpace == NULL)
+		{
+			lastSpace = inputBuffer;
+		}
+
 		// the last word is between len and len-i
-		char* result = strncpy_s(lastWord,64 ,inputBuffer + len - i, i);
-		// TODO:: check result
+		int result = strcpy_s(lastWord, 64, lastSpace); 
+														// TODO:: check result
+		printf("=>\t %s \n\n", lastWord);
+
 
 		doPrediction(lastWord);
+
 	}
 
 	free(inputBuffer);
@@ -80,9 +91,13 @@ void textEntryLoop()
 void doPrediction(char* partial)
 {
 	//TODO:: expose MAXWORDLENGTH
-	char guess[64];
-	int info = predictiveTextEngine_predictWord(ptEngine, partial, guess);
+	int numGuesses = 8;
+	char** guesses = malloc(numGuesses * sizeof(char*));
+	for (int k = 0; k < numGuesses; k++) guesses[k] = malloc(64 * sizeof(char));
 
+	int info = predictiveTextEngine_predictWords(ptEngine, partial, guesses, 8);
+
+	// TODO:: clean input string before printing
 	// TODO:: switch statement and expose some defines that make this more maintainable
 	if (info == 1)
 	{
@@ -90,7 +105,7 @@ void doPrediction(char* partial)
 	}
 	else if (info == 0)
 	{
-		printf("=>\t  %s is probably %s\n", partial, guess);
+		for (int i = 0; i < numGuesses; i++) printf("=>\t  %s is probably %s\n", partial, guesses[i]);
 	}
 	else if (info == -1)
 	{
@@ -101,6 +116,8 @@ void doPrediction(char* partial)
 		printf("[WARN] \t attempted to predict a word but got an unexpected value back !");
 	}
 
+	for (int j = 0; j < numGuesses; j++) free(guesses[j]);
+	free(guesses);
 }
 
 // Block execution till theres an input.

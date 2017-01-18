@@ -80,24 +80,39 @@ void predictiveTextEngine_Deconstructor(PredictiveTextEngine *ptEngine)
 /// Interface Functions
 /// ====
 
-// Predicts a word from a partialWord
+// Predicts a set of words from a partialWord
 // Returns 1 if the partial word is a word
-// Returns 0 if possible word is found
+// Returns 0 if possible words are found
 // Returns -1 if no word is found
-int predictiveTextEngine_predictWord(PredictiveTextEngine *pte, char *partialWord, char* buf)
+int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWord, char** predictions, int numPredictions)
 {
     // This is probably the most important function
     // TODO : improve this function.
     
 	// TODO:: validity checks
 
+
+	int numPosSoFar = 0; // how many possible words we have found so far
+
     int len = (int)strlen(partialWord);
+
+	if (numPredictions > 1)
+	{
+		strcpy_s(predictions[0], 64, partialWord);
+		numPosSoFar++;
+	}
 
 	// dont make guesses for words less than 2 letters long just return the input
 	if (len < 2)
 	{
-		printf("[MESG] \t Partial word is too short to make a guess, must be at least 2 letters long.\n");
-		strcpy_s(buf, sizeof(buf), partialWord);
+		printf("[MESG] \t Partial word is too short to make any guesses, must be at least 2 letters long.\n");
+		return -1;
+	}
+
+	// 1st prediction is always just the partial word so numPredictions must be one to make sense
+	if (numPredictions < 2)
+	{
+		printf("[MESG] \t numPredictions is too small must be at least 2.\n");
 		return -1;
 	}
 
@@ -106,25 +121,50 @@ int predictiveTextEngine_predictWord(PredictiveTextEngine *pte, char *partialWor
     
 	// check to see if the partial word is in the trie
 	int info = trie_Contains(pte->trie, partialWord);
+
+	// The partial word is considered a word
 	if (info == 1)
 	{
 		// word is in the trie so 
-		strcpy_s(buf, sizeof(buf), partialWord);
-		return 1;
+		strcpy_s(predictions[numPosSoFar], 64, partialWord);
+		numPosSoFar++;
 	}
-	else if ( info == 0)
+
+	// There is a word in the trie that is prefixed by this partial word
+	if ( info == 0 && numPosSoFar <= numPredictions)
 	{
-		// there is a word in the trie that is prefixed by this partial word
+		int numberOfPredictionsToMake = (numPredictions - numPosSoFar);
+		char** words = malloc(numberOfPredictionsToMake *sizeof(char*));
+		for (int i = 0; i < numberOfPredictionsToMake; i++) words[i] = malloc(64 , sizeof(char));
+		
+
+		// find if there are any words in the trie that are prefixed by our partial word
+		int numFound = trie_searchPrefixedBy(pte->trie, partialWord, words, numberOfPredictionsToMake);
+
+		if (numFound > 0)
+		{
+			// we found some word prefixed by our partial word put them in our predictions array.
+			for (int i = 0; i < numFound; i++)
+			{
+				strcpy_s(predictions[numPosSoFar+i],64,words[i]);
+			}
+		}
+		numPosSoFar += numFound;
+
+		for (int i = 0; i < numberOfPredictionsToMake; i++) words[i] = malloc(64 * sizeof(char));
+		free(words);
 	}
-	else
+
+	// There is not a word in the the trie is directly prefixed by this trie
+	if ( info == 0 && numPosSoFar <= numPredictions)
 	{
-		// there is not a word in the the trie is directly prefixed by this trie
+
 	}
 
 	// check too see if there are words prefixed with partial word
 
-
-	return -1;
+	// if we have found more than just the partial word the return 0
+	return (numPosSoFar > 1) ? 0 : -1;
 }
 
 
