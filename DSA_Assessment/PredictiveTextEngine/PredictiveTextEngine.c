@@ -98,7 +98,7 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
 
 	if (numPredictions > 1)
 	{
-		strcpy_s(predictions[0], sizeof(predictions[0]), partialWord);
+		strcpy_s(predictions[0], 64, partialWord);
 		numPosSoFar++;
 	}
 
@@ -126,31 +126,45 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
 	if (info == 1)
 	{
 		// word is in the trie so 
-		strcpy_s(predictions[numPosSoFar], sizeof(predictions[numPosSoFar]), partialWord);
+		strcpy_s(predictions[numPosSoFar], 64, partialWord);
 		numPosSoFar++;
 	}
 
 	// There is a word in the trie that is prefixed by this partial word
 	if ( info == 0 && numPosSoFar <= numPredictions)
 	{
-		char** words = malloc((numPredictions-numPosSoFar)*sizeof(char*));
-		for (int i = 0; i < (numPredictions - numPosSoFar); i++)
-		{
-			words[i] = malloc(64 * sizeof(char));
-		}
+		int numberOfPredictionsToMake = (numPredictions - numPosSoFar);
+		char** words = malloc(numberOfPredictionsToMake *sizeof(char*));
+		for (int i = 0; i < numberOfPredictionsToMake; i++) words[i] = malloc(64 , sizeof(char));
+		
 
-		int searchInfo = trie_searchPrefixedBy(pte->trie, partialWord, words, (numPredictions - numPosSoFar));
+		// find if there are any words in the trie that are prefixed by our partial word
+		int numFound = trie_searchPrefixedBy(pte->trie, partialWord, words, numberOfPredictionsToMake);
+
+		if (numFound > 0)
+		{
+			// we found some word prefixed by our partial word put them in our predictions array.
+			for (int i = 0; i < numFound; i++)
+			{
+				strcpy_s(predictions[numPosSoFar+i],64,words[i]);
+			}
+		}
+		numPosSoFar += numFound;
+
+		for (int i = 0; i < numberOfPredictionsToMake; i++) words[i] = malloc(64 * sizeof(char));
+		free(words);
 	}
 
 	// There is not a word in the the trie is directly prefixed by this trie
 	if ( info == 0 && numPosSoFar <= numPredictions)
 	{
+
 	}
 
 	// check too see if there are words prefixed with partial word
 
-
-	return -1;
+	// if we have found more than just the partial word the return 0
+	return (numPosSoFar > 1) ? 0 : -1;
 }
 
 

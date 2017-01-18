@@ -179,11 +179,25 @@ int stack_Peek(Stack *stack, int index, int *peeked)
 // Returns NULL if stack is NULL or unsuccessul
 int* stack_ToArray(Stack *stack)
 {
-	int *array = malloc(stack->top*sizeof(int));
+	int height = stack_GetHeight(stack);
+	int *array = malloc(height *sizeof(int));
 
-	memcpy(array, stack->array, stack->top);
+	memcpy(array, stack->array, height * sizeof(int));
 
 	return array;
+}
+
+// Gets the height of the stack.
+// Returns the Height of the stack
+// Returns -1 if stack is NULL or unsuccessul
+int stack_GetHeight(Stack *stack)
+{
+	if (stack == NULL)
+	{
+		return -1;
+	}
+
+	return stack->top;
 }
 
 /// ====

@@ -59,4 +59,9 @@ int stack_Pop_nv(Stack *stack);
 // Returns NULL if stack is NULL or unsuccessul
 int* stack_ToArray(Stack *stack);
 
+// Gets the height of the stack.
+// Returns the Height of the stack
+// Returns -1 if stack is NULL or unsuccessul
+int stack_GetHeight(Stack *stack);
+
 #endif // STACK_H_INCLUDED
