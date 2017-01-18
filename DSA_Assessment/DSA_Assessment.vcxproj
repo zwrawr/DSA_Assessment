@@ -152,11 +152,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Libarys\Stack.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+    </ClCompile>
     <ClCompile Include="Libarys\Trie.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="PredictiveTextEngine\PredictiveTextEngine.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Libarys\Stack.h" />
     <ClInclude Include="Libarys\Trie.h" />
     <ClInclude Include="PredictiveTextEngine\PredictiveTextEngine.h" />
   </ItemGroup>

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "../Libarys/Stack.h"
 /// ====
 /// Defines
 /// ====
@@ -203,7 +203,7 @@ int trie_AddMultiple(Trie* trie, char** items, int num)
 void trie_Print(Trie* trie)
 {
 	//TODO:: validty checks
-
+	//TODO:: use a stack to deal with the string.
 	// traverse the trie in pre-order and print the node if its starred
 
 	TrieElement* curr = trie->root;
@@ -257,7 +257,7 @@ int trie_searchPrefixedBy(Trie* trie, char* item, char** result, int num)
 
 	// ideally we want to find the results with the minimum extra letters
 	// e.g. for input "hel" , we want "help" or "helm" before we want "hello" before we want "helicopter"
-	// this means we want to proform level order traversal
+	// this means we want to proform level order traversal (Breath first)
 
 	// until we find enough results or hit the bottom of the tree. we visit each layer and see if it has any words.
 
@@ -273,9 +273,81 @@ int trie_searchPrefixedBy(Trie* trie, char* item, char** result, int num)
 	}
 
 	// until we hit the bottom or get enough results
-	while ( !(found == num) || (childrenOnLayer == 0) )
+	while (!(found == num) || (childrenOnLayer == 0))
+	{
+		// find all nodes at the current depth and see if there words.
+		// do this by running a depth limited search
+	
+		int cangofurther = findWordsAtDepth(curr, depth, buffer, sizeOfBuffer);
+
+		depth++;
+	}
 
 }
+
+// Proforms a depth first search with limited depth starting a node curr
+// Returns 1 if words were found
+// Returns 0 if no words were found
+// Returns -1 if now words were found and there are no child nodes at this depth (bottom of tree).
+int findWordsAtDepth(TrieElement* start, int depth, char** words, int maxWords)
+{
+	if (start == NULL || start->children == NULL || maxWords == 0)
+	{
+		// either we have been passed null by accident or we've hit the bottom of the tree.
+		return -1;
+	}
+
+	TrieElement* curr = start;
+
+	int children = 0, currDepth = 0, foundWords = 0;
+
+	Stack* word = stack_Constructor();
+
+	// we have to check every child node.
+	for (int i = 0; i < ALPHABETSIZE; i++)
+	{
+		if (curr->children[i] != NULL)
+		{
+			curr = curr->children[i];
+			stack_Push(word, i);
+			if (currDepth == depth && curr->starred == 1)
+			{
+				// were at a node thats starred and at the right depth.
+					
+				// turn stack into array
+				int *indexs = stack_ToArray(word);
+
+				// map array from indexs to real chars and add the to one of the words were returning
+				for (int k = 0; k < len(indexs); k++)
+				{
+					words[foundWords][k] = indexToChar(indexs[k]);
+				}
+				free(indexs);
+
+				foundWords++;
+				// we have the amount of words we need so get outta here
+				if (foundWords == maxWords)
+				{
+					stack_Deconstructor(word);
+					return 1;
+				}
+
+			}
+			else
+			{
+				// not deep enough yet so we need to go deeper
+			}
+
+			curr = curr->parent;
+			stack_Pop_nv(word);
+		}
+	}
+
+	stack_Deconstructor(word);
+}
+
+
+
  
 
 /// ====
