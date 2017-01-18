@@ -10,7 +10,7 @@
 %%% PAGE DIMENSIONS
 \usepackage{geometry} % to change the page dimensions
 \geometry{a4paper} % or letterpaper (US) or a5paper or....
-% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+\geometry{margin=1.5in,lmargin=0.75in,rmargin=0.75in} % for example, change the margins to 2 inches all round
 % \geometry{landscape} % set up the page for landscape
 %   read geometry.pdf for detailed page layout information
 
@@ -100,18 +100,18 @@ sorting=ynt
 	
 	\pagenumbering{arabic} % Start roman numbering
 	
-	\section{What is a predictive Text system and how do they work}
+	\section{What is a predictive text system and how do they work?}
 		In order to create a predictive text system, their behaviour has to be understood.
 		
 		A predictive text system's (also known as  auto-complete or word completion) role is to take a partial word and return a list of suggestions. They use some form of dictionary of known words to offer these suggestions.
-		\subsection{How users interact with the program}
-			Users interact with predictive text systems via some kind of text input device. Most users interact with some kind of predictive text system on a daily basis on either their PC or mobile device. The UI for both desktop and mobile devices follow the same basic pattern. The user begins by entering text normally via a keyboard or touch screen and once there are a sufficient number of letters for the system to make a reasonable guess (often two letters), the system presents the user with a list of predicted words. The user is then able to press a key to select which of the suggestions they want to use or continue typing and ignore the systems suggestions. The word they were typing replaces the partial word so that the user can move on the the next word.
-		\subsection{Behaviour of predictive text systems}
+		\subsection{How users interact with predictive text systems.}
+			Users interact with predictive text systems via some kind of text input device. Most users interact with some kind of predictive text system on a daily basis on either their PC or mobile device. The UI for both desktop and mobile devices follow the same basic pattern. The user begins by entering text normally via a keyboard or touch screen and once there are a sufficient number of letters for the system to make a reasonable guess (often two letters), the system presents the user with a list of predicted words. The user is then able to press a key to select which of the suggestions they want to use or continue typing and ignore the systems suggestions. The suggested word replaces the partial word they were typing so that they can move on the the next word.
+		\subsection{The behaviour of predictive text systems.}
 			Predictive text system often return result that fall into a few broad categories.
 			\begin{description}
 				\item [The input.] One of the options in a predictive text system is always to keep the partial word that you already have. This is often achieved by returning the input as one of the items in the suggestion list. This behaviour can also happen if the partial word is actually a valid word from the predictive text systems dictionary.
-				\item [A word prefixed by the partial word.] The most common results from predictive text systems are words that are prefixed by the partial word the user has entered (e.g. ``hel" may return [``hel\textit{p}",``hel\textit{l}",``hel\textit{lo}"]). 
-				\item [A word that shares a prefix with the partial word.] (e.g. ``applez" may return [``apple",``apples",``app"]) 
+				\item [A word prefixed by the partial word.] The most common results from predictive text systems are words that are prefixed by the partial word the user has entered. An example of this is that ``hel" may return ``hel\textit{p}", ``hel\textit{l}" or ``hel\textit{lo}". 
+				\item [A word that shares a prefix with the partial word.] An example of this is that ``applez" may return ``apple", ``apples" or``app". 
 			\end{description}
 			
 			More sophisticated system may also use frequency analysis techniques, lexicographical distance algorithms and consider context to make smarter suggestions. These are out side of the scope of this project ( Our dictionary doesn't contain any frequency data or phrase data).
@@ -119,7 +119,7 @@ sorting=ynt
 	\section{Requirements}
 		Now that a predictive text systems behaviour has been defined, a set of success criteria can be derived.
 		\begin{enumerate}
-			\item The system must use ANSI C .
+			\item The system must use ISO C99/C11 C (``ANSI C") .
 			\item The system must compile with minGW (gcc)
 			\item The system must compile and execute correctly on the university lab machines in PT108.
 			\item The system must load a word dictionary from file. \textit{(provided file words.txt)}
@@ -129,12 +129,12 @@ sorting=ynt
 			\item The system must be able to access these words in a time efficient manner.
 			
 			\item The system must be able to check to see if a partial word is contained in that data structure.
-			\item The system must be able to check to see if a partial word is a valid word from the dictionary
+			\item The system must be able to check to see if a partial word that is stored in the data structure is a complete word from the dictionary.
 			\item The system must be able to make suggestions of words that are prefixed by a partial word.
 			\item The system must be able to make suggestions of words that share a common prefix with a partial word.
 			
 			\item The system must let the user enter a string of text.
-			\item The system must present the users with suggestions as they are typing (preferred) or the user should be able to trigger a suggestion mode where they will be presented with a set of suggestions.
+			\item The system must be able to present the user with a suggestion mode where they will be presented with a set of suggestions which they can chose between.
 			
 			\item The system should let the user select the one of these suggestions.
 			\item The system should replace the partial word with the selected word.
@@ -142,6 +142,7 @@ sorting=ynt
 
 			\item The system could be extended to deal with punctuation.
 			\item The system could be extended to deal with Capitalisation.
+			\item The system could present the users with suggestions as they are typing.
 			
 		\end{enumerate}
 	\section{Data Structures}
@@ -164,20 +165,24 @@ sorting=ynt
                 There are many features of tries that make them a good choice for a predictive text system. One of them is that values can be look up by their prefixes. Predictive text systems use a partial word (a prefix) to search for possible full words. So it's important that prefix look-ups are fast and efficient. [TODO:: ADD MORE STUFF HERE]
 				
 			\subsubsection{Time complexity of a trie}
-				The search time for a value in a trie is \begin{math}O(len(string))\end{math}, where \begin{math}len(string)\end{math} is the length of the word to look up\cite{book:ADS:complexity}. This gives the trie a \begin{math} O(1) \end{math} search time. Meaning that searches in a trie do not depend on the number of items in the trie. A predictive text function relies upon looks. Every time a user presses a key the system will preform at least one look up and so it is vital that these searches be fast. 
+			    Tries are structure in such a way that they perform look ups rather than searches.
+			
+				The look up time for a value in a trie is dependant upon \begin{math}len(string)\end{math}, where \begin{math}len(string)\end{math} is the length of the word to look up\cite{book:ADS:complexity}. This gives the trie a \begin{math} O(1) \end{math} search time in regards to \begin{math} n \end{math} (the number of words). Meaning that searches in a trie do not depend on the number of items in the trie. A predictive text function relies upon look ups. Every time a user presses a key the system will preform at least one look up and so it is vital that these searches be fast. 
 				
 				The time complexity of deletion in a trie is also linear. Deletions time complexity is 
-				\begin{math}O(\vert A \vert len(string))\end{math}, where \begin{math}len(string)\end{math} is the length of the word to look up and \begin{math}\vert A \vert \end{math} is the size of the alphabet\cite{book:ADS:complexity}.
+				\begin{math}\vert A \vert * len(string)\end{math}, where \begin{math}len(string)\end{math} is the length of the word to look up and \begin{math}\vert A \vert \end{math} is the size of the alphabet\cite{book:ADS:complexity}.
+				This is also a \begin{math} O(1) \end{math} operation.
 				In the use case as a Predictive text engine deletions will be very rare or non-existent.
 				A simple implementation of predictive text may not allow the user to delete words form the dictionary at all. 
 				
-				The time complexity of insertion in a trie is the same as for deletions. Insertion time complexity is \begin{math}O(\vert A \vert len(string))\end{math}, where \begin{math}len(string)\end{math} is the length of the word to look up and \begin{math}\vert A \vert \end{math} is the size of the alphabet\cite{book:ADS:complexity}.
+				The time complexity of insertion in a trie is the same as for deletions. Insertion time complexity is \begin{math}\vert A \vert  * len(string))\end{math}, where \begin{math}len(string)\end{math} is the length of the word to look up and \begin{math}\vert A \vert \end{math} is the size of the alphabet\cite{book:ADS:complexity}.
+				This, again, is a \begin{math} O(1) \end{math} operation.
 				When used in a predictive text engine most of the insertion into the trie will be made when loading the dictionary from file. 
 				
 			\subsubsection{Space complexity of a trie}
-			    The space complexity of a trie is \begin{math} O(\vert A \vert \Sigma_i len(w_i))\end{math} where there are strings \begin{math} w_0 \end{math} to \begin{math} w_n \end{math} and \begin{math}\vert A \vert \end{math} is the size of the alphabet \cite{book:ADS:complexity}.
+			    The space complexity of a trie is \begin{math} \vert A \vert \Sigma_i len(w_i)\end{math} where there are strings \begin{math} w_0 \end{math} to \begin{math} w_n \end{math} and \begin{math}\vert A \vert \end{math} is the size of the alphabet \cite{book:ADS:complexity}.
 			    This is saying that the space complexity of a trie is equal to the size of the alphabet by the total length of all the strings.
-			    Expressed in therms of \begin{math} n \end{math} this becomes \begin{math} O(\vert A \vert * n * l )\end{math} where \begin{math}\vert A \vert \end{math} is the size of the alphabet and \begin{math} l \end{math} is the average length of the words.
+			    Expressed in therms of \begin{math} n \end{math} this becomes \begin{math} \vert A \vert * n * l \end{math} where \begin{math}\vert A \vert \end{math} is the size of the alphabet and \begin{math} l \end{math} is the average length of the words.
 			    In this form it is easy to see that the space required to store is governed by a  \begin{math} O(n) \end{math} relationship ship.
 			    
             \subsubsection{Space vs Time}
@@ -197,22 +202,22 @@ sorting=ynt
 			    
 			    Predictive text systems preform look ups via prefixes. Binary search trees don't offer any particular advantage in this area whilst tries do (All children of a node are prefixed by that node).
 			    
-			    It is also worth noting that BST require a lot of comparisons. Comparisons of two strings is not an atomic operation and its worst case time complexity is \begin{math}O(n)\end{math}.
+			    It is also worth noting that BST require a lot of comparisons. Comparisons of two strings is not an atomic operation and its worst case time complexity is \begin{math}O(l)\end{math}, where \begin{math}l\end{math} is the length of the string.
 			    
 			    Trie are a better choice for the purpose of a predictive text system. 
 			    
 			\subsubsection{Hash Table vs Tries}
 			    Hash tables are an associative data structure where a key can be used to look up a value and the value is used to generate the key.
 			    
-			    Hash tables require the use of a hash function which are not constant time relative to the length of the input string.
+			    They require the use of a hash function which are proportional to the length of the input string, not constant time.
 			    
 			    The space complexity of a hash map is \begin{math} O(n) \end{math} which is the same as a trie.
 			    
-			    The time complexity of look up in a hash table is \begin{math} O(1) \end{math} if there are no collisions but could be \begin{math} O(n) \end{math} in the worst case. In the bast case Tries and Hash tables have the same time complexity to look up a value. In the worst case Tries still have \begin{math} O(1) \end{math} performance which is better than the hash table.
+			    The time complexity of look up in a hash table is \begin{math} O(1) \end{math} if there are no collisions but could be \begin{math} O(n) \end{math} in the worst case. In the best case Tries and Hash tables have the same time complexity to look up a value. In the worst case Tries still have \begin{math} O(1) \end{math} performance which is better than the hash table.
 			    
 			    There are also other notable conditions in which a hash table preforms worse than a trie. Consider attempting to look up a word (e.g. "zoologist") starting with a letter ("z") in a hash table or trie that contain no words starting with that letter ("z"). The hash table would evaluate the hash of that word which takes time proportional to the length of the word. Where as the trie would make a single check and know the word isn't is contained within.
 			    
-			    A standard hash table cannot preform prefix based lockups either as similar words produce dissimilar hashes.
+			    A standard hash table cannot preform prefix based look ups either as similar words produce dissimilar hashes.
 			    
 			    
 			    
