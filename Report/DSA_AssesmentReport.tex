@@ -135,9 +135,11 @@ sorting=ynt
 			
 			\item The system must let the user enter a string of text.
 			\item The system must present the users with suggestions as they are typing (preferred) or the user should be able to trigger a suggestion mode where they will be presented with a set of suggestions.
+			
 			\item The system should let the user select the one of these suggestions.
 			\item The system should replace the partial word with the selected word.
-			
+			\item The system should let the user delete characters with backspace.
+
 			\item The system could be extended to deal with punctuation.
 			\item The system could be extended to deal with Capitalisation.
 			
@@ -214,11 +216,24 @@ sorting=ynt
 			    
 			    
 			    
-			\subsubsection{List vs Tries}
-			    [blah blah]
+			\subsubsection{Array Lists vs Tries}
+			    Array Lists are dynamically realizable arrays. They behave exactly like a standard array, but if an addition/insert is done when the list is already full, it automatically increases its size.
 			    
-			    [blah blah]
+			    The space complexity of an array list is dependant upon the number of elements in the array and the number of allocated but free elements. This means that the space complexity of an array list is 
+			    \begin{math} O(n) \end{math} . Array lists and tries have the same big-O space complexity. But an array list will have a smaller space foot print in practice as its space usage \begin{math} n * l + k \end{math} where as a trie uses \begin{math} n * l * \vert A \vert \end{math}, where \begin{math} l \end{math} is the average word length, \begin{math} k \end{math} is the unused elements and \begin{math} \vert A \vert \end{math} is the alphabet size.
+			    
+			    The time complexity of a search in an array list depends on the searching algorithm. For efficient searches the array must be sorted. So search complexity cannot be considered without considering the complexity or sorting the data.
+			    
+			    In the use case of a predictive text system, words will be inserted infrequently but searches are done often. This means that in this use case the time complexity of sorts matter much less than the time complexity of searching. The best time complexity of a sorting algorithms is \begin{math} O(n * log(n)) \end{math} and the time complexity of a binary search is \begin{math}O(log(n))\end{math}. 
+			    Since the words may only have to be sorted once for hundreds or thousands of searches, in this use case searching will take \begin{math}O(log(n))\end{math} time.
+			    Whilst this is a good time complexity it doesn't math the tries \begin{math} O(1) \end{math} time complexity.
+			    
+			    The time complexity of inserting a value into an array tree is \begin{math}O(1)\end{math} to insert at the end and \begin{math}O(n)\end{math} to insert in the middle or beginning.That is if the number of items in the array list is smaller or equal to its size. But if the array has to resize this may not be the case. The performance can be \begin{math}O(n)\end{math} if the reallocation of the array fails (due to memory fragmentation) and a new array has to created in different area in memory. Because all of the items in the array have to be copied to the new array. 
+			    The tries time complexity for insertion is constant time and so is better than the array lists linear time.
 			
+			    The time complexity of deletions in a array list is the same as insertions \begin{math}O(n)\end{math}.
+			    
+			    Array lists have some advantages over hash maps and binary search trees when it comes to prefix look up. Because the words in an array list would be sorted any words that share a prefix will be guaranteed to be neighbours. Which is similar to the trie.
 	\section{Testing}
 		\subsection{Complexity}
 			\subsubsection{Time Complexity of Tries}
@@ -233,3 +248,4 @@ sorting=ynt
 	\newpage
 	
 \end{document}
+
