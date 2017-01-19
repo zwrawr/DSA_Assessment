@@ -17,18 +17,22 @@
 /// ====
 /// Prototypes
 /// ====
-int RunTest_0();
-int RunTest_1();
-int RunTest_2();
-int RunTest_3();
-int RunTest_4();
-int RunTest_5();
-int RunTest_6();
-int RunTest_7();
-int RunTest_8();
-int RunTest_9();
-int RunTest_10();
-int RunTest_11();
+
+// These are all of our tests
+// They all retrun 1 if they passed
+
+int RunTest_ConstructedStackNotNull();
+int RunTest_TwoStackDontHaveSamePointer();
+int RunTest_StackPush();
+int RunTest_StackMultiplePushes();
+int RunTest_StackPop();
+int RunTest_StackMultiplePops();
+int RunTest_TwoStacksPushAndPop();
+int RunTest_StackIsEmpty();
+int RunTest_StackIsFull();
+int RunTest_StackPeeking();
+int RunTest_StackToArray();
+int RunTest_StackHeight();
 
 
 /// ====
@@ -43,100 +47,38 @@ int stack_UT_RunTests()
     printf(  "====           UNIT TESTING STACKS           ==== \n");
     printf(  "==== ==== ==== ==== ==== ==== ==== ==== ==== ==== \n");
     
+    const int numTestFunctions = 12;
+    int(*TestFunctions[])(void) =
+    {
+        RunTest_ConstructedStackNotNull,
+        RunTest_TwoStackDontHaveSamePointer,
+        RunTest_StackPush,
+        RunTest_StackMultiplePushes,
+        RunTest_StackPop,
+        RunTest_StackMultiplePops,
+        RunTest_TwoStacksPushAndPop,
+        RunTest_StackIsEmpty,
+        RunTest_StackIsFull,
+        RunTest_StackPeeking,
+        RunTest_StackToArray,
+        RunTest_StackHeight
+    };
     
     int totalFailed = 0;
     
     // run all unit tests
-    
-    int testInfo_0 = RunTest_0();
-    
-    if (testInfo_0 != 1)
+    for (int i = 0; i < numTestFunctions; i++)
     {
-        totalFailed++;
+        // run the unit test and get the result, info will be 1 if test passed
+        int info = TestFunctions[i]();
+        
+        // if the test didn't pass incriment the the fails counter
+        totalFailed += (info == 1) ? 0 : 1;
     }
-    
-    int testInfo_1 = RunTest_1();
-    
-    if (testInfo_1 != 1)
-    {
-        totalFailed++;
-    }
-    
-    int testInfo_2 = RunTest_2();
-    
-    if (testInfo_2 != 1)
-    {
-        totalFailed++;
-    }
-    
-    int testInfo_3 = RunTest_3();
-    
-    if (testInfo_3 != 1)
-    {
-        totalFailed++;
-    }
-    
-    int testInfo_4 = RunTest_4();
-    
-    if (testInfo_4 != 1)
-    {
-        totalFailed++;
-    }
-    
-    int testInfo_5 = RunTest_5();
-    
-    if (testInfo_5 != 1)
-    {
-        totalFailed++;
-    }
-    
-    int testInfo_6 = RunTest_6();
-    
-    if (testInfo_6 != 1)
-    {
-        totalFailed++;
-    }
-    
-    int testInfo_7 = RunTest_7();
-    
-    if (testInfo_7 != 1)
-    {
-        totalFailed++;
-    }
-    
-    int testInfo_8 = RunTest_8();
-    
-    if (testInfo_8 != 1)
-    {
-        totalFailed++;
-    }
-    
-    int testInfo_9 = RunTest_9();
-    
-    if (testInfo_9 != 1)
-    {
-        totalFailed++;
-    }
-    
-    int testInfo_10 = RunTest_10();
-    
-    if (testInfo_10 != 1)
-    {
-        totalFailed++;
-    }
-    
-    int testInfo_11 = RunTest_11();
-    
-    if (testInfo_11 != 1)
-    {
-        totalFailed++;
-    }
-    
-    int passed = (totalFailed == 0) ? 1 : 0;
     
     printf("\n==== ==== ==== ==== ==== ==== ==== ==== ==== ==== \n");
     
-    if (passed == 1)
+    if (totalFailed == 0)
     {
         printf(" [PASS] \tAll Unit Tests for stacks passed ! \n");
     }
@@ -145,7 +87,7 @@ int stack_UT_RunTests()
         printf("*[FAIL]*\t%d Unit Tests for stacks failed ! \n", totalFailed);
     }
     
-    return passed;
+    return (totalFailed == 0) ? 1 : 0;
 }
 
 
@@ -154,7 +96,7 @@ int stack_UT_RunTests()
 /// Hidden Functions
 /// ====
 
-int RunTest_0()
+int RunTest_ConstructedStackNotNull()
 {
     // test to see if that a constructed stack isnt null
     
@@ -176,7 +118,7 @@ int RunTest_0()
     return passed;
 }
 
-int RunTest_1()
+int RunTest_TwoStackDontHaveSamePointer()
 {
     // test to see if that two constructed stacks dont have the same pointer
     
@@ -201,7 +143,7 @@ int RunTest_1()
     return passed;
 }
 
-int RunTest_2()
+int RunTest_StackPush()
 {
     // test to see if that pushing a value to a stack is possible
     
@@ -226,7 +168,7 @@ int RunTest_2()
     return passed;
 }
 
-int RunTest_3()
+int RunTest_StackMultiplePushes()
 {
     // test to see if that pushing multiple values to a stack is possible
     
@@ -258,7 +200,7 @@ int RunTest_3()
     return passed;
 }
 
-int RunTest_4()
+int RunTest_StackPop()
 {
     // test to see if that poping a value off a stack is possible
     
@@ -291,7 +233,7 @@ int RunTest_4()
     return passed;
 }
 
-int RunTest_5()
+int RunTest_StackMultiplePops()
 {
     // test to see if that popping multiple values off a stack is possible
     
@@ -335,7 +277,7 @@ int RunTest_5()
     return passed;
 }
 
-int RunTest_6()
+int RunTest_TwoStacksPushAndPop()
 {
     // test to see if adding a value to one stack affect a diffrent stack
     
@@ -382,7 +324,7 @@ int RunTest_6()
     return passed;
 }
 
-int RunTest_7()
+int RunTest_StackIsEmpty()
 {
     // test to see if isEmpty works as expected
     
@@ -428,7 +370,7 @@ int RunTest_7()
     return passed;
 }
 
-int RunTest_8()
+int RunTest_StackIsFull()
 {
     // test to see if isFull works as expected
     
@@ -481,7 +423,7 @@ int RunTest_8()
     return passed;
 }
 
-int RunTest_9()
+int RunTest_StackPeeking()
 {
     // test to see if peeking in the stack is working
     
@@ -543,7 +485,7 @@ int RunTest_9()
     return passed;
 }
 
-int RunTest_10()
+int RunTest_StackToArray()
 {
     // test to see if stack to array works
     
@@ -612,7 +554,7 @@ int RunTest_10()
     return passed;
 }
 
-int RunTest_11()
+int RunTest_StackHeight()
 {
     // test to see if stack Height works
     
