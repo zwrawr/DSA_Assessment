@@ -1,3 +1,12 @@
+// =====================================================
+// <summary> 
+//	This file provides a public interface for the file 
+//  "Stack.c".
+// </summary>
+// <project> Predictive Text </project>
+// <author> Y3839090 </author>
+// =====================================================
+
 #ifndef STACK_H_INCLUDED
 #define STACK_H_INCLUDED
 

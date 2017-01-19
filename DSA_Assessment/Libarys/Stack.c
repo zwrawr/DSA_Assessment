@@ -1,7 +1,18 @@
-// THAT WAS MADE BY FOLLOWING THE DSA LAB SCRIPTS.
-// SOME CODE MAY BE COPYED FROM THE DSA LAB SCRIPTS.
+// =====================================================
+// <summary> 
+//	This file creates and manages a stack data structure for the storage
+//	of integers.
+// </summary>
+// <project> Predictive Text </project>
+// <author> Y3839090 </author>
+// =====================================================
+
+// =====================================================
+// This file was created when following the University of York,
+// Dept. of Electronics Data Structures and Algorithms Lab Scripts.
 // http://www.elec.york.ac.uk/internal_web/meng/yr2/modules/DSA/DSA/Labs/Scripts/Lab7-StacksAndQueues.pdf
-// THIS IS A NON-GENERIC STACK AS GENERIC PROGRAMMING IN C IS A HARD :'(
+// Some of the code below may be from the source above.
+// =====================================================
 
 //TODO:: maybe look at this http://www.robertgamble.net/2012/01/c11-generic-selections.html and make it generic ish.
 
