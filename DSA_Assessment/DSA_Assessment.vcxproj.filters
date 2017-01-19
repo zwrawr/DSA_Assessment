@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="UnitTests">
+      <UniqueIdentifier>{449c4698-3fc6-4394-8327-53b97ba1cb3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -27,6 +30,12 @@
     <ClCompile Include="Libarys\Stack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UnitTests\Stack_UT.c">
+      <Filter>UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTests\UnitTester.c">
+      <Filter>UnitTests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PredictiveTextEngine\PredictiveTextEngine.h">
@@ -37,6 +46,12 @@
     </ClInclude>
     <ClInclude Include="Libarys\Stack.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitTests\Stack_UT.h">
+      <Filter>UnitTests</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitTests\UnitTester.h">
+      <Filter>UnitTests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

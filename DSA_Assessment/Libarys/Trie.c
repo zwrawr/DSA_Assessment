@@ -225,13 +225,14 @@ void trie_Print(Trie *trie)
     // traverse the trie in pre-order and print the node if its starred
     
     TrieElement *curr = trie->root;
-    
+
     Stack *charStack = stack_Constructor();
     int depth = 0;
     
     recursivePrint(curr, charStack, depth);
     
     stack_Deconstructor(charStack);
+
 }
 
 // Tests to see if a word is in the trie
@@ -416,7 +417,7 @@ int recursive_findWordsAtDepth(TrieElement *curr, Stack *word,
                 free(indexs);
                 
                 strcpy_s(words[*foundWords], MAXWORDLENGTH, tmp);
-                
+
                 (*foundWords)++;
                 
                 // we have the amount of words we need so get outta here
@@ -489,7 +490,6 @@ TrieElement *findElement(Trie *trie, char *item)
 void recursivePrint(TrieElement *curr, Stack *charStack, int depth)
 {
     //TODO:: validity checks
-    
     if (curr->starred == 1)
     {
         char *string = indicesToString(stack_ToArray(charStack), stack_GetHeight(charStack));

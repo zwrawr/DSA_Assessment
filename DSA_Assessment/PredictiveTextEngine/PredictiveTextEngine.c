@@ -68,9 +68,8 @@ PredictiveTextEngine *predictiveTextEngine_Constructor(void)
     //populate the trie
     trie_AddMultiple(ptEngine->trie, words, len);
     freeWordsArray(words, len);
-    
     //trie_Print(ptEngine->trie);
-    
+
     return ptEngine;
 }
 
@@ -151,7 +150,7 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
         
         for (int i = 0; i < numberOfPredictionsToMake; i++)
         {
-            words[i] = malloc(64 , sizeof(char));
+            words[i] = malloc(64 * sizeof(char));
         }
         
         

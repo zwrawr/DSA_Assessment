@@ -11,6 +11,12 @@
 #define STACK_H_INCLUDED
 
 /// ====
+/// Defines
+/// ====
+#define INITIAL_STACK_LENGTH 10
+
+
+/// ====
 /// TypeDefs
 /// ====
 typedef struct Stack Stack;
