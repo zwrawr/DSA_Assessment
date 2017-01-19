@@ -101,20 +101,21 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
     // This is probably the most important function
     // TODO : improve this function.
     
-    // TODO:: validity checks
+	if ((pte == NULL) || (partialWord == NULL) || (predictions == NULL) || (numPredictions < 1))
+	{
+		return -1;
+	}
     
-    
-    int numPosSoFar = 0; // how many possible words we have found so far
+    int SuggestionsFound = 0; // how many possible words we have found so far
     
     int len = (int)strlen(partialWord);
     
-    if (numPredictions > 1)
-    {
-        strcpy_s(predictions[0], MAXWORDLENGTH, partialWord);
-        numPosSoFar++;
-    }
+
+	// we always return the partial word as a suggestion because the user might want that word
+    strcpy_s(predictions[0], MAXWORDLENGTH, partialWord);
+    SuggestionsFound++;
     
-    // dont make guesses for words less than 2 letters long just return the input
+    // Dont make guesses for words less than 2 letters long just return the input
     if (len < 2)
     {
         printf("[MESG] \t Partial word is too short to make any guesses, must be at least 2 letters long.\n");
@@ -138,14 +139,14 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
     if (info == 1)
     {
         // word is in the trie so
-        strcpy_s(predictions[numPosSoFar], MAXWORDLENGTH, partialWord);
-        numPosSoFar++;
+        strcpy_s(predictions[SuggestionsFound], MAXWORDLENGTH, partialWord);
+        SuggestionsFound++;
     }
     
     // There is a word in the trie that is prefixed by this partial word
-    if ( info == 0 && numPosSoFar <= numPredictions)
+    if ( info == 0 && SuggestionsFound <= numPredictions)
     {
-        int numberOfPredictionsToMake = (numPredictions - numPosSoFar);
+        int numberOfPredictionsToMake = (numPredictions - SuggestionsFound);
         char **words = malloc(numberOfPredictionsToMake * sizeof(char *));
         
         for (int i = 0; i < numberOfPredictionsToMake; i++)
@@ -162,11 +163,11 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
             // we found some word prefixed by our partial word put them in our predictions array.
             for (int i = 0; i < numFound; i++)
             {
-                strcpy_s(predictions[numPosSoFar + i], MAXWORDLENGTH, words[i]);
+                strcpy_s(predictions[SuggestionsFound + i], MAXWORDLENGTH, words[i]);
             }
         }
         
-        numPosSoFar += numFound;
+        SuggestionsFound += numFound;
         
         for (int i = 0; i < numberOfPredictionsToMake; i++)
         {
@@ -177,7 +178,7 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
     }
     
     // There is not a word in the the trie is directly prefixed by this trie
-    if ( info == 0 && numPosSoFar <= numPredictions)
+    if ( info == 0 && SuggestionsFound <= numPredictions)
     {
     
     }
@@ -185,7 +186,7 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
     // check too see if there are words prefixed with partial word
     
     // if we have found more than just the partial word the return 0
-    return (numPosSoFar > 1) ? 0 : -1;
+    return (SuggestionsFound > 1) ? 0 : -1;
 }
 
 // Returns the maximum word length supported by the trie
@@ -202,6 +203,12 @@ int predictiveTextEngine_MaxWordLength()
 // Returns a pointer to the opened file or a NULL pointer if file couldnt be opened
 FILE *loadFile(char *path)
 {
+	// Validity checks
+	if (path == NULL || strlen(path) < 1)
+	{
+		return NULL;
+	}
+
     FILE *file;
     errno_t err = fopen_s(&file, path, "r");
     
@@ -221,6 +228,11 @@ FILE *loadFile(char *path)
 // Closes the file pointed to by *file
 void closeFile(FILE *file)
 {
+	if (file == NULL)
+	{
+		return;
+	}
+
     int err = fclose(file);
     
     if (err == 0)
@@ -235,8 +247,14 @@ void closeFile(FILE *file)
 
 // Parses the file at *file and counts the number of lines
 // Returns the number of line in *file
+// Returns -1 if file is null
 int countLinesInFile(FILE *file)
 {
+	if (file == NULL)
+	{
+		return -1;
+	}
+
     printf("[    ] Counting lines in file");
     //make sure were at the begging of the file
     fseek(file, 0, SEEK_SET);
@@ -257,8 +275,14 @@ int countLinesInFile(FILE *file)
 
 // Reads in *file one line at a time to obtain an array of lines
 // Returns a char** of all the lines in the file
+// Retruns NULL if file is NULL,file could not be read, has no lines.
 char **getWordsArray(FILE *file, int *lines)
 {
+
+	if (file == NULL)
+	{
+		return NULL;
+	}
 
     *lines = countLinesInFile(file);
     
@@ -302,6 +326,11 @@ char **getWordsArray(FILE *file, int *lines)
 // Frees a char** of length length
 void freeWordsArray(char **words, int length)
 {
+	if (words == NULL )
+	{
+		return;
+	}
+
     printf("[    ] Freeing array");
     
     for (int i = 0; i < length; i++)
