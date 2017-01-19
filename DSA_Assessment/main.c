@@ -56,7 +56,6 @@ int main(void)
 
 int main(void)
 {
-
     ptEngine = predictiveTextEngine_Constructor();
 
     if (ptEngine == NULL)

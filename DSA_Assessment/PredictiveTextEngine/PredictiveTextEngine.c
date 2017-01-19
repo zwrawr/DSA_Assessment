@@ -68,7 +68,8 @@ PredictiveTextEngine *predictiveTextEngine_Constructor(void)
     //populate the trie
     trie_AddMultiple(ptEngine->trie, words, len);
     freeWordsArray(words, len);
-    
+    //trie_Print(ptEngine->trie);
+
     return ptEngine;
 }
 

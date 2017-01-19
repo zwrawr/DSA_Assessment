@@ -191,12 +191,12 @@ int stack_Peek(Stack *stack, int index, int *peeked)
 // Returns NULL if stack is NULL or unsuccessul
 int *stack_ToArray(Stack *stack)
 {
+
     if (stack == NULL || stack_isEmpty(stack) == 1)
     {
         return NULL;
     }
-    
-    
+
     int height = stack_GetHeight(stack);
     int *array = malloc(height * sizeof(int));
     

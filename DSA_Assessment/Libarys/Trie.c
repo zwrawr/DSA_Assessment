@@ -30,9 +30,10 @@ typedef struct TrieElement TrieElement;
 /// ====
 TrieElement *trieElement_Constructor();
 void trieElement_Deconstructor(TrieElement *trieElement);
-void recursivePrint(TrieElement *curr, char *string, int depth);
+void recursivePrint(TrieElement *curr, Stack *charStack, int depth);
 int charToIndex(char c);
 char indexToChar(int index);
+char *indicesToString(int *array, int length);
 int insert(Trie *trie, char *string);
 TrieElement *findElement(Trie *trie, char *item);
 
@@ -224,11 +225,14 @@ void trie_Print(Trie *trie)
     // traverse the trie in pre-order and print the node if its starred
     
     TrieElement *curr = trie->root;
-    char string[MAXWORDLENGTH];
+
+    Stack *charStack = stack_Constructor();
     int depth = 0;
     
-    recursivePrint(curr, string, depth);
+    recursivePrint(curr, charStack, depth);
     
+    stack_Deconstructor(charStack);
+
 }
 
 // Tests to see if a word is in the trie
@@ -409,18 +413,11 @@ int recursive_findWordsAtDepth(TrieElement *curr, Stack *word,
                 int height = stack_GetHeight(word);
                 int *indexs = stack_ToArray(word);
                 
-                // map array from indexs to real chars and add the to one of the words were returning
-                int k;
-                
-                for (k = 0; k < height; k++)
-                {
-                    words[*foundWords][k] = indexToChar(indexs[k]);
-                }
-                
-                words[*foundWords][k] = '\0'; // remember the null terminator char
-                
+                char *tmp = indicesToString(indexs, height);
                 free(indexs);
                 
+                strcpy_s(words[*foundWords], MAXWORDLENGTH, tmp);
+
                 (*foundWords)++;
                 
                 // we have the amount of words we need so get outta here
@@ -490,23 +487,23 @@ TrieElement *findElement(Trie *trie, char *item)
 }
 
 // recurively prints the trie
-void recursivePrint(TrieElement *curr, char *string, int depth)
+void recursivePrint(TrieElement *curr, Stack *charStack, int depth)
 {
     //TODO:: validity checks
-    
     if (curr->starred == 1)
     {
+        char *string = indicesToString(stack_ToArray(charStack), stack_GetHeight(charStack));
         printf("> %s\n", string);
+        free(string);
     }
     
-    for (int i = 0; i < 26; i++)
+    for (int i = 0; i < ALPHABETSIZE; i++)
     {
         if (curr->children[i] != NULL)
         {
-            string[depth] = indexToChar(i);
-            string[depth + 1] = '\0';
-            
-            recursivePrint(curr->children[i], string, depth + 1);
+            stack_Push(charStack, i);
+            recursivePrint(curr->children[i], charStack, depth + 1);
+            stack_Pop_nv(charStack);
         }
     }
     
@@ -560,16 +557,33 @@ char indexToChar(int index)
         // letters
         return 97 + index;
     }
-    else if (index >= 26 && index < 26)
+    else if (index >= 26 && index < 36)
     {
         //numbers
-        return 48 + index;
+        return 48 + index - 26;
     }
     
     // if we got here then alphabet size is wrong
-    printf("[WARN] \tAn index value within the correct range(0 to ALPHABETSIZE) could not be mapped back to a char \n");
+    printf("[WARN] \tAn index value [%d] within the correct range(0 to ALPHABETSIZE) could not be mapped back to a char \n", index);
     return ' ';
     
+}
+
+// Maps an array of indices back to a string
+// Returns a string representing the mapped version of the array
+char *indicesToString(int *array, int length)
+{
+    char *word = malloc((length + 1) * sizeof(char));
+    
+    int k;
+    
+    for (k = 0; k < length; k++)
+    {
+        word[k] = indexToChar(array[k]);
+    }
+    
+    word[k] = '\0'; // remember the null terminator char
+    return word;
 }
 
 // Inserts a string into a trie
