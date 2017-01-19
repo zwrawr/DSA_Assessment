@@ -69,7 +69,7 @@ PredictiveTextEngine *predictiveTextEngine_Constructor(void)
     trie_AddMultiple(ptEngine->trie, words, len);
     freeWordsArray(words, len);
     //trie_Print(ptEngine->trie);
-
+    
     return ptEngine;
 }
 

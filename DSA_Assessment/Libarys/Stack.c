@@ -196,7 +196,7 @@ int *stack_ToArray(Stack *stack)
     {
         return NULL;
     }
-
+    
     int height = stack_GetHeight(stack);
     int *array = malloc(height * sizeof(int));
     
