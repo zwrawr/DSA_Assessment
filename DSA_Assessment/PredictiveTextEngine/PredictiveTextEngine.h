@@ -39,6 +39,8 @@ void predictiveTextEngine_Deconstructor(PredictiveTextEngine *predictiveTextEngi
 // Returns -1 if no word is found
 int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWord, char **predictions, int numPredictions);
 
+// Returns the maximum word length supported by the trie
+int predictiveTextEngine_MaxWordLength();
 
 
 #endif // PREDICTIVETEXTENGINE_H_INCLUDED

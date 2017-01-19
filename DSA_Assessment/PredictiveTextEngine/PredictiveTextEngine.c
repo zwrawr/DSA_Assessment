@@ -110,7 +110,7 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
     
     if (numPredictions > 1)
     {
-        strcpy_s(predictions[0], 64, partialWord);
+        strcpy_s(predictions[0], MAXWORDLENGTH, partialWord);
         numPosSoFar++;
     }
     
@@ -138,7 +138,7 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
     if (info == 1)
     {
         // word is in the trie so
-        strcpy_s(predictions[numPosSoFar], 64, partialWord);
+        strcpy_s(predictions[numPosSoFar], MAXWORDLENGTH, partialWord);
         numPosSoFar++;
     }
     
@@ -150,7 +150,7 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
         
         for (int i = 0; i < numberOfPredictionsToMake; i++)
         {
-            words[i] = malloc(64 * sizeof(char));
+            words[i] = malloc(MAXWORDLENGTH * sizeof(char));
         }
         
         
@@ -162,7 +162,7 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
             // we found some word prefixed by our partial word put them in our predictions array.
             for (int i = 0; i < numFound; i++)
             {
-                strcpy_s(predictions[numPosSoFar + i], 64, words[i]);
+                strcpy_s(predictions[numPosSoFar + i], MAXWORDLENGTH, words[i]);
             }
         }
         
@@ -170,7 +170,7 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
         
         for (int i = 0; i < numberOfPredictionsToMake; i++)
         {
-            words[i] = malloc(64 * sizeof(char));
+            words[i] = malloc(MAXWORDLENGTH * sizeof(char));
         }
         
         free(words);
@@ -188,6 +188,11 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
     return (numPosSoFar > 1) ? 0 : -1;
 }
 
+// Returns the maximum word length supported by the trie
+int predictiveTextEngine_MaxWordLength()
+{
+	return MAXWORDLENGTH;
+}
 
 /// ====
 /// Hidden Functions
@@ -237,7 +242,7 @@ int countLinesInFile(FILE *file)
     fseek(file, 0, SEEK_SET);
     
     int count = 0;
-    char buf[64];
+    char buf[MAXWORDLENGTH];
     
     while (fgets(buf, sizeof(buf), file) != NULL)
     {
@@ -272,9 +277,9 @@ char **getWordsArray(FILE *file, int *lines)
     
     for (int i = 0; i < *lines; i++)
     {
-        words[i] = malloc(sizeof(char) * 64);
+        words[i] = malloc(sizeof(char) * MAXWORDLENGTH);
         
-        if (fgets(words[i], 64, file) != NULL)
+        if (fgets(words[i], MAXWORDLENGTH, file) != NULL)
         {
             // this removes the trailing \n from a word
             words[i][strcspn(words[i], "\n")] = 0;

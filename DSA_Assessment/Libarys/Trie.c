@@ -11,11 +11,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../Libarys/Trie.h"
 #include "../Libarys/Stack.h"
 /// ====
 /// Defines
 /// ====
-#define MAXWORDLENGTH 64
 #define ALPHABETSIZE 36
 
 /// ====
@@ -308,7 +308,7 @@ int trie_searchPrefixedBy(Trie *trie, char *item, char **result, int num)
         //move words from buffer into results
         for (int i = 0; i < found; i++)
         {
-            strcpy_s(result[i], 64, buffer[i]);
+            strcpy_s(result[i], MAXWORDLENGTH, buffer[i]);
         }
         
         

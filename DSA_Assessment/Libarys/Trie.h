@@ -14,7 +14,7 @@
 /// ====
 /// Defines
 /// ====
-
+#define MAXWORDLENGTH 64
 
 /// ====
 /// Type Definitions
