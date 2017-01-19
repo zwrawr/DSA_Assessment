@@ -1,6 +1,6 @@
 // =====================================================
-// <summary> 
-//	This file provides a public interface for the file 
+// <summary>
+//  This file provides a public interface for the file
 //  "Trie.c".
 // </summary>
 // <project> Predictive Text </project>
@@ -35,25 +35,25 @@ void trie_Deconstructor(Trie *trie);
 
 // adds the item(word) to the trie data structure
 // returns 1 if addition was succesful
-int trie_Add(Trie* trie, char* item);
+int trie_Add(Trie *trie, char *item);
 
 // adds the items(words) to the trie data structure
 // returns 1 if additions were succesful
-int trie_AddMultiple(Trie* trie, char** items, int num);
+int trie_AddMultiple(Trie *trie, char **items, int num);
 
 // prints out the words in the trie in alphabetical order
-void trie_Print(Trie* trie);
+void trie_Print(Trie *trie);
 
 // Tests to see if a word is in the trie
 // Returns 1 if item is in the trie and starred (its considered a word)
 // Returns 0 if the item is in the trie but not starred (its a partial word)
 // Returns -1 if its not in the trie
-int trie_Contains(Trie* trie, char* item);
+int trie_Contains(Trie *trie, char *item);
 
 // searches the trie for words prefixed by partial word.
 // Returns a value > 0 and < numPredictions if words were found.
 // Returns -1 if no words where found.
-int trie_searchPrefixedBy(Trie* trie, char* item, char** result, int num);
+int trie_searchPrefixedBy(Trie *trie, char *item, char **result, int num);
 
 #endif // TRIE_H_INCLUDED
 

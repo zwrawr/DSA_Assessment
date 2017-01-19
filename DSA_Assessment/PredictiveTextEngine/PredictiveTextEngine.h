@@ -1,6 +1,6 @@
 // =====================================================
-// <summary> 
-//	This file provides a public interface for the file 
+// <summary>
+//  This file provides a public interface for the file
 //  "PredictiveTextEngine.c".
 // </summary>
 // <project> Predictive Text </project>
@@ -37,7 +37,7 @@ void predictiveTextEngine_Deconstructor(PredictiveTextEngine *predictiveTextEngi
 // Returns 1 if the partial word is a word
 // Returns 0 if possible words are found
 // Returns -1 if no word is found
-int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWord, char** predictions, int numPredictions);
+int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWord, char **predictions, int numPredictions);
 
 
 

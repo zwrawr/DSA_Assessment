@@ -1,7 +1,7 @@
 // =====================================================
-// <summary> 
-//	This file creates and manages a stack data structure for the storage
-//	of integers.
+// <summary>
+//  This file creates and manages a stack data structure for the storage
+//  of integers.
 // </summary>
 // <project> Predictive Text </project>
 // <author> Y3839090 </author>
@@ -36,9 +36,9 @@
 /// ====
 struct Stack
 {
-	int length;
-	int top;
-	int *array;
+    int length;
+    int top;
+    int *array;
 };
 
 /// ====
@@ -46,20 +46,20 @@ struct Stack
 /// ====
 Stack *stack_Constructor()
 {
-	Stack *stack;
-	stack = malloc(sizeof(Stack));
-
-	stack->length = INITIAL_STACK_LENGTH;
-	stack->top = 0;
-	stack->array = malloc(stack->length * sizeof(int));
-
-	return stack;
+    Stack *stack;
+    stack = malloc(sizeof(Stack));
+    
+    stack->length = INITIAL_STACK_LENGTH;
+    stack->top = 0;
+    stack->array = malloc(stack->length * sizeof(int));
+    
+    return stack;
 }
 
 void stack_Deconstructor(Stack *stack)
 {
-	free(stack->array);
-	free(stack);
+    free(stack->array);
+    free(stack);
 }
 
 /// ====
@@ -72,13 +72,13 @@ void stack_Deconstructor(Stack *stack)
 // Returns -1 if stack is NULL
 int stack_isEmpty(Stack *stack)
 {
-	if (stack == NULL)
-	{
-		return -1;
-	}
-
-	return (stack->top == 0) ? 1 : 0;
-
+    if (stack == NULL)
+    {
+        return -1;
+    }
+    
+    return (stack->top == 0) ? 1 : 0;
+    
 }
 
 // Checks to see weather the stack is full
@@ -87,12 +87,12 @@ int stack_isEmpty(Stack *stack)
 // Returns -1 if stack is NULL
 int stack_isFull(Stack *stack)
 {
-	if (stack == NULL)
-	{
-		return -1;
-	}
-
-	return (stack->top == (stack->length)) ? 1 : 0;
+    if (stack == NULL)
+    {
+        return -1;
+    }
+    
+    return (stack->top == (stack->length)) ? 1 : 0;
 }
 
 // Pushes an item onto the top of the stack
@@ -101,27 +101,28 @@ int stack_isFull(Stack *stack)
 // Returns -1 if stack is NULL
 int stack_Push(Stack *stack, int value)
 {
-	if (stack == NULL)
-	{
-		return -1;
-	}
-
-	if (stack_isFull(stack) != 0)
-	{
-		stack->length *= 2;
-		stack->array = realloc(stack->array, stack->length * sizeof(int)); 
-		// TODO: make this try mallocing a diff buffer if it failes not just die
-		if (stack->array == NULL)
-		{
-			// realloc failed thats bad
-			return 0;
-		}
-	}
-
-	stack->array[stack->top] = value;
-	stack->top++;
-
-	return 1;
+    if (stack == NULL)
+    {
+        return -1;
+    }
+    
+    if (stack_isFull(stack) != 0)
+    {
+        stack->length *= 2;
+        stack->array = realloc(stack->array, stack->length * sizeof(int));
+        
+        // TODO: make this try mallocing a diff buffer if it failes not just die
+        if (stack->array == NULL)
+        {
+            // realloc failed thats bad
+            return 0;
+        }
+    }
+    
+    stack->array[stack->top] = value;
+    stack->top++;
+    
+    return 1;
 }
 
 // Pops an item off of the top of the stack
@@ -130,22 +131,22 @@ int stack_Push(Stack *stack, int value)
 // Returns -1 if stack is NULL
 int stack_Pop(Stack *stack, int *popped)
 {
-	if (stack == NULL)
-	{
-		return -1;
-	}
-
-	if (stack_isEmpty(stack) != 1)
-	{
-		stack->top--;
-		(*popped) = stack->array[stack->top];
-		return 1;
-	}
-	else
-	{
-		// if there's nothing on the stack we cannot pop something off of it
-		return 0;
-	}
+    if (stack == NULL)
+    {
+        return -1;
+    }
+    
+    if (stack_isEmpty(stack) != 1)
+    {
+        stack->top--;
+        (*popped) = stack->array[stack->top];
+        return 1;
+    }
+    else
+    {
+        // if there's nothing on the stack we cannot pop something off of it
+        return 0;
+    }
 }
 
 // Pops an item off of the top of the stack but does not provide access to the value that was there.
@@ -154,14 +155,14 @@ int stack_Pop(Stack *stack, int *popped)
 // Returns -1 if stack is NULL
 int stack_Pop_nv(Stack *stack)
 {
-	if (stack == NULL)
-	{
-		return -1;
-	}
-
-	int tmp;
-
-	return stack_Pop(stack, &tmp);
+    if (stack == NULL)
+    {
+        return -1;
+    }
+    
+    int tmp;
+    
+    return stack_Pop(stack, &tmp);
 }
 
 // Peek an item in the stack
@@ -170,38 +171,38 @@ int stack_Pop_nv(Stack *stack)
 // Returns -1 if stack is NULL
 int stack_Peek(Stack *stack, int index, int *peeked)
 {
-	if (stack == NULL)
-	{
-		return -1;
-	}
-
-	if (index < 0 || index > stack->top)
-	{
-		return 0;
-	}
-
-	(*peeked) = stack->array[index];
-
-	return 1;
+    if (stack == NULL)
+    {
+        return -1;
+    }
+    
+    if (index < 0 || index > stack->top)
+    {
+        return 0;
+    }
+    
+    (*peeked) = stack->array[index];
+    
+    return 1;
 }
 
 // Returns an array of the values in the stack.
 // Returns the array representaion of the values in the stack
 // Returns NULL if stack is NULL or unsuccessul
-int* stack_ToArray(Stack *stack)
+int *stack_ToArray(Stack *stack)
 {
-	if (stack == NULL || stack_isEmpty(stack)==1)
-	{
-		return NULL;
-	}
-
-
-	int height = stack_GetHeight(stack);
-	int *array = malloc(height *sizeof(int));
-
-	memcpy(array, stack->array, height * sizeof(int));
-
-	return array;
+    if (stack == NULL || stack_isEmpty(stack) == 1)
+    {
+        return NULL;
+    }
+    
+    
+    int height = stack_GetHeight(stack);
+    int *array = malloc(height * sizeof(int));
+    
+    memcpy(array, stack->array, height * sizeof(int));
+    
+    return array;
 }
 
 // Gets the height of the stack.
@@ -209,12 +210,12 @@ int* stack_ToArray(Stack *stack)
 // Returns -1 if stack is NULL or unsuccessul
 int stack_GetHeight(Stack *stack)
 {
-	if (stack == NULL)
-	{
-		return -1;
-	}
-
-	return stack->top;
+    if (stack == NULL)
+    {
+        return -1;
+    }
+    
+    return stack->top;
 }
 
 /// ====

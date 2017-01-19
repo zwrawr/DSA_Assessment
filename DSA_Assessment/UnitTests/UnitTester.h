@@ -1,6 +1,6 @@
 // =====================================================
-// <summary> 
-//	This file provides a public interface for the file 
+// <summary>
+//  This file provides a public interface for the file
 //  "UnitTester.c".
 // </summary>
 // <project> Predictive Text </project>

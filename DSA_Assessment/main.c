@@ -1,8 +1,8 @@
 // =====================================================
-// <summary> 
-//	This is the entry point for the predictive text program
-//	it is responsible for the ui and user interactions with the 
-//	system.
+// <summary>
+//  This is the entry point for the predictive text program
+//  it is responsible for the ui and user interactions with the
+//  system.
 // </summary>
 // <project> Predictive Text </project>
 // <author> Y3839090 </author>
@@ -14,7 +14,7 @@
 
 /// ====
 /// Defines
-/// ==== 
+/// ====
 //#define UTEST //force unit testing in non unit test build
 
 #ifdef UTEST
@@ -26,7 +26,7 @@
 /// ====
 void waitForInput(char *message);
 void textEntryLoop();
-void doPrediction(char* partial);
+void doPrediction(char *partial);
 
 /// ====
 /// Global
@@ -43,112 +43,132 @@ PredictiveTextEngine *ptEngine;
 
 int main(void)
 {
-	if (UnitTester_RunTests() == 1)
-		exit(0);
-	else
-		exit(1);
+    if (UnitTester_RunTests() == 1)
+    {
+        exit(0);
+    }
+    else
+    {
+        exit(1);
+    }
 }
 #else
 
 int main(void)
 {
 
-	ptEngine = predictiveTextEngine_Constructor();
+    ptEngine = predictiveTextEngine_Constructor();
 
-	if (ptEngine == NULL)
-	{
-		printf("[ERR!] \t Couldn't create the predictive text engine, Exiting\n\n");
-		exit(-1);
-	}
+    if (ptEngine == NULL)
+    {
+        printf("[ERR!] \t Couldn't create the predictive text engine, Exiting\n\n");
+        exit(-1);
+    }
 
-	textEntryLoop();
+    textEntryLoop();
 
-	waitForInput("Press Enter to exit.");
-	predictiveTextEngine_Deconstructor(ptEngine);
+    waitForInput("Press Enter to exit.");
+    predictiveTextEngine_Deconstructor(ptEngine);
 
-	return 0;
+    return 0;
 }
 
 #endif // UTEST
 
 void textEntryLoop()
 {
-	char* inputBuffer = malloc(256 * sizeof(char));
-
-	while (1)
-	{
-		fputc(' ', stdin);
-
-		// TODO improve this
-		// a buffer of out word. Auto resizing array list implimentation would be better
-		// and then read the new text in nchar by char and add it to the array
-		char* info = fgets(inputBuffer, 256, stdin);
-		//TODO :: Check info
-
-		printf("\n=>\t %s \n", inputBuffer);
-
-		// proccess to find just the last word.
-
-		//TODO:: expose MAXWORDLENGTH in interface then use that here
-		char lastWord[64];
-
-		int len = (int)strlen(inputBuffer);
-
-		int i = 0;
-		// walk backwards from the end of the string till we hit a space
-		while (inputBuffer[len - i] != ' ') i++;
-
-		//TODO:: theres an error condition if theres no spaces in the word.
-
-		char* lastSpace = strrchr(inputBuffer, ' ');
-		if (lastSpace == NULL)
-		{
-			lastSpace = inputBuffer;
-		}
-
-		// the last word is between len and len-i
-		int result = strcpy_s(lastWord, 64, lastSpace); 
-														// TODO:: check result
-		printf("=>\t %s \n\n", lastWord);
-
-
-		doPrediction(lastWord);
-
-	}
-
-	free(inputBuffer);
+    char *inputBuffer = malloc(256 * sizeof(char));
+    
+    while (1)
+    {
+        fputc(' ', stdin);
+        
+        // TODO improve this
+        // a buffer of out word. Auto resizing array list implimentation would be better
+        // and then read the new text in nchar by char and add it to the array
+        char *info = fgets(inputBuffer, 256, stdin);
+        //TODO :: Check info
+        
+        printf("\n=>\t %s \n", inputBuffer);
+        
+        // proccess to find just the last word.
+        
+        //TODO:: expose MAXWORDLENGTH in interface then use that here
+        char lastWord[64];
+        
+        int len = (int)strlen(inputBuffer);
+        
+        int i = 0;
+        
+        // walk backwards from the end of the string till we hit a space
+        while (inputBuffer[len - i] != ' ')
+        {
+            i++;
+        }
+        
+        //TODO:: theres an error condition if theres no spaces in the word.
+        
+        char *lastSpace = strrchr(inputBuffer, ' ');
+        
+        if (lastSpace == NULL)
+        {
+            lastSpace = inputBuffer;
+        }
+        
+        // the last word is between len and len-i
+        int result = strcpy_s(lastWord, 64, lastSpace);
+        // TODO:: check result
+        printf("=>\t %s \n\n", lastWord);
+        
+        
+        doPrediction(lastWord);
+        
+    }
+    
+    free(inputBuffer);
 }
 
-void doPrediction(char* partial)
+void doPrediction(char *partial)
 {
-	//TODO:: expose MAXWORDLENGTH
-	int numGuesses = 8;
-	char** guesses = malloc(numGuesses * sizeof(char*));
-	for (int k = 0; k < numGuesses; k++) guesses[k] = malloc(64 * sizeof(char));
-
-	int info = predictiveTextEngine_predictWords(ptEngine, partial, guesses, 8);
-
-	// TODO:: clean input string before printing
-	// TODO:: switch statement and expose some defines that make this more maintainable
-	if (info == 1)
-	{
-		printf("=>\t  %s is a word!\n", partial);
-	}
-	else if (info == 0)
-	{
-		for (int i = 0; i < numGuesses; i++) printf("=>\t  %s is probably %s\n", partial, guesses[i]);
-	}
-	else if (info == -1)
-	{
-		printf("=>\t  %s wasn't found in the dictionary :'(", partial);
-	}
-	else
-	{
-		printf("[WARN] \t attempted to predict a word but got an unexpected value back !");
-	}
-
-	for (int j = 0; j < numGuesses; j++) free(guesses[j]);
-	free(guesses);
+    //TODO:: expose MAXWORDLENGTH
+    int numGuesses = 8;
+    char **guesses = malloc(numGuesses * sizeof(char *));
+    
+    for (int k = 0; k < numGuesses; k++)
+    {
+        guesses[k] = malloc(64 * sizeof(char));
+    }
+    
+    int info = predictiveTextEngine_predictWords(ptEngine, partial, guesses, 8);
+    
+    // TODO:: clean input string before printing
+    // TODO:: switch statement and expose some defines that make this more maintainable
+    if (info == 1)
+    {
+        printf("=>\t  %s is a word!\n", partial);
+    }
+    else if (info == 0)
+    {
+        for (int i = 0; i < numGuesses; i++)
+        {
+            printf("=>\t  %s is probably %s\n", partial, guesses[i]);
+        }
+    }
+    else if (info == -1)
+    {
+        printf("=>\t  %s wasn't found in the dictionary :'(", partial);
+    }
+    else
+    {
+        printf("[WARN] \t attempted to predict a word but got an unexpected value back !");
+    }
+    
+    for (int j = 0; j < numGuesses; j++)
+    {
+        free(guesses[j]);
+    }
+    
+    free(guesses);
 }
 
 // Block execution till theres an input.

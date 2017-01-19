@@ -1,6 +1,6 @@
 // =====================================================
-// <summary> 
-//	This file provides a public interface for the file 
+// <summary>
+//  This file provides a public interface for the file
 //  "Stack_UT.c".
 // </summary>
 // <project> Predictive Text </project>
