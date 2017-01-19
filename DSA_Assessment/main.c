@@ -12,6 +12,14 @@
 #include <string.h>
 #include "PredictiveTextEngine/PredictiveTextEngine.h"
 
+/// ====
+/// Defines
+/// ==== 
+//#define UTEST //force unit testing in non unit test build
+
+#ifdef UTEST
+#include "UnitTests\UnitTester.h"
+#endif // UTEST
 
 /// ====
 /// Prototypes
@@ -29,11 +37,24 @@ PredictiveTextEngine *ptEngine;
 /// ====
 /// Main
 /// ====
+
 // Entry point
+#ifdef UTEST
+
 int main(void)
 {
-    ptEngine = predictiveTextEngine_Constructor();
-    
+	if (UnitTester_RunTests() == 1)
+		exit(0);
+	else
+		exit(1);
+}
+#else
+
+int main(void)
+{
+
+	ptEngine = predictiveTextEngine_Constructor();
+
 	if (ptEngine == NULL)
 	{
 		printf("[ERR!] \t Couldn't create the predictive text engine, Exiting\n\n");
@@ -42,11 +63,13 @@ int main(void)
 
 	textEntryLoop();
 
-    waitForInput("Press Enter to exit.");
-    predictiveTextEngine_Deconstructor(ptEngine);
-    
-    return 0;
+	waitForInput("Press Enter to exit.");
+	predictiveTextEngine_Deconstructor(ptEngine);
+
+	return 0;
 }
+
+#endif // UTEST
 
 void textEntryLoop()
 {

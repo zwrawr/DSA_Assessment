@@ -24,7 +24,7 @@
 /// ====
 /// Defines
 /// ====
-#define INITIAL_STACK_LENGTH 10
+
 
 /// ====
 /// Prototypes
@@ -92,7 +92,7 @@ int stack_isFull(Stack *stack)
 		return -1;
 	}
 
-	return (stack->top == (stack->length - 1)) ? 1 : 0;
+	return (stack->top == (stack->length)) ? 1 : 0;
 }
 
 // Pushes an item onto the top of the stack
@@ -114,7 +114,7 @@ int stack_Push(Stack *stack, int value)
 		if (stack->array == NULL)
 		{
 			// realloc failed thats bad
-			return -1;
+			return 0;
 		}
 	}
 
@@ -135,7 +135,7 @@ int stack_Pop(Stack *stack, int *popped)
 		return -1;
 	}
 
-	if (stack_isEmpty(stack) == 0)
+	if (stack_isEmpty(stack) != 1)
 	{
 		stack->top--;
 		(*popped) = stack->array[stack->top];
@@ -190,6 +190,12 @@ int stack_Peek(Stack *stack, int index, int *peeked)
 // Returns NULL if stack is NULL or unsuccessul
 int* stack_ToArray(Stack *stack)
 {
+	if (stack == NULL || stack_isEmpty(stack)==1)
+	{
+		return NULL;
+	}
+
+
 	int height = stack_GetHeight(stack);
 	int *array = malloc(height *sizeof(int));
 
