@@ -76,6 +76,7 @@ int main(void)
 
 void textEntryLoop()
 {
+	int maxWordLength = predictiveTextEngine_MaxWordLength();
     char *inputBuffer = malloc(256 * sizeof(char));
     
     while (1)
@@ -93,7 +94,7 @@ void textEntryLoop()
         // proccess to find just the last word.
         
         //TODO:: expose MAXWORDLENGTH in interface then use that here
-        char lastWord[64];
+        char* lastWord = malloc(maxWordLength * sizeof(char));
         
         int len = (int)strlen(inputBuffer);
         
@@ -115,7 +116,7 @@ void textEntryLoop()
         }
         
         // the last word is between len and len-i
-        int result = strcpy_s(lastWord, 64, lastSpace);
+        int result = strcpy_s(lastWord, maxWordLength, lastSpace);
         // TODO:: check result
         printf("=>\t %s \n\n", lastWord);
         
@@ -135,7 +136,7 @@ void doPrediction(char *partial)
     
     for (int k = 0; k < numGuesses; k++)
     {
-        guesses[k] = malloc(64 * sizeof(char));
+        guesses[k] = malloc(maxWordLength * sizeof(char));
     }
     
     int info = predictiveTextEngine_predictWords(ptEngine, partial, guesses, 8);
