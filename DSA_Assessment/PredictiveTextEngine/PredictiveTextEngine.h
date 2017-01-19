@@ -1,3 +1,12 @@
+// =====================================================
+// <summary> 
+//	This file provides a public interface for the file 
+//  "PredictiveTextEngine.c".
+// </summary>
+// <project> Predictive Text </project>
+// <author> Y3839090 </author>
+// =====================================================
+
 #ifndef PREDICTIVETEXTENGINE_H_INCLUDED
 #define PREDICTIVETEXTENGINE_H_INCLUDED
 

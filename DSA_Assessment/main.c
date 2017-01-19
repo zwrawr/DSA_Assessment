@@ -1,7 +1,15 @@
+// =====================================================
+// <summary> 
+//	This is the entry point for the predictive text program
+//	it is responsible for the ui and user interactions with the 
+//	system.
+// </summary>
+// <project> Predictive Text </project>
+// <author> Y3839090 </author>
+// =====================================================
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "PredictiveTextEngine/PredictiveTextEngine.h"
 
 

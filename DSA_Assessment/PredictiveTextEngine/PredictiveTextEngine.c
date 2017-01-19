@@ -1,3 +1,13 @@
+// =====================================================
+// <summary> 
+//	This file creates and manages predictive text engines that 
+//	can taje partial words and make suggestions of complete words
+//	that appear in a word list.
+// </summary>
+// <project> Predictive Text </project>
+// <author> Y3839090 </author>
+// =====================================================
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

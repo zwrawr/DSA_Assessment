@@ -1,3 +1,12 @@
+// =====================================================
+// <summary> 
+//	This file provides a public interface for the file 
+//  "Trie.c".
+// </summary>
+// <project> Predictive Text </project>
+// <author> Y3839090 </author>
+// =====================================================
+
 #ifndef TRIE_H_INCLUDED
 #define TRIE_H_INCLUDED
 

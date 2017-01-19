@@ -1,3 +1,13 @@
+// =====================================================
+// <summary> 
+//	This file creates and manages a trie data structure for the storage
+//	and management of words. It allows for fast look ups and fast 
+//  searches by prefix.
+// </summary>
+// <project> Predictive Text </project>
+// <author> Y3839090 </author>
+// =====================================================
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
