@@ -19,16 +19,14 @@
 /// Prototypes
 /// ====
 
-void utr_PrintMessage(int passed, char *success, char *failure);
-
 // These are all of our tests
 // They all retrun 1 if they passed
 
-int RunTest_0();
-int RunTest_1();
-int RunTest_2();
-int RunTest_3();
-int RunTest_4();
+int RunTest_0(UTRunner *utr);
+int RunTest_1(UTRunner *utr);
+int RunTest_2(UTRunner *utr);
+int RunTest_3(UTRunner *utr);
+int RunTest_4(UTRunner *utr);
 
 char *getTooLongWord();
 
@@ -38,9 +36,9 @@ char *getTooLongWord();
 /// ====
 
 // Returns 1 if all tests passed
-int trie_UT_RunTests()
+int trie_UT_RunTests(FILE *log)
 {
-    int(*TestFunctions[])(void) =
+    int(*TestFunctions[])(UTRunner * utr) =
     {
         RunTest_0,
         RunTest_1,
@@ -49,7 +47,7 @@ int trie_UT_RunTests()
     
     int numTestFunctions = sizeof(TestFunctions) / sizeof(TestFunctions[0]);
     
-    UTRunner *utr = utr_Constructor(numTestFunctions, TestFunctions, "Trie");
+    UTRunner *utr = utr_Constructor(numTestFunctions, TestFunctions, "Trie", log);
     int result = utr_RunTests(utr);
     utr_Deconstructor(utr);
     
@@ -62,7 +60,7 @@ int trie_UT_RunTests()
 /// Hidden Functions
 /// ====
 
-int RunTest_0()
+int RunTest_0(UTRunner *utr)
 {
     // test to see if that a constructed trie isnt null
     Trie *trie = trie_Constructor();
@@ -70,11 +68,11 @@ int RunTest_0()
     int passed = (trie == NULL) ? 0 : 1;
     
     trie_Deconstructor(trie);
-    utr_PrintMessage(passed, "Constructed trie pointer was not null", "Constructed trie pointer was null");
+    utr_PrintMessage(utr, passed, "Constructed trie pointer was not null", "Constructed trie pointer was null");
     return passed;
 }
 
-int RunTest_1()
+int RunTest_1(UTRunner *utr)
 {
     // test to see if that we can add values to a trie
     char *tooLongWord = getTooLongWord();
@@ -94,11 +92,11 @@ int RunTest_1()
     
     trie_Deconstructor(trie);
     free(tooLongWord);
-    utr_PrintMessage(passed, "Adding values to a trie worked", "Adding values to a trie di not work");
+    utr_PrintMessage(utr, passed, "Adding values to a trie worked", "Adding values to a trie di not work");
     return passed;
 }
 
-int RunTest_2()
+int RunTest_2(UTRunner *utr)
 {
     // test to see if that contains is working
     char *tooLongWord = getTooLongWord();
@@ -151,51 +149,52 @@ int RunTest_2()
     
     trie_Deconstructor(trie);
     free(tooLongWord);
-    utr_PrintMessage(passed, "Contains worked", "Contains did not work");
+    utr_PrintMessage(utr, passed, "Contains worked", "Contains did not work");
     return passed;
 }
 
 
-int RunTest_3()
+int RunTest_3(UTRunner *utr)
 {
-	// test to see if that we can add multiple values to a trie
-
-	char* words1[] = { 
-		"hey",
-		"hello",
-		"hell",
-		"help",
-		"havoc",
-		"death",
-		"unit",
-		"testing",
-		"is",
-		"really",
-		"boring",
-		"born",
-		"border",
-		"units",
-		"avacado" };
-
-	int numWords1 = sizeof(words1) / sizeof(words1[0]);
-
-
-	Trie *trie = trie_Constructor();
-
-	int info = 0;
-
-	// we should be able to add values now
-	info = (trie_AddMultiple(trie, words1, numWords1) == 1) ? info : -1;
-
-	info = (trie_AddMultiple(trie, "") == 0) ? info : -1;
-
-
-	int passed = (trie == NULL) ? 0 : 1;
-
-	trie_Deconstructor(trie);
-	free(tooLongWord);
-	utr_PrintMessage(passed, "Adding values to a trie worked", "Adding values to a trie di not work");
-	return passed;
+    // test to see if that we can add multiple values to a trie
+    
+    char *words1[] =
+    {
+        "hey",
+        "hello",
+        "hell",
+        "help",
+        "havoc",
+        "death",
+        "unit",
+        "testing",
+        "is",
+        "really",
+        "boring",
+        "born",
+        "border",
+        "units",
+        "avacado"
+    };
+    
+    int numWords1 = sizeof(words1) / sizeof(words1[0]);
+    
+    
+    Trie *trie = trie_Constructor();
+    
+    int info = 0;
+    
+    // we should be able to add values now
+    info = (trie_AddMultiple(trie, words1, numWords1) == 1) ? info : -1;
+    
+    //info = (trie_AddMultiple(trie, "") == 0) ? info : -1;
+    
+    
+    int passed = (trie == NULL) ? 0 : 1;
+    
+    trie_Deconstructor(trie);
+    utr_PrintMessage(utr, passed, "Adding values to a trie worked", "Adding values to a trie di not work");
+    return passed;
 }
 
 char *getTooLongWord()

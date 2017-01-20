@@ -15,6 +15,6 @@
 /// ====
 
 // Returns 1 if all tests passed
-int trie_UT_RunTests();
+int trie_UT_RunTests(FILE *log);
 
 #endif // TRIE_UT__H_INCLUDED

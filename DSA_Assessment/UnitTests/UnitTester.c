@@ -7,7 +7,7 @@
 // =====================================================
 #include <stdlib.h>
 #include <stdio.h>
-
+#include <time.h>
 // all of the unittesting files
 #include "..\UnitTests\Stack_UT.h"
 #include "..\UnitTests\Trie_UT.h"
@@ -15,8 +15,7 @@
 /// ====
 /// Defines
 /// ====
-
-
+#define LOGFILE "UnitTestLog.txt"
 /// ====
 /// Prototypes
 /// ====
@@ -29,29 +28,55 @@
 // Returns 1 if all tests passed
 int UnitTester_RunTestSets(void)
 {
+    FILE *log;
+    fopen_s(&log, LOGFILE, "a");
+    
+    time_t now;
+    time(&now);
+    char *buf = malloc(64 * sizeof(char));
+    ctime_s(buf, 64, &now);
+    
+    fprintf(log, "\n   %s \n", buf );
+    
+    
     printf("\n====#====#====#====#====#====#====#====#====#==== \n");
     printf("====                                         ==== \n");
     printf("====                UNIT TESTING             ==== \n");
     printf("====                                         ==== \n");
     printf("====#====#====#====#====#====#====#====#====#==== \n\n\n");
+    
+    fprintf(log, "====#====#====#====#====#====#====#====#====#==== \n");
+    fprintf(log, "====                                         ==== \n");
+    fprintf(log, "====                UNIT TESTING             ==== \n");
+    fprintf(log, "====                                         ==== \n");
+    fprintf(log, "====#====#====#====#====#====#====#====#====#==== \n\n");
+    
     int failed = 0, info = 0;
+    
     // Run ALl sets of tests below
     // if the test has passed we keep failed the same, if not we add one to failed
-    info = stack_UT_RunTests();
+    info = stack_UT_RunTests(log);
     failed += (( info == 1) ? 0 : 1);
-    info = trie_UT_RunTests();
+    
+    info = trie_UT_RunTests(log);
     failed += ((info == 1) ? 0 : 1);
-    printf("\n\n\n\n====#====#====#====#====#====#====#====#====#==== \n");
+    
+    printf("\n\n\n====#====#====#====#====#====#====#====#====#==== \n");
+    fprintf(log, "\n\n\n====#====#====#====#====#====#====#====#====#==== \n");
     
     if (failed == 0)
     {
         printf(" [PASS] \t All Unit Tests passed ! \n");
+        fprintf(log, " [PASS] \t All Unit Tests passed ! \n");
     }
     else
     {
         printf("*[FAIL]*\t %d Sets of Unit Tests failed ! \n", failed);
+        fprintf(log, "*[FAIL]*\t %d Sets of Unit Tests failed ! \n", failed);
     }
     
+    printf("\n\n\n\n\n");
+    fclose(log);
     getchar();
     
     if (failed == 0)

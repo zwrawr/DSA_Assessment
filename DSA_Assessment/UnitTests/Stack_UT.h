@@ -15,7 +15,7 @@
 /// ====
 
 // Returns 1 if all tests passed
-int stack_UT_RunTests();
+int stack_UT_RunTests(FILE *log);
 
 #endif // STACK_UT__H_INCLUDED
 

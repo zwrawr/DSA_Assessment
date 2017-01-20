@@ -19,23 +19,22 @@
 /// Prototypes
 /// ====
 
-void utr_PrintMessage(int passed, char *success, char *failure);
 
 // These are all of our tests
 // They all retrun 1 if they passed
 
-int RunTest_ConstructedStackNotNull();
-int RunTest_TwoStackDontHaveSamePointer();
-int RunTest_StackPush();
-int RunTest_StackMultiplePushes();
-int RunTest_StackPop();
-int RunTest_StackMultiplePops();
-int RunTest_TwoStacksPushAndPop();
-int RunTest_StackIsEmpty();
-int RunTest_StackIsFull();
-int RunTest_StackPeeking();
-int RunTest_StackToArray();
-int RunTest_StackHeight();
+int RunTest_ConstructedStackNotNull(UTRunner *utr);
+int RunTest_TwoStackDontHaveSamePointer(UTRunner *utr);
+int RunTest_StackPush(UTRunner *utr);
+int RunTest_StackMultiplePushes(UTRunner *utr);
+int RunTest_StackPop(UTRunner *utr);
+int RunTest_StackMultiplePops(UTRunner *utr);
+int RunTest_TwoStacksPushAndPop(UTRunner *utr);
+int RunTest_StackIsEmpty(UTRunner *utr);
+int RunTest_StackIsFull(UTRunner *utr);
+int RunTest_StackPeeking(UTRunner *utr);
+int RunTest_StackToArray(UTRunner *utr);
+int RunTest_StackHeight(UTRunner *utr);
 
 
 /// ====
@@ -43,9 +42,9 @@ int RunTest_StackHeight();
 /// ====
 
 // Returns 1 if all tests passed
-int stack_UT_RunTests()
+int stack_UT_RunTests(FILE *log)
 {
-    int(*TestFunctions[])(void) =
+    int(*TestFunctions[])(UTRunner * utr) =
     {
         RunTest_ConstructedStackNotNull,
         RunTest_TwoStackDontHaveSamePointer,
@@ -62,7 +61,7 @@ int stack_UT_RunTests()
     };
     int numTestFunctions = sizeof(TestFunctions) / sizeof(TestFunctions[0]);
     
-    UTRunner *utr = utr_Constructor(numTestFunctions, TestFunctions, "Stacks");
+    UTRunner *utr = utr_Constructor(numTestFunctions, TestFunctions, "Stacks", log);
     int result = utr_RunTests(utr);
     utr_Deconstructor(utr);
     
@@ -75,7 +74,7 @@ int stack_UT_RunTests()
 /// Hidden Functions
 /// ====
 
-int RunTest_ConstructedStackNotNull()
+int RunTest_ConstructedStackNotNull(UTRunner *utr)
 {
     // test to see if that a constructed stack isnt null
     Stack *stack = stack_Constructor();
@@ -83,11 +82,11 @@ int RunTest_ConstructedStackNotNull()
     int passed = (stack == NULL) ? 0 : 1;
     
     stack_Deconstructor(stack);
-    utr_PrintMessage(passed, "Constructed stack pointer was not null", "Constructed stack pointer was null");
+    utr_PrintMessage(utr, passed, "Constructed stack pointer was not null", "Constructed stack pointer was null");
     return passed;
 }
 
-int RunTest_TwoStackDontHaveSamePointer()
+int RunTest_TwoStackDontHaveSamePointer(UTRunner *utr)
 {
     // test to see if that two constructed stacks dont have the same pointer
     Stack *stack1 = stack_Constructor();
@@ -97,11 +96,11 @@ int RunTest_TwoStackDontHaveSamePointer()
     
     stack_Deconstructor(stack1);
     stack_Deconstructor(stack2);
-    utr_PrintMessage(passed, "Two constructed stacks did not have the same pointer", "Two constructed stacks had the same pointer");
+    utr_PrintMessage(utr, passed, "Two constructed stacks did not have the same pointer", "Two constructed stacks had the same pointer");
     return passed;
 }
 
-int RunTest_StackPush()
+int RunTest_StackPush(UTRunner *utr)
 {
     // test to see if that pushing a value to a stack is possible
     Stack *stack = stack_Constructor();
@@ -110,11 +109,11 @@ int RunTest_StackPush()
     int passed = ((stack == NULL) || (info == 0) || (info == -1)) ? 0 : 1;
     
     stack_Deconstructor(stack);
-    utr_PrintMessage(passed, "Pushing a value to a stack worked", "Pushing a value to a stack did not work");
+    utr_PrintMessage(utr, passed, "Pushing a value to a stack worked", "Pushing a value to a stack did not work");
     return passed;
 }
 
-int RunTest_StackMultiplePushes()
+int RunTest_StackMultiplePushes(UTRunner *utr)
 {
     // test to see if that pushing multiple values to a stack is possible
     Stack *stack = stack_Constructor();
@@ -131,11 +130,11 @@ int RunTest_StackMultiplePushes()
     int passed = ((stack == NULL) || (info != DEFAULT)) ? 0 : 1;
     
     stack_Deconstructor(stack);
-    utr_PrintMessage(passed, "Pushing multiple values to a stack worked", "Pushing multiple values to a stack did not work");
+    utr_PrintMessage(utr, passed, "Pushing multiple values to a stack worked", "Pushing multiple values to a stack did not work");
     return passed;
 }
 
-int RunTest_StackPop()
+int RunTest_StackPop(UTRunner *utr)
 {
     // test to see if that poping a value off a stack is possible
     Stack *stack = stack_Constructor();
@@ -152,11 +151,11 @@ int RunTest_StackPop()
                   (result != input)) ? 0 : 1;
                   
     stack_Deconstructor(stack);
-    utr_PrintMessage(passed, "Popping a value off a stack worked", "Popping a value off a stack did not work");
+    utr_PrintMessage(utr, passed, "Popping a value off a stack worked", "Popping a value off a stack did not work");
     return passed;
 }
 
-int RunTest_StackMultiplePops()
+int RunTest_StackMultiplePops(UTRunner *utr)
 {
     // test to see if that popping multiple values off a stack is possible
     Stack *stack = stack_Constructor();
@@ -183,11 +182,11 @@ int RunTest_StackMultiplePops()
     int passed = ((stack == NULL) || (info != DEFAULT)) ? 0 : 1;
     
     stack_Deconstructor(stack);
-    utr_PrintMessage(passed, "Popping multiple values off a stack worked", "Popping multiple values off a stack did not work");
+    utr_PrintMessage(utr, passed, "Popping multiple values off a stack worked", "Popping multiple values off a stack did not work");
     return passed;
 }
 
-int RunTest_TwoStacksPushAndPop()
+int RunTest_TwoStacksPushAndPop(UTRunner *utr)
 {
     // test to see if adding a value to one stack affect a diffrent stack
     Stack *stack1 = stack_Constructor();
@@ -215,11 +214,11 @@ int RunTest_TwoStacksPushAndPop()
     
     stack_Deconstructor(stack1);
     stack_Deconstructor(stack2);
-    utr_PrintMessage(passed, "Adding values to one stack doesnt affect the other stack", "Adding values to one stack does affect the other stack");
+    utr_PrintMessage(utr, passed, "Adding values to one stack doesnt affect the other stack", "Adding values to one stack does affect the other stack");
     return passed;
 }
 
-int RunTest_StackIsEmpty()
+int RunTest_StackIsEmpty(UTRunner *utr)
 {
     // test to see if isEmpty works as expected
     Stack *stack = stack_Constructor();
@@ -247,11 +246,11 @@ int RunTest_StackIsEmpty()
     int passed = ((stack == NULL) || (info != DEFAULT)) ? 0 : 1;
     
     stack_Deconstructor(stack);
-    utr_PrintMessage(passed, "Checking if a stack isEmpty worked", "Checking if a stack isEmpty did not work");
+    utr_PrintMessage(utr, passed, "Checking if a stack isEmpty worked", "Checking if a stack isEmpty did not work");
     return passed;
 }
 
-int RunTest_StackIsFull()
+int RunTest_StackIsFull(UTRunner *utr)
 {
     // test to see if isFull works as expected
     Stack *stack = stack_Constructor();
@@ -286,11 +285,11 @@ int RunTest_StackIsFull()
     int passed = ((stack == NULL) || (info != DEFAULT)) ? 0 : 1;
     
     stack_Deconstructor(stack);
-    utr_PrintMessage(passed, "Checking if a stack isFull worked", "Checking if a stack isFull did not work");
+    utr_PrintMessage(utr, passed, "Checking if a stack isFull worked", "Checking if a stack isFull did not work");
     return passed;
 }
 
-int RunTest_StackPeeking()
+int RunTest_StackPeeking(UTRunner *utr)
 {
     // test to see if peeking in the stack is working
     Stack *stack = stack_Constructor();
@@ -333,11 +332,11 @@ int RunTest_StackPeeking()
     int passed = ((stack == NULL) || (info != DEFAULT)) ? 0 : 1;
     
     stack_Deconstructor(stack);
-    utr_PrintMessage(passed, "Peeking at a value in a stack worked", "Peeking at a value in a stack did not work");
+    utr_PrintMessage(utr, passed, "Peeking at a value in a stack worked", "Peeking at a value in a stack did not work");
     return passed;
 }
 
-int RunTest_StackToArray()
+int RunTest_StackToArray(UTRunner *utr)
 {
     // test to see if stack to array works
     Stack *stack = stack_Constructor();
@@ -393,12 +392,12 @@ int RunTest_StackToArray()
     
     stack_Deconstructor(stack);
     
-    utr_PrintMessage(passed, "Turning a stack into an array worked", "Turning a stack into an array did not work");
+    utr_PrintMessage(utr, passed, "Turning a stack into an array worked", "Turning a stack into an array did not work");
     
     return passed;
 }
 
-int RunTest_StackHeight()
+int RunTest_StackHeight(UTRunner *utr)
 {
     // test to see if stack Height works
     Stack *stack = stack_Constructor();
@@ -442,7 +441,7 @@ int RunTest_StackHeight()
     
     stack_Deconstructor(stack);
     
-    utr_PrintMessage(passed, "Checking a stacks Height worked", "Checking a stacks Height did not work");
+    utr_PrintMessage(utr, passed, "Checking a stacks Height worked", "Checking a stacks Height did not work");
     
     return passed;
 }

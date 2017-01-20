@@ -24,7 +24,7 @@ typedef struct UTRunner UTRunner;
 /// ====
 /// Constructors and Destructor
 /// ====
-UTRunner *utr_Constructor(int num, int(**funcs)(void), char *name);
+UTRunner *utr_Constructor(int num, int(**funcs)(UTRunner *utr), char *name, FILE *log);
 void utr_Deconstructor(UTRunner *utr);
 
 
@@ -32,7 +32,7 @@ void utr_Deconstructor(UTRunner *utr);
 /// Functions
 /// ====
 int utr_RunTests(UTRunner *utr);
-void utr_PrintMessage(int passed, char *success, char *failure);
+void utr_PrintMessage(UTRunner *utr, int passed, char *success, char *failure);
 
 
 #endif // UNITTESTRUNNER_H_INCLUDED
