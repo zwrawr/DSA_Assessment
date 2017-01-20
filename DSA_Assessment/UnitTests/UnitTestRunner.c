@@ -63,11 +63,11 @@ void utr_Deconstructor(UTRunner *utr)
 int utr_RunTests(UTRunner *utr)
 {
     printf("\n\n==== ==== ==== ==== ==== ==== ==== ==== ==== ==== \n");
-    printf("====           UNIT TESTING %s \n", utr->TestSetName);
+    printf("               UNIT TESTING %s \n", utr->TestSetName);
     printf("==== ==== ==== ==== ==== ==== ==== ==== ==== ==== \n");
     
     fprintf(utr->log, "\n\n==== ==== ==== ==== ==== ==== ==== ==== ==== ==== \n");
-    fprintf(utr->log, "====           UNIT TESTING %s \n", utr->TestSetName);
+    fprintf(utr->log, "               UNIT TESTING %s \n", utr->TestSetName);
     fprintf(utr->log, "==== ==== ==== ==== ==== ==== ==== ==== ==== ==== \n");
     int totalFailed = 0;
     
