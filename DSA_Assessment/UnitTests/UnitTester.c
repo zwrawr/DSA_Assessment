@@ -8,7 +8,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// all of the unittesting files
 #include "..\UnitTests\Stack_UT.h"
+#include "..\UnitTests\Trie_UT.h"
 
 /// ====
 /// Defines
@@ -25,24 +27,21 @@
 /// ====
 
 // Returns 1 if all tests passed
-int UnitTester_RunTests(void)
+int UnitTester_RunTestSets(void)
 {
     printf("\n====#====#====#====#====#====#====#====#====#==== \n");
     printf("====                                         ==== \n");
     printf("====                UNIT TESTING             ==== \n");
     printf("====                                         ==== \n");
-    printf("====#====#====#====#====#====#====#====#====#==== \n\n");
-    
+    printf("====#====#====#====#====#====#====#====#====#==== \n\n\n");
     int failed = 0, info = 0;
-    
+    // Run ALl sets of tests below
     // if the test has passed we keep failed the same, if not we add one to failed
-    
     info = stack_UT_RunTests();
     failed += (( info == 1) ? 0 : 1);
-    
-    
-    
-    printf("\n\n====#====#====#====#====#====#====#====#====#==== \n");
+    info = trie_UT_RunTests();
+    failed += ((info == 1) ? 0 : 1);
+    printf("\n\n\n\n====#====#====#====#====#====#====#====#====#==== \n");
     
     if (failed == 0)
     {
@@ -54,7 +53,6 @@ int UnitTester_RunTests(void)
     }
     
     getchar();
-    
     
     if (failed == 0)
     {

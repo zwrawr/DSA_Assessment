@@ -224,21 +224,36 @@
     <ClCompile Include="Libarys\Trie.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="PredictiveTextEngine\PredictiveTextEngine.c" />
+    <ClCompile Include="UnitTests\Trie_UT.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
+    </ClCompile>
     <ClCompile Include="UnitTests\UnitTester.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">CompileAsC</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
     </ClCompile>
     <ClCompile Include="UnitTests\Stack_UT.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">CompileAsC</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
     </ClCompile>
+    <ClCompile Include="UnitTests\UnitTestRunner.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Libarys\Stack.h" />
     <ClInclude Include="Libarys\Trie.h" />
     <ClInclude Include="PredictiveTextEngine\PredictiveTextEngine.h" />
+    <ClInclude Include="UnitTests\Trie_UT.h" />
+    <ClInclude Include="UnitTests\UnitTestRunner.h" />
     <ClInclude Include="UnitTests\Stack_UT.h" />
     <ClInclude Include="UnitTests\UnitTester.h" />
   </ItemGroup>

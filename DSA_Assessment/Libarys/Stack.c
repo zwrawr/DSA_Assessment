@@ -48,11 +48,9 @@ Stack *stack_Constructor()
 {
     Stack *stack;
     stack = malloc(sizeof(Stack));
-    
     stack->length = INITIAL_STACK_LENGTH;
     stack->top = 0;
     stack->array = malloc(stack->length * sizeof(int));
-    
     return stack;
 }
 
@@ -78,7 +76,6 @@ int stack_isEmpty(Stack *stack)
     }
     
     return (stack->top == 0) ? 1 : 0;
-    
 }
 
 // Checks to see weather the stack is full
@@ -121,7 +118,6 @@ int stack_Push(Stack *stack, int value)
     
     stack->array[stack->top] = value;
     stack->top++;
-    
     return 1;
 }
 
@@ -161,7 +157,6 @@ int stack_Pop_nv(Stack *stack)
     }
     
     int tmp;
-    
     return stack_Pop(stack, &tmp);
 }
 
@@ -176,13 +171,12 @@ int stack_Peek(Stack *stack, int index, int *peeked)
         return -1;
     }
     
-    if (index < 0 || index > stack->top)
+    if (index < 0 || index >= stack->top)
     {
         return 0;
     }
     
     (*peeked) = stack->array[index];
-    
     return 1;
 }
 
@@ -191,7 +185,6 @@ int stack_Peek(Stack *stack, int index, int *peeked)
 // Returns NULL if stack is NULL or unsuccessul
 int *stack_ToArray(Stack *stack)
 {
-
     if (stack == NULL || stack_isEmpty(stack) == 1)
     {
         return NULL;
@@ -199,9 +192,7 @@ int *stack_ToArray(Stack *stack)
     
     int height = stack_GetHeight(stack);
     int *array = malloc(height * sizeof(int));
-    
     memcpy(array, stack->array, height * sizeof(int));
-    
     return array;
 }
 

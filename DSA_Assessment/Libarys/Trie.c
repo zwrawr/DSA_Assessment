@@ -64,7 +64,7 @@ struct TrieElement
 /// Constructors and Destructor
 /// ====
 
-Trie *trie_Constructor(void)
+Trie *trie_Constructor()
 {
     Trie *trie;
     trie = malloc(sizeof(Trie));
@@ -78,7 +78,6 @@ Trie *trie_Constructor(void)
     trie->root = trieElement_Constructor();
     trie->root->parent = trie->root; // the first element in the trie is it's own parent
     trie->size = 1;
-    
     return trie;
 }
 
@@ -92,16 +91,13 @@ void trie_Deconstructor(Trie *trie)
     
     // clean up any elements accociated with this trie
     trieElement_Deconstructor(trie->root);
-    
     free(trie);
-    
     return;
 }
 
 TrieElement *trieElement_Constructor()
 {
     TrieElement *trieElement;
-    
     trieElement = malloc(sizeof(TrieElement));
     
     if (trieElement == NULL)
@@ -111,9 +107,7 @@ TrieElement *trieElement_Constructor()
     }
     
     trieElement->parent = NULL;
-    
     trieElement->starred = 0;
-    
     trieElement->children = malloc(ALPHABETSIZE * sizeof(TrieElement *));
     
     if (trieElement->children == NULL)
@@ -149,9 +143,7 @@ void trieElement_Deconstructor(TrieElement *trieElement)
     }
     
     free(trieElement->children);
-    // free 'this'
     free(trieElement);
-    
     return;
 }
 /// ====
@@ -163,9 +155,8 @@ void trieElement_Deconstructor(TrieElement *trieElement)
 // Returns 0 if unsuccesful
 int trie_Add(Trie *trie, char *item)
 {
-    if (trie == NULL || trie->root == NULL )
+    if (trie == NULL || trie->root == NULL || item == NULL)
     {
-        printf("[WARN] \tAttempted to add a word to a NULL or broken trie\n");
         return 0; // NULL or broken trie so dont attempt to add to it
     }
     else if ( ( strlen(item) < 1 ) || ( strlen(item) > (MAXWORDLENGTH - 1) ) )
@@ -175,7 +166,6 @@ int trie_Add(Trie *trie, char *item)
     
     // insert this element into the trie
     int err = insert(trie, item);
-    
     trie->size++;
     return 1;
 }
@@ -217,24 +207,24 @@ int trie_AddMultiple(Trie *trie, char **items, int num)
     }
 }
 
-// prints out the words in the trie in alphabetical order
+// Prints out the words in the trie in alphabetical order
 void trie_Print(Trie *trie)
 {
-	if (trie == NULL)
-	{
-		return;
-	}
-
+    if (trie == NULL)
+    {
+        return;
+    }
+    
     TrieElement *curr = trie->root;
     
+    // were going to construct the word on a stack,
+    // pushing a char every time we go down into a node and
+    // poping a char every time we exit a node
     Stack *charStack = stack_Constructor();
-    int depth = 0;
     
-	// traverse the trie in pre-order and print the node if its starred    
-    recursivePrint(curr, charStack, depth);
-    
+    // traverse the trie in pre-order and print the node if its starred
+    recursivePrint(curr, charStack, 0);
     stack_Deconstructor(charStack);
-    
 }
 
 // Tests to see if a word is in the trie
@@ -243,11 +233,11 @@ void trie_Print(Trie *trie)
 // Returns -1 if its not in the trie, trie is NULL, item is NULL, item has no characters in it
 int trie_Contains(Trie *trie, char *item)
 {
-	if (trie == NULL || item == NULL || strlen(item) < 1)
-	{
-		return -1;
-	}
-
+    if (trie == NULL || item == NULL || strlen(item) < 1)
+    {
+        return -1;
+    }
+    
     TrieElement *found = findElement(trie, item);
     
     // if we get here then curr is the node in the trie that represents item
@@ -256,7 +246,7 @@ int trie_Contains(Trie *trie, char *item)
     {
         return -1;
     }
-    else if (found->starred == 1)
+    else if (found->starred == 1) // return (found->Starred == 1) ? 1 : 0;
     {
         // if the found node was starred then it was a compleate word.
         return 1;
@@ -268,41 +258,38 @@ int trie_Contains(Trie *trie, char *item)
     }
 }
 
-// searches the trie for words prefixed by partial word.
+// Searches the trie for words prefixed by partial word.
 // Returns a value > 0 and < numPredictions if words were found.
 // Returns -1 if no words where found, trie is NULL, item is NULL, result is NULL, item has no characters in it.
 int trie_searchPrefixedBy(Trie *trie, char *item, char **result, int num)
 {
-
-	if (trie == NULL || item == NULL || result == NULL || num < 1 ||strlen(item) < 1)
-	{
-		return -1;
-	}
-
+    if (trie == NULL || item == NULL || result == NULL || num < 1 || strlen(item) < 1)
+    {
+        return -1;
+    }
+    
     int info = trie_Contains(trie, item);
     
     if (info == -1)
     {
-        printf("[WARN] item isn't in the trie so its impossible for any word to be prefixed by it.");
+        //printf("[WARN] item isn't in the trie so its impossible for any word to be prefixed by it.");
         return -1;
     }
+    
+    //TODO:: clean up this recursive function
     
     // ideally we want to find the results with the minimum extra letters
     // e.g. for input "hel" , we want "help" or "helm" before we want "hello" before we want "helicopter"
     // this means we want to proform level order traversal (Breath first)
-    
     // until we find enough results or hit the bottom of the tree. we visit each layer and see if it has any words.
-    
     int depth = 0, found = 0, isMoreLayers = 1;
     TrieElement *curr = findElement(trie, item);
-    
     
     // Until we hit the bottom or get enough results
     while ((found < num) && (isMoreLayers == 1))
     {
         // find all nodes at the current depth and see if there words.
         // do this by running a depth limited search
-        
         int bufferSize = (num - found);
         char **buffer = malloc(bufferSize * sizeof(char *));
         
@@ -312,7 +299,6 @@ int trie_searchPrefixedBy(Trie *trie, char *item, char **result, int num)
         }
         
         int info = findWordsAtDepth(curr, depth, item, buffer, bufferSize, &found);
-        
         isMoreLayers = (info == 2 || info == 0) ? 1 : 0;
         
         //move words from buffer into results
@@ -345,49 +331,46 @@ int trie_searchPrefixedBy(Trie *trie, char *item, char **result, int num)
 // Returns -1 if now words were found and there are no child nodes at this depth (bottom of tree).
 int findWordsAtDepth(TrieElement *start, int depth, char *partialWord, char **words, int maxWords, int *foundWords)
 {
-	if (start == NULL || start->children == NULL || maxWords == 0)
-	{
-		// either we have been passed null by accident or we've hit the bottom of the tree.
-		return -1;
-	}
-
-	TrieElement *curr = start;
-
-	Stack *word = stack_Constructor();
-
-	// Add the partial word to the stack
-	int pwLength = strlen(partialWord);
-
-	for (int i = 0; i < pwLength; i++)
-	{
-		int index = charToIndex(partialWord[i]);
-
-		if (index != -1)
-		{
-			stack_Push(word, index);
-		}
-	}
-
-	int children = recursive_findWordsAtDepth(curr, word, 0, depth, words, foundWords, maxWords);
-
-	stack_Deconstructor(word);
-
-	if (children > 0 && foundWords == 0)
-	{
-		return 0;
-	}
-
-	if (children == 0 && foundWords > 0)
-	{
-		return 1;
-	}
-
-	if (children > 0 && foundWords > 0)
-	{
-		return 2;
-	}
-
-	return -1;
+    if (start == NULL || start->children == NULL || maxWords == 0)
+    {
+        // either we have been passed null by accident or we've hit the bottom of the tree.
+        return -1;
+    }
+    
+    TrieElement *curr = start;
+    Stack *word = stack_Constructor();
+    // Add the partial word to the stack
+    int pwLength = strlen(partialWord);
+    
+    for (int i = 0; i < pwLength; i++)
+    {
+        int index = charToIndex(partialWord[i]);
+        
+        if (index != -1)
+        {
+            stack_Push(word, index);
+        }
+    }
+    
+    int children = recursive_findWordsAtDepth(curr, word, 0, depth, words, foundWords, maxWords);
+    stack_Deconstructor(word);
+    
+    if (children > 0 && foundWords == 0)
+    {
+        return 0;
+    }
+    
+    if (children == 0 && foundWords > 0)
+    {
+        return 1;
+    }
+    
+    if (children > 0 && foundWords > 0)
+    {
+        return 2;
+    }
+    
+    return -1;
 }
 
 
@@ -395,69 +378,64 @@ int findWordsAtDepth(TrieElement *start, int depth, char *partialWord, char **wo
 // Returns the number of children found on the layer indicated by depth
 //
 int recursive_findWordsAtDepth(TrieElement *curr, Stack *word,
-	int currDepth, int depth,
-	char **words, int *foundWords, int maxWords)
+                               int currDepth, int depth,
+                               char **words, int *foundWords, int maxWords)
 {
-
-	int children = 0;
-
-	// we have to check every child node.
-	for (int i = 0; i < ALPHABETSIZE; i++)
-	{
-		if (curr->children[i] != NULL)
-		{
-			curr = curr->children[i];
-
-			if (currDepth == depth)
-			{
-				// we want to keep track of children so we can see if there a layer below this.
-				if (curr->children != NULL)
-				{
-					children++;
-				}
-			}
-
-			stack_Push(word, i);
-
-			if (currDepth == depth && curr->starred == 1)
-			{
-				// were at a node thats starred and at the right depth.
-
-				// turn stack into array
-				int height = stack_GetHeight(word);
-				int *indexs = stack_ToArray(word);
-
-				char *tmp = indicesToString(indexs, height);
-				free(indexs);
-
-				strcpy_s(words[*foundWords], MAXWORDLENGTH, tmp);
-
-				(*foundWords)++;
-
-				// we have the amount of words we need so get outta here
-				if (*foundWords >= maxWords)
-				{
-					return children;
-				}
-
-			}
-			else
-			{
-				// not deep enough yet so we need to go deeper
-				children = recursive_findWordsAtDepth(curr, word, currDepth, depth, words, foundWords, maxWords);
-
-				if (*foundWords >= maxWords)
-				{
-					return children;
-				}
-			}
-
-			curr = curr->parent;
-			stack_Pop_nv(word);
-		}
-	}
-
-	return children;
+    //TODO :: Validity checks
+    int children = 0;
+    
+    // we have to check every child node.
+    for (int i = 0; i < ALPHABETSIZE; i++)
+    {
+        if (curr->children[i] != NULL)
+        {
+            curr = curr->children[i];
+            
+            if (currDepth == depth)
+            {
+                // we want to keep track of children so we can see if there a layer below this.
+                if (curr->children != NULL)
+                {
+                    children++;
+                }
+            }
+            
+            stack_Push(word, i);
+            
+            if (currDepth == depth && curr->starred == 1)
+            {
+                // were at a node thats starred and at the right depth.
+                // turn stack into array
+                int height = stack_GetHeight(word);
+                int *indexs = stack_ToArray(word);
+                char *tmp = indicesToString(indexs, height);
+                free(indexs);
+                strcpy_s(words[*foundWords], MAXWORDLENGTH, tmp);
+                (*foundWords)++;
+                
+                // we have the amount of words we need so get outta here
+                if (*foundWords >= maxWords)
+                {
+                    return children;
+                }
+            }
+            else
+            {
+                // not deep enough yet so we need to go deeper
+                children = recursive_findWordsAtDepth(curr, word, currDepth, depth, words, foundWords, maxWords);
+                
+                if (*foundWords >= maxWords)
+                {
+                    return children;
+                }
+            }
+            
+            curr = curr->parent;
+            stack_Pop_nv(word);
+        }
+    }
+    
+    return children;
 }
 
 
@@ -466,11 +444,11 @@ int recursive_findWordsAtDepth(TrieElement *curr, Stack *word,
 // Returns NULL if item isn't in the trie.
 TrieElement *findElement(Trie *trie, char *item)
 {
-	if (trie == NULL || item == NULL)
-	{
-		return NULL;
-	}
-
+    if (trie == NULL || item == NULL)
+    {
+        return NULL;
+    }
+    
     int len = (int)strlen(item);
     TrieElement *curr = trie->root;
     
@@ -503,12 +481,14 @@ TrieElement *findElement(Trie *trie, char *item)
 // recurively prints the trie
 void recursivePrint(TrieElement *curr, Stack *charStack, int depth)
 {
-	if (curr == NULL || charStack == NULL || depth == NULL)
-	{
-		return;
-	}
-
-	// if this node is starred then it is a compleate word, so print it out
+    // TODO:: do we need depth?
+    
+    if (curr == NULL || charStack == NULL || depth == NULL)
+    {
+        return;
+    }
+    
+    // if this node is starred then it is a compleate word, so print it out
     if (curr->starred == 1)
     {
         char *string = indicesToString(stack_ToArray(charStack), stack_GetHeight(charStack));
@@ -516,15 +496,15 @@ void recursivePrint(TrieElement *curr, Stack *charStack, int depth)
         free(string);
     }
     
-	// recurse into every existing child node
+    // recurse into every existing child node
     for (int i = 0; i < ALPHABETSIZE; i++)
     {
         if (curr->children[i] != NULL)
         {
-			// remember to add the letter of the node were going to onto the stack
-            stack_Push(charStack, i); 
+            // remember to add the letter of the node were going to onto the stack
+            stack_Push(charStack, i);
             recursivePrint(curr->children[i], charStack, depth + 1);
-			// and then remove it
+            // and then remove it
             stack_Pop_nv(charStack);
         }
     }
@@ -538,7 +518,6 @@ int charToIndex(char c)
 {
     // This function is linked to ALPHABETSIZE if the result from the function fall out size of 0 to ALPHABETSIZE - 1
     // THINGS WILL BREAK
-    
     int index = -1;
     
     if (c > 64 && c < 91)
@@ -572,7 +551,7 @@ char indexToChar(int index)
 {
     if (index < 0 || index > ALPHABETSIZE)
     {
-		return '#';
+        return '#';
     }
     else if ( index >= 0 && index < 26)
     {
@@ -588,7 +567,6 @@ char indexToChar(int index)
     // if we got here then alphabet size is wrong
     printf("[WARN] \tAn index value [%d] within the correct range(0 to ALPHABETSIZE) could not be mapped back to a char \n", index);
     return ' ';
-    
 }
 
 // Maps an array of indices back to a string
@@ -596,13 +574,12 @@ char indexToChar(int index)
 // Returns NULL if input array was NULL or has langth < 1
 char *indicesToString(int *array, int length)
 {
-	if (array == NULL || length < 1)
-	{
-		return NULL;
-	}
-
-    char *word = malloc((length + 1) * sizeof(char));
+    if (array == NULL || length < 1)
+    {
+        return NULL;
+    }
     
+    char *word = malloc((length + 1) * sizeof(char));
     int k;
     
     for (k = 0; k < length; k++)
@@ -626,29 +603,27 @@ int insert(Trie *trie, char *string)
     }
     
     TrieElement *curr = trie->root;
-    
     int valueLength = (int)strlen(string);
-    
     int i = 0, index = 0;
     
     while ( i < valueLength)
     {
-		index = charToIndex(string[i]);
+        index = charToIndex(string[i]);
         
-		// if this char is not alphabeticnumeric skip it else try to walk further
-		if (index == -1)
-		{
-			i++;
-		}
-		else if (curr->children[index] != NULL)
-		{
-			curr = curr->children[index];
-			i++;
-		}
-		else
-		{
-			break;
-		}
+        // if this char is not alphabeticnumeric skip it else try to walk further
+        if (index == -1)
+        {
+            i++;
+        }
+        else if (curr->children[index] != NULL)
+        {
+            curr = curr->children[index];
+            i++;
+        }
+        else
+        {
+            break;
+        }
     }
     
     while (i < valueLength)
@@ -670,6 +645,5 @@ int insert(Trie *trie, char *string)
     }
     
     curr->starred = 1;
-    
     return 1;
 }

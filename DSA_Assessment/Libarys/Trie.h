@@ -33,8 +33,9 @@ void trie_Deconstructor(Trie *trie);
 /// Functions
 /// ====
 
-// adds the item(word) to the trie data structure
-// returns 1 if addition was succesful
+// Adds the item(word) to the trie data structure
+// Returns 1 if addition was succesful
+// Returns 0 if unsuccesful
 int trie_Add(Trie *trie, char *item);
 
 // adds the items(words) to the trie data structure

@@ -1,22 +1,20 @@
 // =====================================================
 // <summary>
 //  This file provides a public interface for the file
-//  "UnitTester.c".
+//  "Trie_UT.c".
 // </summary>
 // <project> Predictive Text </project>
 // <author> Y3839090 </author>
 // =====================================================
 
-#ifndef UNITTESTER_H_INCLUDED
-#define UNITTESTER_H_INCLUDED
+#ifndef TRIE_UT__H_INCLUDED
+#define TRIE_UT__H_INCLUDED
 
 /// ====
 /// Functions
 /// ====
 
 // Returns 1 if all tests passed
-int UnitTester_RunTestSets(void);
+int trie_UT_RunTests();
 
-#endif // UNITTESTER_H_INCLUDED
-
-
+#endif // TRIE_UT__H_INCLUDED
