@@ -30,7 +30,7 @@ typedef struct TrieElement TrieElement;
 /// ====
 TrieElement *trieElement_Constructor();
 void trieElement_Deconstructor(TrieElement *trieElement);
-void recursivePrint(TrieElement *curr, Stack *charStack, int depth);
+int recursivePrint(TrieElement *curr, Stack *charStack, int depth);
 int charToIndex(char c);
 char indexToChar(int index);
 char *indicesToString(int *array, int length);
@@ -208,11 +208,14 @@ int trie_AddMultiple(Trie *trie, char **items, int num)
 }
 
 // Prints out the words in the trie in alphabetical order
-void trie_Print(Trie *trie)
+// returns 1 if successful
+// returns 0 if no items where printed
+// return -1 if trie is null
+int trie_Print(Trie *trie)
 {
     if (trie == NULL)
     {
-        return;
+        return -1;
     }
     
     TrieElement *curr = trie->root;
@@ -223,8 +226,23 @@ void trie_Print(Trie *trie)
     Stack *charStack = stack_Constructor();
     
     // traverse the trie in pre-order and print the node if its starred
-    recursivePrint(curr, charStack, 0);
+    int info = recursivePrint(curr, charStack, 0);
     stack_Deconstructor(charStack);
+    
+    if (info == 0 )
+    {
+        // no prints
+        return 0;
+    }
+    else if (info > 0)
+    {
+        // we printed stuff
+        return 1;
+    }
+    else
+    {
+        return -1;
+    }
 }
 
 // Tests to see if a word is in the trie
@@ -478,15 +496,19 @@ TrieElement *findElement(Trie *trie, char *item)
     return curr;
 }
 
-// recurively prints the trie
-void recursivePrint(TrieElement *curr, Stack *charStack, int depth)
+// Recurively prints the trie
+// Returns number of items printed if successful
+// Returns -1 if unsuccessful
+int recursivePrint(TrieElement *curr, Stack *charStack, int depth)
 {
     // TODO:: do we need depth?
     
     if (curr == NULL || charStack == NULL || depth == NULL)
     {
-        return;
+        return -1;
     }
+    
+    int printed = 0;
     
     // if this node is starred then it is a compleate word, so print it out
     if (curr->starred == 1)
@@ -494,6 +516,7 @@ void recursivePrint(TrieElement *curr, Stack *charStack, int depth)
         char *string = indicesToString(stack_ToArray(charStack), stack_GetHeight(charStack));
         printf("> %s\n", string);
         free(string);
+        printed++;
     }
     
     // recurse into every existing child node
@@ -503,13 +526,13 @@ void recursivePrint(TrieElement *curr, Stack *charStack, int depth)
         {
             // remember to add the letter of the node were going to onto the stack
             stack_Push(charStack, i);
-            recursivePrint(curr->children[i], charStack, depth + 1);
+            printed += recursivePrint(curr->children[i], charStack, depth + 1); // TODO:// this can return -1 and mess up our value does it?
             // and then remove it
             stack_Pop_nv(charStack);
         }
     }
     
-    return;
+    return printed;
 }
 
 // Maps a Char to an index value

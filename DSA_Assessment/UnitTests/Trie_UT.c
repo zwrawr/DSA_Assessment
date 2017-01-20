@@ -42,7 +42,9 @@ int trie_UT_RunTests(FILE *log)
     {
         RunTest_0,
         RunTest_1,
-        RunTest_2
+        RunTest_2,
+        RunTest_3,
+        RunTest_4
     };
     
     int numTestFunctions = sizeof(TestFunctions) / sizeof(TestFunctions[0]);
@@ -83,9 +85,18 @@ int RunTest_1(UTRunner *utr)
     
     // we should be able to add values now
     info = (trie_Add(trie, "test") == 1) ? info : -1;
+    
+    // shouldnt be able to add nothing
     info = (trie_Add(trie, "") == 0) ? info : -1;
+    
+    // should be able to add this
     info = (trie_Add(trie, "tests") == 1) ? info : -1;
+    
+    // should not be able to add a word thats too long
     info = (trie_Add(trie, tooLongWord) == 0) ? info : -1;
+    
+    // should be able to add the same word twice
+    info = (trie_Add(trie, "testing") == 1) ? info : -1;
     info = (trie_Add(trie, "testing") == 1) ? info : -1;
     
     int passed = (trie == NULL) ? 0 : 1;
@@ -177,7 +188,19 @@ int RunTest_3(UTRunner *utr)
         "avacado"
     };
     
+    char *words2[] =
+    {
+        "pineapple",
+        "horseracing",
+        "dyslexia",
+        "makes",
+        "spelling",
+        "words",
+        "hard"
+    };
+    
     int numWords1 = sizeof(words1) / sizeof(words1[0]);
+    int numWords2 = sizeof(words2) / sizeof(words2[0]);
     
     
     Trie *trie = trie_Constructor();
@@ -187,13 +210,74 @@ int RunTest_3(UTRunner *utr)
     // we should be able to add values now
     info = (trie_AddMultiple(trie, words1, numWords1) == 1) ? info : -1;
     
-    //info = (trie_AddMultiple(trie, "") == 0) ? info : -1;
+    // lets check there in there
+    info = (trie_Contains(trie, words1[2]) == 1) ? info : -1;
+    info = (trie_Contains(trie, words1[7]) == 1) ? info : -1;
+    
+    // lets use a normal add along side add multiple
+    char *newWord = "new";
+    info = (trie_Add(trie, words2, newWord) == 1) ? info : -1;
+    
+    // lets see if we can add more.
+    info = (trie_AddMultiple(trie, words2, numWords2) == 1) ? info : -1;
+    
+    // lets check there in there
+    info = (trie_Contains(trie, words2[2]) == 1) ? info : -1;
+    info = (trie_Contains(trie, words2[4]) == 1) ? info : -1;
+    info = (trie_Contains(trie, newWord) == 1) ? info : -1;
+    
+    
     
     
     int passed = (trie == NULL) ? 0 : 1;
     
     trie_Deconstructor(trie);
-    utr_PrintMessage(utr, passed, "Adding values to a trie worked", "Adding values to a trie di not work");
+    utr_PrintMessage(utr, passed, "Adding Multiple values to a trie worked", "Adding Multiple values to a trie di not work");
+    return passed;
+}
+
+int RunTest_4(UTRunner *utr)
+{
+    // test to see if trie print is working
+    
+    // I cannot think of a way to check if what is being printed out is correct appart from grabbing the screen buffer
+    // (which isnt ISO C) or mocking printf ( No idea how you'd go about mocking stuff in C )
+    
+    int info = 0;
+    char *words[] =
+    {
+        "hey",
+        "hello",
+        "hell",
+        "help",
+        "havoc",
+        "death",
+        "unit",
+        "testing",
+        "is",
+        "really",
+        "boring",
+        "born",
+        "border",
+        "units",
+        "avacado"
+    };
+    int numWords = sizeof(words) / sizeof(words[0]);
+    
+    info = (trie_Print(NULL) == -1) ? info : -1;
+    
+    Trie *trie = trie_Constructor();
+    info = (trie_Print(trie) == 0) ? info : -1;
+    
+    
+    // add some words to the trie
+    info = (trie_AddMultiple(trie, words, numWords) == 1) ? info : -1;
+    info = (trie_Print(trie) == 1) ? info : -1;
+    
+    int passed = (trie == NULL) ? 0 : 1;
+    
+    trie_Deconstructor(trie);
+    utr_PrintMessage(utr, passed, "Printing a trie worked", "Printing a trie did not work");
     return passed;
 }
 
