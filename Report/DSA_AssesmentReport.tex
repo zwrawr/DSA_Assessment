@@ -17,6 +17,8 @@
 \usepackage{graphicx} % support the \includegraphics command and options
 \usepackage{wrapfig}
 
+\usepackage{xcolor}
+
 \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
 
 %%% PACKAGES
@@ -26,6 +28,8 @@
 \usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
 \usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
 % These packages are all incorporated in the memoir class to one degree or another...
+
+\usepackage{listings}
 
 %%% TILTLE AND AUTHOR
 
@@ -66,6 +70,11 @@ sorting=ynt
 ]{biblatex}
 \addbibresource{references.bib}
 \usepackage{url}
+
+\usepackage[colorlinks=false,
+            allbordercolors={0 0 0},
+            pdfborderstyle={/S/U/W 1}]{hyperref}
+
 
 \graphicspath{{Images/}}
 
@@ -217,7 +226,7 @@ sorting=ynt
 			    
 			    There are also other notable conditions in which a hash table preforms worse than a trie. Consider attempting to look up a word (e.g. "zoologist") starting with a letter ("z") in a hash table or trie that contain no words starting with that letter ("z"). The hash table would evaluate the hash of that word which takes time proportional to the length of the word. Where as the trie would make a single check and know the word isn't is contained within.
 			    
-			    A standard hash table cannot preform prefix based look ups either as similar words produce dissimilar hashes.
+			    A standard hash table can not preform prefix based look ups either, because similar words produce dissimilar hashes.
 			    
 			    
 			    
@@ -239,18 +248,87 @@ sorting=ynt
 			    The time complexity of deletions in a array list is the same as insertions \begin{math}O(n)\end{math}.
 			    
 			    Array lists have some advantages over hash maps and binary search trees when it comes to prefix look up. Because the words in an array list would be sorted any words that share a prefix will be guaranteed to be neighbours. Which is similar to the trie.
+
 	\section{Testing}
+	
+	    The testing of the predictive test system will be split up into three distinct sections. The first of these sections will involve testing the time complexity of the system and seeing if it matches expectations. The second section is the unit testing of the system. The final section of testing will be testing the user interacts of the system and comparing the behaviour against the behaviour defined in the success criteria.
 		\subsection{Complexity}
-			\subsubsection{Time Complexity of Tries}
+		    In order to test the time complexity of our system relative to the number of words in our word list we will have to create multiple word lists each of different size. The file ``words.txt" that was provided is a list of 25,143 words. I have also obtained lists of the 10, 100, 1000 and 10000 most common words (from Google's Trillion word data set \cite{github:wordlist:first20hours} ). These are contained in the files named ``10words.txt" , ``100words.txt" , ``1000words.txt" and ``10000words.txt".
+		    
+		    This means we can run a function on each of these data sets then use the resulting times to estimate the real word time complexity of the function.
+		    
+			\subsubsection{Results}
 				
 
 				
 		\subsection{Unit Testing}
+		    Every module (.c file) used within the system (excluding main.c, the unit tests themselves and the unit test runner) has a corresponding unit test file (ending with ``\_UT.c" ). These unit tests evaluate the behaviour of all of the functions a module makes public via its interface (.h file). The module UnitTester is responsible for running each set of unit tests. Each unit test is written to evaluate the behaviour of a specific part of the module under test.
+		    
+		    To run these unit tests the Symbol UTEST has to be defined at compile time. This can be done by switching from the debug/release configuration to the unittest configuration. If UTEST is defined the UnitTester module is ran, and preforms all unit tests and prints out weather the tests are failing or passing. 
+		    
+            \subsubsection{Results}
+			     The results from running the unit tests on the final build can be found in appendix \ref{appendix:UnitTestOutput} or in a file named ``.\textbackslash Log\textbackslash UnitTestLog.txt", to get these results from the program use the method described above.
+			     
 		\subsection{User interactions}
+			Unlike the other two sections these tests are not strictly quantitative. Each of the success criteria that relate to user input or interaction will be evaluated. 
+			
+			\subsubsection{Results}
+            
+
 		
 	\newpage
 	\printbibliography
 	\newpage
+	\appendix
+	\section{Unit Testing Output} \label{appendix:UnitTestOutput}
+	    \begin{lstlisting}
+	        
+   Fri Jan 20 19:32:16 2017
+ 
+====#====#====#====#====#====#====#====#====#==== 
+====                                         ==== 
+====                UNIT TESTING             ==== 
+====                                         ==== 
+====#====#====#====#====#====#====#====#====#==== 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Stacks 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed stack pointer was not null
+ [PASS] 	 Two constructed stacks did not have the same pointer
+ [PASS] 	 Pushing a value to a stack worked
+ [PASS] 	 Pushing multiple values to a stack worked
+ [PASS] 	 Popping a value off a stack worked
+ [PASS] 	 Popping multiple values off a stack worked
+ [PASS] 	 Adding values to one stack doesnt affect the other stack
+ [PASS] 	 Checking if a stack isEmpty worked
+ [PASS] 	 Checking if a stack isFull worked
+ [PASS] 	 Peeking at a value in a stack worked
+ [PASS] 	 Turning a stack into an array worked
+ [PASS] 	 Checking a stacks Height worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Stacks passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Trie 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed trie pointer was not null
+ [PASS] 	 Adding values to a trie worked
+ [PASS] 	 Contains worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Trie passed ! 
+
+
+
+
+====#====#====#====#====#====#====#====#====#==== 
+ [PASS] 	 All Unit Tests passed ! 
+
+        \end{lstlisting}
+	\newpage
 	
 \end{document}
-
