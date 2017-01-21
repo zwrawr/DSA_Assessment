@@ -108,18 +108,21 @@ TrieElement *trieElement_Constructor()
     
     trieElement->parent = NULL;
     trieElement->starred = 0;
-    trieElement->children = malloc(ALPHABETSIZE * sizeof(TrieElement *));
     
-    if (trieElement->children == NULL)
-    {
-        printf("[ERR!] \tUnable to assign memory for trieElement->children\n");
-        return NULL;
-    }
+    // Don't create the child elements till we need them
+    trieElement->children = NULL;
+    ///trieElement->children = malloc(ALPHABETSIZE * sizeof(TrieElement *));
     
-    for (int i = 0; i < ALPHABETSIZE; i++)
-    {
-        trieElement->children[i] = NULL;
-    }
+    ///if (trieElement->children == NULL)
+    ///{
+    ///    printf("[ERR!] \tUnable to assign memory for trieElement->children\n");
+    ///    return NULL;
+    ///}
+    
+    ///for (int i = 0; i < ALPHABETSIZE; i++)
+    ///{
+    ///    trieElement->children[i] = NULL;
+    ///}
     
     return trieElement;
 }
@@ -132,17 +135,22 @@ void trieElement_Deconstructor(TrieElement *trieElement)
         return;
     }
     
-    // deconstruct the children
-    for (int i = 0; i < ALPHABETSIZE; i++)
+    // if we have children then deconstruct them
+    if (trieElement->children != NULL)
     {
-        if (trieElement->children[i] != NULL)
+        // deconstruct the children
+        for (int i = 0; i < ALPHABETSIZE; i++)
         {
-            trieElement_Deconstructor(trieElement->children[i]);
-            //free(trieElement->children[i]);
+            if (trieElement->children[i] != NULL)
+            {
+                trieElement_Deconstructor(trieElement->children[i]);
+                //free(trieElement->children[i]);
+            }
         }
+        
+        free(trieElement->children);
     }
     
-    free(trieElement->children);
     free(trieElement);
     return;
 }
@@ -278,17 +286,18 @@ int trie_Contains(Trie *trie, char *item)
 
 // Searches the trie for words prefixed by partial word.
 // Returns a value > 0 and < numPredictions if words were found.
-// Returns -1 if no words where found, trie is NULL, item is NULL, result is NULL, item has no characters in it.
-int trie_searchPrefixedBy(Trie *trie, char *item, char **result, int num)
+// Retuns 0 if no words are found.
+// Returns -1 if trie is NULL, item is NULL, result is NULL, item has no characters in it, item isnt in trie.
+int trie_searchByPrefix(Trie *trie, char *item, char **results, int num)
 {
-    if (trie == NULL || item == NULL || result == NULL || num < 1 || strlen(item) < 1)
+    if (trie == NULL || item == NULL || results == NULL || num < 1 || strlen(item) < 1)
     {
         return -1;
     }
     
-    int info = trie_Contains(trie, item);
+    int containedInfo = trie_Contains(trie, item);
     
-    if (info == -1)
+    if (containedInfo == -1)
     {
         //printf("[WARN] item isn't in the trie so its impossible for any word to be prefixed by it.");
         return -1;
@@ -314,6 +323,7 @@ int trie_searchPrefixedBy(Trie *trie, char *item, char **result, int num)
         for (int k = 0; k < bufferSize; k++)
         {
             buffer[k] = malloc(MAXWORDLENGTH * sizeof(char));
+            buffer[k][0] = '\0'; // make sure we have a string terminator in our empty stings.
         }
         
         int info = findWordsAtDepth(curr, depth, item, buffer, bufferSize, &found);
@@ -322,7 +332,7 @@ int trie_searchPrefixedBy(Trie *trie, char *item, char **result, int num)
         //move words from buffer into results
         for (int i = 0; i < found; i++)
         {
-            strcpy_s(result[i], MAXWORDLENGTH, buffer[i]);
+            strcpy_s(results[i], MAXWORDLENGTH, buffer[i]);
         }
         
         for (int j = 0; j < bufferSize; j++)
@@ -405,12 +415,13 @@ int recursive_findWordsAtDepth(TrieElement *curr, Stack *word,
     // we have to check every child node.
     for (int i = 0; i < ALPHABETSIZE; i++)
     {
-        if (curr->children[i] != NULL)
+        if (curr->children != NULL && curr->children[i] != NULL)
         {
             curr = curr->children[i];
             
             if (currDepth == depth)
             {
+                // TODO :: This check is broken
                 // we want to keep track of children so we can see if there a layer below this.
                 if (curr->children != NULL)
                 {
@@ -638,7 +649,7 @@ int insert(Trie *trie, char *string)
         {
             i++;
         }
-        else if (curr->children[index] != NULL)
+        else if (curr->children != NULL && curr->children[index] != NULL)
         {
             curr = curr->children[index];
             i++;
@@ -660,6 +671,23 @@ int insert(Trie *trie, char *string)
         }
         else
         {
+            // this element might not have it children set up yet so we need to check that
+            if (curr->children == NULL)
+            {
+                curr->children = malloc(ALPHABETSIZE * sizeof(TrieElement *));
+                
+                if (curr->children == NULL)
+                {
+                    printf("[ERR!] \tUnable to assign memory for trieElement->children\n");
+                    return 0;
+                }
+                
+                for (int i = 0; i < ALPHABETSIZE; i++)
+                {
+                    curr->children[i] = NULL;
+                }
+            }
+            
             curr->children[index] = trieElement_Constructor();
             curr->children[index]->parent = curr;
             curr = curr->children[index];

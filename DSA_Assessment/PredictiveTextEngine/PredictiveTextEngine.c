@@ -152,7 +152,7 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
         }
         
         // find if there are any words in the trie that are prefixed by our partial word
-        int numFound = trie_searchPrefixedBy(pte->trie, partialWord, words, numberOfPredictionsToMake);
+        int numFound = trie_searchByPrefix(pte->trie, partialWord, words, numberOfPredictionsToMake);
         
         if (numFound > 0)
         {

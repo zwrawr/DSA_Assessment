@@ -56,7 +56,7 @@ int trie_Contains(Trie *trie, char *item);
 // searches the trie for words prefixed by partial word.
 // Returns a value > 0 and < numPredictions if words were found.
 // Returns -1 if no words where found.
-int trie_searchPrefixedBy(Trie *trie, char *item, char **result, int num);
+int trie_searchByPrefix(Trie *trie, char *item, char **result, int num);
 
 #endif // TRIE_H_INCLUDED
 
