@@ -253,5 +253,8 @@ ModelManifest.xml
 /[Rr]eport/*.toc
 /[Rr]eport/*.aux
 
+/[Uu]nit[Tt]est/**
+/[Dd][Ss][Aa]_[Aa]ssessment/[Uu]nit[Tt]est/**
+/[Dd][Ss][Aa]_[Aa]ssessment/[Uu]nit[Tt]est/**/*
 
 
