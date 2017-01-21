@@ -76,7 +76,8 @@ void textEntryLoop()
 {
     int maxWordLength = predictiveTextEngine_MaxWordLength();
     char *inputBuffer = malloc(256 * sizeof(char));
-    
+	inputBuffer[0] = '\0';// strings have to end
+
     while (1)
     {
         fputc(' ', stdin);
@@ -92,6 +93,8 @@ void textEntryLoop()
         
         // proccess to find just the last word.
         char *lastWord = malloc(maxWordLength * sizeof(char));
+		lastWord[0] = '\0';
+
         int len = (int)strlen(inputBuffer);
         int i = 0;
         
@@ -132,6 +135,7 @@ void doPrediction(char *partial)
     for (int k = 0; k < numGuesses; k++)
     {
         guesses[k] = malloc(maxWordLength * sizeof(char));
+		guesses[k][0] = '\0';
     }
     
     int info = predictiveTextEngine_predictWords(ptEngine, partial, guesses, 8);
