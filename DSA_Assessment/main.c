@@ -43,7 +43,7 @@ PredictiveTextEngine *ptEngine;
 
 int main(void)
 {
-    if (UnitTester_RunTests() == 1)
+    if (UnitTester_RunTestSets() == 1)
     {
         exit(0);
     }
@@ -65,10 +65,8 @@ int main(void)
     }
 
     textEntryLoop();
-
     waitForInput("Press Enter to exit.");
     predictiveTextEngine_Deconstructor(ptEngine);
-
     return 0;
 }
 
@@ -84,20 +82,17 @@ void textEntryLoop()
         fputc(' ', stdin);
         
         // TODO improve this
+        
         // a buffer of out word. Auto resizing array list implimentation would be better
         // and then read the new text in nchar by char and add it to the array
         char *info = fgets(inputBuffer, 256, stdin);
-        //TODO :: Check info
         
+        //TODO :: Check info
         printf("\n=>\t %s \n", inputBuffer);
         
         // proccess to find just the last word.
-        
-        //TODO:: expose MAXWORDLENGTH in interface then use that here
         char *lastWord = malloc(maxWordLength * sizeof(char));
-        
         int len = (int)strlen(inputBuffer);
-        
         int i = 0;
         
         // walk backwards from the end of the string till we hit a space
@@ -106,10 +101,11 @@ void textEntryLoop()
             i++;
         }
         
-        //TODO:: theres an error condition if theres no spaces in the word.
-        
+        //TODO:: other possible word seperators '-' '_'
+        // scan the buffer starting at the end looking for a space.
         char *lastSpace = strrchr(inputBuffer, ' ');
         
+        // if we didn't find a space then assume that the entrie buffer is one string
         if (lastSpace == NULL)
         {
             lastSpace = inputBuffer;
@@ -117,12 +113,12 @@ void textEntryLoop()
         
         // the last word is between len and len-i
         int result = strcpy_s(lastWord, maxWordLength, lastSpace);
+        
         // TODO:: check result
         printf("=>\t %s \n\n", lastWord);
         
-        
+        // try to predict a word based on the users input.
         doPrediction(lastWord);
-        
     }
     
     free(inputBuffer);
@@ -130,7 +126,6 @@ void textEntryLoop()
 
 void doPrediction(char *partial)
 {
-    //TODO:: expose MAXWORDLENGTH
     int numGuesses = 8, maxWordLength = predictiveTextEngine_MaxWordLength();
     char **guesses = malloc(numGuesses * sizeof(char *));
     
@@ -171,12 +166,11 @@ void doPrediction(char *partial)
     free(guesses);
 }
 
-// Block execution till theres an input.
+// Block execution till the user presses enter
 void waitForInput(char *message)
 {
     printf("\n%s\n=> ", message);
     int result = getchar();
     printf("\n");
-    
     return;
 }
