@@ -14,7 +14,7 @@
 // Some of the code below may be from the source above.
 // =====================================================
 
-//TODO:: maybe look at this http://www.robertgamble.net/2012/01/c11-generic-selections.html and make it generic ish.
+//TODO:: Make Generic . . . after making queue generic i've decided not to make the stack generic as that took alot of work.
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -15,6 +15,9 @@
 
 #include "../Libarys/Trie.h"
 #include "../Libarys/Stack.h"
+#include "../Libarys/Queue.h"
+#include "../Libarys/List.h"
+
 /// ====
 /// Defines
 /// ====
@@ -39,9 +42,8 @@ char *indicesToString(int *array, int length);
 int insert(Trie *trie, char *string);
 TrieElement *findElement(Trie *trie, char *item);
 
-int findWordsAtDepth(TrieElement *start, int depth, char *partialWord, char **words, int maxWords, int *foundWords);
-int recursive_findWordsAtDepth(TrieElement *curr, Stack *word, int currDepth, int depth,
-                               char **words, int *foundWords, int maxWords);
+int findWordsAtDepthBelow(TrieElement *curr, int depth, char **results, int bufferSize, Stack *wordStack, int *foundOnLayer);
+
 
 
 /// ====
@@ -293,195 +295,99 @@ int trie_Contains(Trie *trie, char *item)
 // Returns a value > 0 and < numPredictions if words were found.
 // Retuns 0 if no words are found.
 // Returns -1 if trie is NULL, item is NULL, result is NULL, item has no characters in it, item isnt in trie.
-int trie_searchByPrefix(Trie *trie, char *item, char **results, int num)
+int trie_searchByPrefix(Trie *trie, char *item, char **results, int numToFind)
 {
-    if (trie == NULL || item == NULL || results == NULL || num < 1 || strlen(item) < 1)
+    // ideally we want to find the results with the minimum extra letters
+    // e.g. for input "hel" , we want "help" or "helm" before we want "hello" before we want "helicopter"
+    // this means we want to proform level order traversal (Breath first)
+    // until we find enough results or hit the bottom of the tree. we visit each layer and see if it has any words.
+    
+    
+    if (trie == NULL || item == NULL || results == NULL || numToFind < 1 || strlen(item) < 1)
     {
         return -1;
     }
     
-    int containedInfo = trie_Contains(trie, item);
-    
-    if (containedInfo == -1)
+    if (trie_Contains(trie, item ) == -1)
     {
         //printf("[WARN] item isn't in the trie so its impossible for any word to be prefixed by it.");
         return -1;
     }
     
-    //TODO:: clean up this recursive function
-    
-    // ideally we want to find the results with the minimum extra letters
-    // e.g. for input "hel" , we want "help" or "helm" before we want "hello" before we want "helicopter"
-    // this means we want to proform level order traversal (Breath first)
-    // until we find enough results or hit the bottom of the tree. we visit each layer and see if it has any words.
-    int depth = 0, totalFound = 0, isMoreLayers = 1;
+    // creating a queue of elements to proccess
+    Queue *elements = queue_Constructor(sizeof(TrieElement *));
     TrieElement *curr = findElement(trie, item);
     
-    // Until we hit the bottom or get enough results
-    while ((totalFound < num) && (isMoreLayers == 1))
+    // make a stack to keep our word in, and add the partial word.
+    Stack *wordStack = stack_Constructor();
+    
+    // make a list to store the words we find
+    List *foundWords = list_Constructor(MAXWORDLENGTH * sizeof(char));
+    
+    // and the partial word to it
+    for (int i = 0; i < (int)strlen(item); i++)
     {
-        // find all nodes at the current depth and see if there words.
-        // do this by running a depth limited search
-        
-        // we need enough space for the amount of word we still have to find
-        int bufferSize = (num - totalFound);
-        char **buffer = malloc(bufferSize * sizeof(char *));
-        
-        for (int k = 0; k < bufferSize; k++)
-        {
-            buffer[k] = malloc(MAXWORDLENGTH * sizeof(char));
-            buffer[k][0] = '\0'; // make sure we have a string terminator in our empty stings.
-        }
-        
-        int foundOnLayer = 0;
-        int info = findWordsAtDepth(curr, depth, item, buffer, bufferSize, &foundOnLayer);
-        isMoreLayers = (info == 2 || info == 0) ? 1 : 0;
-        
-        //move words from buffer into results
-        for (int i = 0; i < foundOnLayer; i++)
-        {
-            strcpy_s(results[totalFound + i], MAXWORDLENGTH, buffer[i]); // results[found+i]
-        }
-        
-        totalFound += foundOnLayer;
-        
-        for (int j = 0; j < bufferSize; j++)
-        {
-            free(buffer[j]);
-        }
-        
-        free(buffer);
-        depth++;
+        stack_Push(wordStack, charToIndex(item[i]));
     }
     
-    return totalFound;
+    
+    // whilst we have still have elemenets to process
+    while (curr != NULL)
+    {
+        for (int i = 0; i < ALPHABETSIZE; i++)
+        {
+            if (curr->children != NULL && curr->children[i] != NULL)
+            {
+                if (curr->starred == true)
+                {
+                    // this is a word so we want to add it to our list
+                    int *tmpArray = stack_ToArray(wordStack);
+                    char *tmpString = indicesToString(tmpArray, stack_GetHeight(wordStack));
+                    
+                    // add it to our list of found words
+                    list_Add(foundWords, tmpString);
+                    
+                    free(tmpArray);
+                    free(tmpString);
+                    
+                    // if we have enough values then break the loop
+                    if (list_Size(foundWords) >= numToFind)
+                    {
+                        break;
+                    }
+                }
+            }
+            
+            queue_Enqueue(elements, &(curr->children[i]));
+        }
+        
+        queue_Dequeue(elements, &curr);
+    }
+    
+    stack_Deconstructor(wordStack);
+    queue_Deconstructor(elements);
+    
+    // move values from list into results
+    int found = list_Size(foundWords);
+    
+    for (int i = 0; i < found; i++)
+    {
+        char *tmp = malloc(MAXWORDLENGTH * sizeof(char));
+        list_Read(foundWords, i, tmp);
+        
+        strcpy_s(results[i], MAXWORDLENGTH, tmp);
+        
+        free(tmp);
+    }
+    
+    list_Destructor(foundWords);
+    return found;
 }
 
 
 /// ====
 /// Hidden Functions
 /// ====
-
-// Proforms a depth first search with limited depth starting a node curr
-// Returns 2 if words were found and there are children on layer depth
-// Returns 1 if words were found but there are no more children
-// Returns 0 if no words were found but there are children
-// Returns -1 if now words were found and there are no child nodes at this depth (bottom of tree).
-int findWordsAtDepth(TrieElement *start, int depth, char *partialWord, char **words, int maxWords, int *foundWords)
-{
-    if (start == NULL || start->children == NULL || maxWords == 0)
-    {
-        // either we have been passed null by accident or we've hit the bottom of the tree.
-        return -1;
-    }
-    
-    TrieElement *curr = start;
-    Stack *word = stack_Constructor();
-    // Add the partial word to the stack
-    int pwLength = strlen(partialWord);
-    
-    for (int i = 0; i < pwLength; i++)
-    {
-        int index = charToIndex(partialWord[i]);
-        
-        if (index != -1)
-        {
-            stack_Push(word, index);
-        }
-    }
-    
-    int children = recursive_findWordsAtDepth(curr, word, 0, depth, words, foundWords, maxWords);
-    stack_Deconstructor(word);
-    
-    if (children > 0 && foundWords == 0)
-    {
-        return 0;
-    }
-    
-    if (children == 0 && foundWords > 0)
-    {
-        return 1;
-    }
-    
-    if (children > 0 && foundWords > 0)
-    {
-        return 2;
-    }
-    
-    return -1;
-}
-
-
-// Recurively finds starred children at a depth from curr
-// Returns the number of children found on the layer indicated by depth
-//
-int recursive_findWordsAtDepth(TrieElement *curr, Stack *word,
-                               int currDepth, int depth,
-                               char **words, int *foundWords, int maxWords)
-{
-
-    int children = 0;
-    
-    // we have to check every child node.
-    for (int i = 0; i < ALPHABETSIZE; i++)
-    {
-        if (curr->children != NULL && curr->children[i] != NULL)
-        {
-            curr = curr->children[i];
-            
-            if (currDepth == depth)
-            {
-                // we want to keep track of children so we can see if there a layer below this.
-                if (curr->children != NULL)
-                {
-                    children++;
-                }
-            }
-            
-            stack_Push(word, i);
-            
-            if (currDepth == depth && curr->starred == true)
-            {
-                // were at a node thats starred and at the right depth.
-                
-                // turn stack into array
-                int height = stack_GetHeight(word);
-                int *indexs = stack_ToArray(word);
-                
-                char *tmp = indicesToString(indexs, height);
-                free(indexs);
-                
-                strcpy_s(words[*foundWords], MAXWORDLENGTH, tmp);
-                
-                (*foundWords)++;
-                
-                // we have the amount of words we need so get outta here
-                if (*foundWords >= maxWords)
-                {
-                    return children;
-                }
-                
-            }
-            else
-            {
-                // not deep enough yet so we need to go deeper
-                printf("==== > \t %s\n", indicesToString(stack_ToArray(word), stack_GetHeight(word)));
-                children = recursive_findWordsAtDepth(curr, word, currDepth + 1, depth, words, foundWords, maxWords);
-                
-                if (*foundWords >= maxWords)
-                {
-                    return children;
-                }
-            }
-            
-            curr = curr->parent;
-            stack_Pop_nv(word);
-        }
-    }
-    
-    return children;
-}
-
 
 // Finds an Element that represents item.
 // Returns a Non-NULL TrieElement if item is in the trie.
@@ -499,6 +405,7 @@ TrieElement *findElement(Trie *trie, char *item)
     // for each letter in the string
     for (int i = 0; i < len; i++)
     {
+    
         int index = charToIndex(item[i]);
         
         // if index is -1 then we dont care about this char in the string so we should skip it
@@ -507,7 +414,7 @@ TrieElement *findElement(Trie *trie, char *item)
         {
             // if this element has a child element in the position that matchs the letter in the string
             // then move to that element or return -1 (item isnt in the trie)
-            if (curr->children[index] != NULL)
+            if (curr->children != NULL && curr->children[index] != NULL)
             {
                 curr = curr->children[index];
             }
@@ -517,6 +424,7 @@ TrieElement *findElement(Trie *trie, char *item)
                 return NULL;
             }
         }
+        
     }
     
     return curr;

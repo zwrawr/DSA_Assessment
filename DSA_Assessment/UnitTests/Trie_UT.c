@@ -339,6 +339,9 @@ int RunTest_5(UTRunner *utr)
     // add the words to the trie
     info = (trie_AddMultiple(trie, words, numWords) == 1) ? info : -1;
     
+    // print it for debug
+    trie_Print(trie);
+    
     // lets look words prexifed by a word thats not in the trie, this should return -1
     info = (trie_searchByPrefix(trie, "test", results, numResults) == -1) ? info : -1;
     
