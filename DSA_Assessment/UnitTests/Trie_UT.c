@@ -104,7 +104,7 @@ int RunTest_1(UTRunner *utr)
     info = (trie_Add(trie, "testing") == 1) ? info : -1;
     info = (trie_Add(trie, "testing") == 1) ? info : -1;
     
-    int passed = (trie == NULL) ? 0 : 1;
+    int passed = ((trie == NULL)) ? 0 : 1;
     
     trie_Deconstructor(trie);
     free(tooLongWord);
