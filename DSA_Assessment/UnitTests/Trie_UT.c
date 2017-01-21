@@ -325,6 +325,7 @@ int RunTest_5(UTRunner *utr)
     for (int i = 0; i < numResults; i++)
     {
         results[i] = malloc(MAXWORDLENGTH * sizeof(char));
+		results[i][0] = '\0'; // make sure we end the string.
     }
     
     Trie *trie = trie_Constructor();
