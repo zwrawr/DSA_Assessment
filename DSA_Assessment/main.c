@@ -1,7 +1,7 @@
 // =====================================================
 // <summary>
 //  This is the entry point for the predictive text program
-//  it is responsible for the ui and user interactions with the
+//  it is responsible for the UI and user interactions with the
 //  system.
 // </summary>
 // <project> Predictive Text </project>
@@ -76,7 +76,7 @@ int main(void)
 
 void textEntryLoop()
 {
-	int maxWordLength = predictiveTextEngine_MaxWordLength();
+    int maxWordLength = predictiveTextEngine_MaxWordLength();
     char *inputBuffer = malloc(256 * sizeof(char));
     
     while (1)
@@ -94,7 +94,7 @@ void textEntryLoop()
         // proccess to find just the last word.
         
         //TODO:: expose MAXWORDLENGTH in interface then use that here
-        char* lastWord = malloc(maxWordLength * sizeof(char));
+        char *lastWord = malloc(maxWordLength * sizeof(char));
         
         int len = (int)strlen(inputBuffer);
         
@@ -130,7 +130,7 @@ void textEntryLoop()
 
 void doPrediction(char *partial)
 {
-    //TODO:: expose MAXWORDLENGTH
+    int maxWordLength = predictiveTextEngine_MaxWordLength();
     int numGuesses = 8;
     char **guesses = malloc(numGuesses * sizeof(char *));
     
