@@ -344,26 +344,26 @@ int RunTest_5(UTRunner *utr)
     
     // lets look words prexifed by a word thats not in the trie,but the trie dose contain words prexied by it this should return 2 (helicopter and helicopters)
     info = (trie_searchByPrefix(trie, "helico", results, numResults) == 2) ? info : -1;
-    info = (strcmp(results[0], "helicopter") == 0) ? info : -1;
-    info = (strcmp(results[1], "helicopters") == 0) ? info : -1;
+    info = (strcmp(results[0], "helicopter"), 0) ? info : -1;
+    info = (strcmp(results[1], "helicopters"), 0) ? info : -1;
     
     // lets look words prexifed by heli (in trie but not starred),should return 4 (helipad, helicopter, helicopters,heliocentric)
     info = (trie_searchByPrefix(trie, "heli", results, numResults) == 4) ? info : -1;
-    info = (strcmp(results[0], "helipad") == 0) ? info : -1;
-    info = (strcmp(results[1], "helicopter") == 0) ? info : -1;
-    info = (strcmp(results[2], "helicopters") == 0) ? info : -1;
-    info = (strcmp(results[3], "heliocentric") == 0) ? info : -1;
+    info = (strcmp(results[0], "helipad"), 0) ? info : -1;
+    info = (strcmp(results[1], "helicopter"), 0) ? info : -1;
+    info = (strcmp(results[2], "helicopters"), 0) ? info : -1;
+    info = (strcmp(results[3], "heliocentric"), 0) ? info : -1;
     
     // lets look only 2 words prexifed by heli (in trie but not starred),should return 4 (helipad, helicopter, helicopters,heliocentric)
     info = (trie_searchByPrefix(trie, "heli", results, 2) == 2) ? info : -1;
-    info = (strcmp(results[0], "helipad") == 0) ? info : -1;
-    info = (strcmp(results[1], "helicopter") == 0) ? info : -1;
+    info = (strcmp(results[0], "helipad"), 0) ? info : -1;
+    info = (strcmp(results[1], "helicopter"), 0) ? info : -1;
     
     // lets try to find words prefixed by a word in the trie
     info = (trie_searchByPrefix(trie, "de", results, numResults) == 3) ? info : -1;
-    info = (strcmp(results[0], "dead") == 0) ? info : -1;
-    info = (strcmp(results[1], "death") == 0) ? info : -1;
-    info = (strcmp(results[2], "deadly") == 0) ? info : -1;
+    info = (strcmp(results[0], "dead"), 0) ? info : -1;
+    info = (strcmp(results[1], "death"), 0) ? info : -1;
+    info = (strcmp(results[2], "deadly"), 0) ? info : -1;
     
     // lets look for a
     info = (trie_searchByPrefix(trie, "test", results, numResults) == -1) ? info : -1;
