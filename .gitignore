@@ -254,6 +254,6 @@ ModelManifest.xml
 /[Rr]eport/*.aux
 
 UnitTest/**
-DSA_Assesment/UnitTest/**
+/DSA_Assessment/UnitTest/**
 
 
