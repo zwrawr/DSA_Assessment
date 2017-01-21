@@ -105,7 +105,7 @@ int RunTest_1(UTRunner *utr)
     info = (trie_Add(trie, "testing") == 1) ? info : -1;
     info = (trie_Add(trie, "testing") == 1) ? info : -1;
     
-    int passed = (trie == NULL) ? 0 : 1;
+    int passed = ((trie == NULL) || (info != 0)) ? 0 : 1;
     
     trie_Deconstructor(trie);
     free(tooLongWord);
@@ -162,7 +162,7 @@ int RunTest_2(UTRunner *utr)
     info = (trie_Contains(trie, "hell") == 0) ? info : -1;
     
     
-    int passed = (trie == NULL) ? 0 : 1;
+    int passed = ((trie == NULL) || (info != 0)) ? 0 : 1;
     
     trie_Deconstructor(trie);
     free(tooLongWord);
@@ -235,7 +235,7 @@ int RunTest_3(UTRunner *utr)
     
     
     
-    int passed = (trie == NULL) ? 0 : 1;
+    int passed = ((trie == NULL) || (info != 0)) ? 0 : 1;
     
     trie_Deconstructor(trie);
     utr_PrintMessage(utr, passed, "Adding Multiple values to a trie worked", "Adding Multiple values to a trie di not work");
@@ -280,7 +280,7 @@ int RunTest_4(UTRunner *utr)
     info = (trie_AddMultiple(trie, words, numWords) == 1) ? info : -1;
     info = (trie_Print(trie) == 1) ? info : -1;
     
-    int passed = (trie == NULL) ? 0 : 1;
+    int passed = ((trie == NULL) || (info != 0)) ? 0 : 1;
     
     trie_Deconstructor(trie);
     utr_PrintMessage(utr, passed, "Printing a trie worked", "Printing a trie did not work");
@@ -368,7 +368,7 @@ int RunTest_5(UTRunner *utr)
     // lets look for a
     info = (trie_searchByPrefix(trie, "test", results, numResults) == -1) ? info : -1;
     
-    int passed = (trie == NULL) ? 0 : 1;
+    int passed = ((trie == NULL) || (info != 0)) ? 0 : 1;
     
     trie_Deconstructor(trie);
     
