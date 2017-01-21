@@ -253,7 +253,7 @@ ModelManifest.xml
 /[Rr]eport/*.toc
 /[Rr]eport/*.aux
 
-UnitTest/**
-/DSA_Assessment/UnitTest/**
+/[Uu]nit[Tt]est/**
+/[Dd][Ss][Aa]_[Aa]ssessment/[Uu]nit[Tt]est/**
 
 
