@@ -101,17 +101,17 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
     // This is probably the most important function
     // TODO : improve this function.
     
-	if ((pte == NULL) || (partialWord == NULL) || (predictions == NULL) || (numPredictions < 1))
-	{
-		return -1;
-	}
+    if ((pte == NULL) || (partialWord == NULL) || (predictions == NULL) || (numPredictions < 1))
+    {
+        return -1;
+    }
     
     int SuggestionsFound = 0; // how many possible words we have found so far
     
     int len = (int)strlen(partialWord);
     
-
-	// we always return the partial word as a suggestion because the user might want that word
+    
+    // we always return the partial word as a suggestion because the user might want that word
     strcpy_s(predictions[0], MAXWORDLENGTH, partialWord);
     SuggestionsFound++;
     
@@ -192,7 +192,7 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
 // Returns the maximum word length supported by the trie
 int predictiveTextEngine_MaxWordLength()
 {
-	return MAXWORDLENGTH;
+    return MAXWORDLENGTH;
 }
 
 /// ====
@@ -203,12 +203,12 @@ int predictiveTextEngine_MaxWordLength()
 // Returns a pointer to the opened file or a NULL pointer if file couldnt be opened
 FILE *loadFile(char *path)
 {
-	// Validity checks
-	if (path == NULL || strlen(path) < 1)
-	{
-		return NULL;
-	}
-
+    // Validity checks
+    if (path == NULL || strlen(path) < 1)
+    {
+        return NULL;
+    }
+    
     FILE *file;
     errno_t err = fopen_s(&file, path, "r");
     
@@ -228,11 +228,11 @@ FILE *loadFile(char *path)
 // Closes the file pointed to by *file
 void closeFile(FILE *file)
 {
-	if (file == NULL)
-	{
-		return;
-	}
-
+    if (file == NULL)
+    {
+        return;
+    }
+    
     int err = fclose(file);
     
     if (err == 0)
@@ -250,11 +250,11 @@ void closeFile(FILE *file)
 // Returns -1 if file is null
 int countLinesInFile(FILE *file)
 {
-	if (file == NULL)
-	{
-		return -1;
-	}
-
+    if (file == NULL)
+    {
+        return -1;
+    }
+    
     printf("[    ] Counting lines in file");
     //make sure were at the begging of the file
     fseek(file, 0, SEEK_SET);
@@ -279,11 +279,11 @@ int countLinesInFile(FILE *file)
 char **getWordsArray(FILE *file, int *lines)
 {
 
-	if (file == NULL)
-	{
-		return NULL;
-	}
-
+    if (file == NULL)
+    {
+        return NULL;
+    }
+    
     *lines = countLinesInFile(file);
     
     if (*lines < 1)
@@ -326,11 +326,11 @@ char **getWordsArray(FILE *file, int *lines)
 // Frees a char** of length length
 void freeWordsArray(char **words, int length)
 {
-	if (words == NULL )
-	{
-		return;
-	}
-
+    if (words == NULL )
+    {
+        return;
+    }
+    
     printf("[    ] Freeing array");
     
     for (int i = 0; i < length; i++)

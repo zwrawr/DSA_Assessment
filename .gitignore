@@ -253,5 +253,7 @@ ModelManifest.xml
 /[Rr]eport/*.toc
 /[Rr]eport/*.aux
 
+[Uu]int[Tt]est/
+DSA_Assesment/[Uu]int[Tt]est/
 
 
