@@ -162,12 +162,13 @@ void trieElement_Deconstructor(TrieElement *trieElement)
 
 // Adds the item(word) to the trie data structure
 // Returns 1 if addition was succesful
-// Returns 0 if unsuccesful
+// Returns 0 if word could not be added
+// Returns -1 if params are NULL
 int trie_Add(Trie *trie, char *item)
 {
     if (trie == NULL || trie->root == NULL || item == NULL)
     {
-        return 0; // NULL or broken trie so dont attempt to add to it
+        return -1; // NULL or broken trie so dont attempt to add to it
     }
     else if ( ( strlen(item) < 1 ) || ( strlen(item) > (MAXWORDLENGTH - 1) ) )
     {
@@ -176,6 +177,8 @@ int trie_Add(Trie *trie, char *item)
     
     // insert this element into the trie
     int err = insert(trie, item);
+    // TODO :: check that value ^
+    
     trie->size++;
     return 1;
 }
@@ -311,15 +314,17 @@ int trie_searchByPrefix(Trie *trie, char *item, char **results, int num)
     // e.g. for input "hel" , we want "help" or "helm" before we want "hello" before we want "helicopter"
     // this means we want to proform level order traversal (Breath first)
     // until we find enough results or hit the bottom of the tree. we visit each layer and see if it has any words.
-    int depth = 0, found = 0, isMoreLayers = 1;
+    int depth = 0, totalFound = 0, isMoreLayers = 1;
     TrieElement *curr = findElement(trie, item);
     
     // Until we hit the bottom or get enough results
-    while ((found < num) && (isMoreLayers == 1))
+    while ((totalFound < num) && (isMoreLayers == 1))
     {
         // find all nodes at the current depth and see if there words.
         // do this by running a depth limited search
-        int bufferSize = (num - found);
+        
+        // we need enough space for the amount of word we still have to find
+        int bufferSize = (num - totalFound);
         char **buffer = malloc(bufferSize * sizeof(char *));
         
         for (int k = 0; k < bufferSize; k++)
@@ -328,14 +333,17 @@ int trie_searchByPrefix(Trie *trie, char *item, char **results, int num)
             buffer[k][0] = '\0'; // make sure we have a string terminator in our empty stings.
         }
         
-        int info = findWordsAtDepth(curr, depth, item, buffer, bufferSize, &found);
+        int foundOnLayer = 0;
+        int info = findWordsAtDepth(curr, depth, item, buffer, bufferSize, &foundOnLayer);
         isMoreLayers = (info == 2 || info == 0) ? 1 : 0;
         
         //move words from buffer into results
-        for (int i = 0; i < found; i++)
+        for (int i = 0; i < foundOnLayer; i++)
         {
-            strcpy_s(results[i], MAXWORDLENGTH, buffer[i]);
+            strcpy_s(results[totalFound + i], MAXWORDLENGTH, buffer[i]); // results[found+i]
         }
+        
+        totalFound += foundOnLayer;
         
         for (int j = 0; j < bufferSize; j++)
         {
@@ -346,7 +354,7 @@ int trie_searchByPrefix(Trie *trie, char *item, char **results, int num)
         depth++;
     }
     
-    return found;
+    return totalFound;
 }
 
 
@@ -457,7 +465,8 @@ int recursive_findWordsAtDepth(TrieElement *curr, Stack *word,
             else
             {
                 // not deep enough yet so we need to go deeper
-                children = recursive_findWordsAtDepth(curr, word, currDepth, depth, words, foundWords, maxWords);
+                printf("==== > \t %s\n", indicesToString(stack_ToArray(word), stack_GetHeight(word)));
+                children = recursive_findWordsAtDepth(curr, word, currDepth + 1, depth, words, foundWords, maxWords);
                 
                 if (*foundWords >= maxWords)
                 {

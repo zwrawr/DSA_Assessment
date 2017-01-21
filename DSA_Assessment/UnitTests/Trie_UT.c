@@ -129,7 +129,7 @@ int RunTest_2(UTRunner *utr)
     info = (trie_Add(trie, NULL) == -1) ? info : -1;
     
     // make sure we cannot check to see if a tool long word is in the trie
-    info = (trie_Add(trie, tooLongWord) == -1) ? info : -1;
+    info = (trie_Add(trie, tooLongWord) == 0) ? info : -1;
     
     // add a bunch of words
     info = (trie_Add(trie, "test") == 1) ? info : -1;
@@ -156,7 +156,7 @@ int RunTest_2(UTRunner *utr)
     // see if the trie contains prefixes of words we added
     info = (trie_Contains(trie, "t") == 0) ? info : -1;
     info = (trie_Contains(trie, "tes") == 0) ? info : -1;
-    info = (trie_Contains(trie, "tesin") == 0) ? info : -1;
+    info = (trie_Contains(trie, "testin") == 0) ? info : -1;
     info = (trie_Contains(trie, "h") == 0) ? info : -1;
     info = (trie_Contains(trie, "he") == 0) ? info : -1;
     info = (trie_Contains(trie, "hell") == 0) ? info : -1;
