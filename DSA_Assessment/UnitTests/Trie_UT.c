@@ -31,7 +31,6 @@ int RunTest_2(UTRunner *utr);
 int RunTest_3(UTRunner *utr);
 int RunTest_4(UTRunner *utr);
 int RunTest_5(UTRunner *utr);
-int RunTest_6(UTRunner *utr);
 
 char *getTooLongWord();
 
