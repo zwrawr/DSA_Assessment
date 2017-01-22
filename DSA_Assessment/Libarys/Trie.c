@@ -40,8 +40,7 @@ int charToIndex(char c);
 char indexToChar(int index);
 char *indicesToString(int *array, int length);
 int insert(Trie *trie, char *string);
-TrieElement *findElement(Trie *trie, char *item);
-
+TrieElement *getElement(TrieElement *curr, char *item, int offset);
 int findWordsAtDepthBelow(TrieElement *curr, int depth, char **results, int bufferSize, Stack *wordStack, int *foundOnLayer);
 
 
@@ -61,6 +60,9 @@ struct TrieElement
     TrieElement *parent;
     
     bool starred; // if 1 this node represents a compleate word. All leaf elements are starred elements.
+    
+    char c; //TODO :: remove
+    
 };
 
 /// ====
@@ -78,7 +80,7 @@ Trie *trie_Constructor()
         return NULL;
     }
     
-    trie->root = trieElement_Constructor();
+    trie->root = trieElement_Constructor(' ');
     trie->root->parent = trie->root; // the first element in the trie is it's own parent
     trie->size = 1;
     return trie;
@@ -98,7 +100,7 @@ void trie_Deconstructor(Trie *trie)
     return;
 }
 
-TrieElement *trieElement_Constructor()
+TrieElement *trieElement_Constructor(char c)
 {
     TrieElement *trieElement;
     trieElement = malloc(sizeof(TrieElement));
@@ -127,6 +129,8 @@ TrieElement *trieElement_Constructor()
     ///{
     ///    trieElement->children[i] = NULL;
     ///}
+    
+    trieElement->c = c;
     
     return trieElement;
 }
@@ -271,7 +275,7 @@ int trie_Contains(Trie *trie, char *item)
         return -1;
     }
     
-    TrieElement *found = findElement(trie, item);
+    TrieElement *found = getElement(trie->root, item, 0);
     
     // if we get here then curr is the node in the trie that represents item
     // return value depends on curr is starred (curr is a word or partial word)
@@ -308,7 +312,9 @@ int trie_searchByPrefix(Trie *trie, char *item, char **results, int numToFind)
         return -1;
     }
     
-    if (trie_Contains(trie, item ) == -1)
+    TrieElement *curr = getElement(trie->root, item, 0);
+    
+    if (curr == NULL)
     {
         //printf("[WARN] item isn't in the trie so its impossible for any word to be prefixed by it.");
         return -1;
@@ -316,7 +322,6 @@ int trie_searchByPrefix(Trie *trie, char *item, char **results, int numToFind)
     
     // creating a queue of elements to proccess
     Queue *elements = queue_Constructor(sizeof(TrieElement *));
-    TrieElement *curr = findElement(trie, item);
     
     // make a stack to keep our word in, and add the partial word.
     Stack *wordStack = stack_Constructor();
@@ -389,45 +394,36 @@ int trie_searchByPrefix(Trie *trie, char *item, char **results, int numToFind)
 /// Hidden Functions
 /// ====
 
-// Finds an Element that represents item.
+// Gets an Element that represents item.
 // Returns a Non-NULL TrieElement if item is in the trie.
 // Returns NULL if item isn't in the trie.
-TrieElement *findElement(Trie *trie, char *item)
+TrieElement *getElement(TrieElement *curr, char *item, int offset)
 {
-    if (trie == NULL || item == NULL)
+    if (curr == NULL || item == NULL)
     {
         return NULL;
     }
     
-    int len = (int)strlen(item);
-    TrieElement *curr = trie->root;
+    printf("%c-", item[offset]);
     
-    // for each letter in the string
-    for (int i = 0; i < len; i++)
+    if (offset == (strlen(item) - 1))
     {
-    
-        int index = charToIndex(item[i]);
+        printf("\n");
         
-        // if index is -1 then we dont care about this char in the string so we should skip it
-        // but if its not -1 then we have to try and walk the string
-        if (index != -1)
-        {
-            // if this element has a child element in the position that matchs the letter in the string
-            // then move to that element or return -1 (item isnt in the trie)
-            if (curr->children != NULL && curr->children[index] != NULL)
-            {
-                curr = curr->children[index];
-            }
-            else
-            {
-                // we cannot walk the trie any deeper so it cannot contain the string were looking for
-                return NULL;
-            }
-        }
-        
+        return curr;
     }
     
-    return curr;
+    char c = item[offset];
+    int index = charToIndex(c);
+    
+    if (curr->children != NULL && curr->children[index] != NULL )
+    {
+        return getElement(curr->children[index], item, offset + 1);
+    }
+    else
+    {
+        return NULL;
+    }
 }
 
 // Recurively prints the trie
@@ -609,7 +605,7 @@ int insert(Trie *trie, char *string)
                 }
             }
             
-            curr->children[index] = trieElement_Constructor();
+            curr->children[index] = trieElement_Constructor(string[index]);
             curr->children[index]->parent = curr;
             curr = curr->children[index];
             i++;

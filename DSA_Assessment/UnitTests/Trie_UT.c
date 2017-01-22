@@ -298,24 +298,24 @@ int RunTest_5(UTRunner *utr)
     
     char *words[] =
     {
-        "he",
-        "hey",
-        "hello",
-        "hell",
-        "help",
-        "havoc",
-        "helipad",
-        "helicopter",
-        "death",
-        "dead",
-        "deadly",
-        "bead",
-        "cread",
-        "fell",
-        "helicopters",
-        "heliocentric",
-        "units",
-        "avacado"
+        "he\n",
+        "hey\n",
+        "hello\n",
+        "hell\n",
+        "help\n",
+        "havoc\n",
+        "helipad\n",
+        "helicopter\n",
+        "death\n",
+        "dead\n",
+        "deadly\n",
+        "bead\n",
+        "cread\n",
+        "fell\n",
+        "helicopters\n",
+        "heliocentric\n",
+        "units\n",
+        "avacado\n"
     };
     int numWords = sizeof(words) / sizeof(words[0]);
     

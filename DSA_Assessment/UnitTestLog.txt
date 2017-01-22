@@ -1317,3 +1317,675 @@
 
 ====#====#====#====#====#====#====#====#====#==== 
 *[FAIL]*	 1 Sets of Unit Tests failed ! 
+
+   Sat Jan 21 23:47:06 2017
+ 
+====#====#====#====#====#====#====#====#====#==== 
+====                                         ==== 
+====                UNIT TESTING             ==== 
+====                                         ==== 
+====#====#====#====#====#====#====#====#====#==== 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Stacks 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed stack pointer was not null
+ [PASS] 	 Two constructed stacks did not have the same pointer
+ [PASS] 	 Pushing a value to a stack worked
+ [PASS] 	 Pushing multiple values to a stack worked
+ [PASS] 	 Popping a value off a stack worked
+ [PASS] 	 Popping multiple values off a stack worked
+ [PASS] 	 Adding values to one stack doesnt affect the other stack
+ [PASS] 	 Checking if a stack isEmpty worked
+ [PASS] 	 Checking if a stack isFull worked
+ [PASS] 	 Peeking at a value in a stack worked
+ [PASS] 	 Turning a stack into an array worked
+ [PASS] 	 Checking a stacks Height worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Stacks passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Trie 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed trie pointer was not null
+ [PASS] 	 Adding values to a trie worked
+ [PASS] 	 Contains worked
+ [PASS] 	 Adding Multiple values to a trie worked
+ [PASS] 	 Printing a trie worked
+*[FAIL]*	 Prefix based searches did not work
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+*[FAIL]*	1 Unit Tests for Trie failed ! 
+
+
+
+
+====#====#====#====#====#====#====#====#====#==== 
+*[FAIL]*	 1 Sets of Unit Tests failed ! 
+
+   Sat Jan 21 23:57:27 2017
+ 
+====#====#====#====#====#====#====#====#====#==== 
+====                                         ==== 
+====                UNIT TESTING             ==== 
+====                                         ==== 
+====#====#====#====#====#====#====#====#====#==== 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Stacks 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed stack pointer was not null
+ [PASS] 	 Two constructed stacks did not have the same pointer
+ [PASS] 	 Pushing a value to a stack worked
+ [PASS] 	 Pushing multiple values to a stack worked
+ [PASS] 	 Popping a value off a stack worked
+ [PASS] 	 Popping multiple values off a stack worked
+ [PASS] 	 Adding values to one stack doesnt affect the other stack
+ [PASS] 	 Checking if a stack isEmpty worked
+ [PASS] 	 Checking if a stack isFull worked
+ [PASS] 	 Peeking at a value in a stack worked
+ [PASS] 	 Turning a stack into an array worked
+ [PASS] 	 Checking a stacks Height worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Stacks passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Trie 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed trie pointer was not null
+ [PASS] 	 Adding values to a trie worked
+ [PASS] 	 Contains worked
+ [PASS] 	 Adding Multiple values to a trie worked
+ [PASS] 	 Printing a trie worked
+*[FAIL]*	 Prefix based searches did not work
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+*[FAIL]*	1 Unit Tests for Trie failed ! 
+
+
+
+
+====#====#====#====#====#====#====#====#====#==== 
+*[FAIL]*	 1 Sets of Unit Tests failed ! 
+
+   Sun Jan 22 00:01:21 2017
+ 
+====#====#====#====#====#====#====#====#====#==== 
+====                                         ==== 
+====                UNIT TESTING             ==== 
+====                                         ==== 
+====#====#====#====#====#====#====#====#====#==== 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Stacks 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed stack pointer was not null
+ [PASS] 	 Two constructed stacks did not have the same pointer
+ [PASS] 	 Pushing a value to a stack worked
+ [PASS] 	 Pushing multiple values to a stack worked
+ [PASS] 	 Popping a value off a stack worked
+ [PASS] 	 Popping multiple values off a stack worked
+ [PASS] 	 Adding values to one stack doesnt affect the other stack
+ [PASS] 	 Checking if a stack isEmpty worked
+ [PASS] 	 Checking if a stack isFull worked
+ [PASS] 	 Peeking at a value in a stack worked
+ [PASS] 	 Turning a stack into an array worked
+ [PASS] 	 Checking a stacks Height worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Stacks passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Trie 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed trie pointer was not null
+ [PASS] 	 Adding values to a trie worked
+ [PASS] 	 Contains worked
+ [PASS] 	 Adding Multiple values to a trie worked
+ [PASS] 	 Printing a trie worked
+*[FAIL]*	 Prefix based searches did not work
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+*[FAIL]*	1 Unit Tests for Trie failed ! 
+
+
+
+
+====#====#====#====#====#====#====#====#====#==== 
+*[FAIL]*	 1 Sets of Unit Tests failed ! 
+
+   Sun Jan 22 00:07:13 2017
+ 
+====#====#====#====#====#====#====#====#====#==== 
+====                                         ==== 
+====                UNIT TESTING             ==== 
+====                                         ==== 
+====#====#====#====#====#====#====#====#====#==== 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Stacks 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed stack pointer was not null
+ [PASS] 	 Two constructed stacks did not have the same pointer
+ [PASS] 	 Pushing a value to a stack worked
+ [PASS] 	 Pushing multiple values to a stack worked
+ [PASS] 	 Popping a value off a stack worked
+ [PASS] 	 Popping multiple values off a stack worked
+ [PASS] 	 Adding values to one stack doesnt affect the other stack
+ [PASS] 	 Checking if a stack isEmpty worked
+ [PASS] 	 Checking if a stack isFull worked
+ [PASS] 	 Peeking at a value in a stack worked
+ [PASS] 	 Turning a stack into an array worked
+ [PASS] 	 Checking a stacks Height worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Stacks passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Trie 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed trie pointer was not null
+ [PASS] 	 Adding values to a trie worked
+ [PASS] 	 Contains worked
+ [PASS] 	 Adding Multiple values to a trie worked
+ [PASS] 	 Printing a trie worked
+*[FAIL]*	 Prefix based searches did not work
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+*[FAIL]*	1 Unit Tests for Trie failed ! 
+
+
+
+
+====#====#====#====#====#====#====#====#====#==== 
+*[FAIL]*	 1 Sets of Unit Tests failed ! 
+
+   Sun Jan 22 00:09:16 2017
+ 
+====#====#====#====#====#====#====#====#====#==== 
+====                                         ==== 
+====                UNIT TESTING             ==== 
+====                                         ==== 
+====#====#====#====#====#====#====#====#====#==== 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Stacks 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed stack pointer was not null
+ [PASS] 	 Two constructed stacks did not have the same pointer
+ [PASS] 	 Pushing a value to a stack worked
+ [PASS] 	 Pushing multiple values to a stack worked
+ [PASS] 	 Popping a value off a stack worked
+ [PASS] 	 Popping multiple values off a stack worked
+ [PASS] 	 Adding values to one stack doesnt affect the other stack
+ [PASS] 	 Checking if a stack isEmpty worked
+ [PASS] 	 Checking if a stack isFull worked
+ [PASS] 	 Peeking at a value in a stack worked
+ [PASS] 	 Turning a stack into an array worked
+ [PASS] 	 Checking a stacks Height worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Stacks passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Trie 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed trie pointer was not null
+ [PASS] 	 Adding values to a trie worked
+*[FAIL]*	 Contains did not work
+*[FAIL]*	 Adding Multiple values to a trie di not work
+ [PASS] 	 Printing a trie worked
+*[FAIL]*	 Prefix based searches did not work
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+*[FAIL]*	3 Unit Tests for Trie failed ! 
+
+
+
+
+====#====#====#====#====#====#====#====#====#==== 
+*[FAIL]*	 1 Sets of Unit Tests failed ! 
+
+   Sun Jan 22 00:13:52 2017
+ 
+====#====#====#====#====#====#====#====#====#==== 
+====                                         ==== 
+====                UNIT TESTING             ==== 
+====                                         ==== 
+====#====#====#====#====#====#====#====#====#==== 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Stacks 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed stack pointer was not null
+ [PASS] 	 Two constructed stacks did not have the same pointer
+ [PASS] 	 Pushing a value to a stack worked
+ [PASS] 	 Pushing multiple values to a stack worked
+ [PASS] 	 Popping a value off a stack worked
+ [PASS] 	 Popping multiple values off a stack worked
+ [PASS] 	 Adding values to one stack doesnt affect the other stack
+ [PASS] 	 Checking if a stack isEmpty worked
+ [PASS] 	 Checking if a stack isFull worked
+ [PASS] 	 Peeking at a value in a stack worked
+ [PASS] 	 Turning a stack into an array worked
+ [PASS] 	 Checking a stacks Height worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Stacks passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Trie 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed trie pointer was not null
+ [PASS] 	 Adding values to a trie worked
+ [PASS] 	 Contains worked
+ [PASS] 	 Adding Multiple values to a trie worked
+ [PASS] 	 Printing a trie worked
+*[FAIL]*	 Prefix based searches did not work
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+*[FAIL]*	1 Unit Tests for Trie failed ! 
+
+
+
+
+====#====#====#====#====#====#====#====#====#==== 
+*[FAIL]*	 1 Sets of Unit Tests failed ! 
+
+   Sun Jan 22 00:14:48 2017
+ 
+====#====#====#====#====#====#====#====#====#==== 
+====                                         ==== 
+====                UNIT TESTING             ==== 
+====                                         ==== 
+====#====#====#====#====#====#====#====#====#==== 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Stacks 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed stack pointer was not null
+ [PASS] 	 Two constructed stacks did not have the same pointer
+ [PASS] 	 Pushing a value to a stack worked
+ [PASS] 	 Pushing multiple values to a stack worked
+ [PASS] 	 Popping a value off a stack worked
+ [PASS] 	 Popping multiple values off a stack worked
+ [PASS] 	 Adding values to one stack doesnt affect the other stack
+ [PASS] 	 Checking if a stack isEmpty worked
+ [PASS] 	 Checking if a stack isFull worked
+ [PASS] 	 Peeking at a value in a stack worked
+ [PASS] 	 Turning a stack into an array worked
+ [PASS] 	 Checking a stacks Height worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Stacks passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Trie 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed trie pointer was not null
+ [PASS] 	 Adding values to a trie worked
+ [PASS] 	 Contains worked
+ [PASS] 	 Adding Multiple values to a trie worked
+ [PASS] 	 Printing a trie worked
+*[FAIL]*	 Prefix based searches did not work
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+*[FAIL]*	1 Unit Tests for Trie failed ! 
+
+
+
+
+====#====#====#====#====#====#====#====#====#==== 
+*[FAIL]*	 1 Sets of Unit Tests failed ! 
+
+   Sun Jan 22 00:25:19 2017
+ 
+====#====#====#====#====#====#====#====#====#==== 
+====                                         ==== 
+====                UNIT TESTING             ==== 
+====                                         ==== 
+====#====#====#====#====#====#====#====#====#==== 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Stacks 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed stack pointer was not null
+ [PASS] 	 Two constructed stacks did not have the same pointer
+ [PASS] 	 Pushing a value to a stack worked
+ [PASS] 	 Pushing multiple values to a stack worked
+ [PASS] 	 Popping a value off a stack worked
+ [PASS] 	 Popping multiple values off a stack worked
+ [PASS] 	 Adding values to one stack doesnt affect the other stack
+ [PASS] 	 Checking if a stack isEmpty worked
+ [PASS] 	 Checking if a stack isFull worked
+ [PASS] 	 Peeking at a value in a stack worked
+ [PASS] 	 Turning a stack into an array worked
+ [PASS] 	 Checking a stacks Height worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Stacks passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Trie 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed trie pointer was not null
+ [PASS] 	 Adding values to a trie worked
+ [PASS] 	 Contains worked
+ [PASS] 	 Adding Multiple values to a trie worked
+ [PASS] 	 Printing a trie worked
+*[FAIL]*	 Prefix based searches did not work
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+*[FAIL]*	1 Unit Tests for Trie failed ! 
+
+
+
+
+====#====#====#====#====#====#====#====#====#==== 
+*[FAIL]*	 1 Sets of Unit Tests failed ! 
+
+   Sun Jan 22 00:44:37 2017
+ 
+====#====#====#====#====#====#====#====#====#==== 
+====                                         ==== 
+====                UNIT TESTING             ==== 
+====                                         ==== 
+====#====#====#====#====#====#====#====#====#==== 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Stacks 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed stack pointer was not null
+ [PASS] 	 Two constructed stacks did not have the same pointer
+ [PASS] 	 Pushing a value to a stack worked
+ [PASS] 	 Pushing multiple values to a stack worked
+ [PASS] 	 Popping a value off a stack worked
+ [PASS] 	 Popping multiple values off a stack worked
+ [PASS] 	 Adding values to one stack doesnt affect the other stack
+ [PASS] 	 Checking if a stack isEmpty worked
+ [PASS] 	 Checking if a stack isFull worked
+ [PASS] 	 Peeking at a value in a stack worked
+ [PASS] 	 Turning a stack into an array worked
+ [PASS] 	 Checking a stacks Height worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Stacks passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Trie 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed trie pointer was not null
+ [PASS] 	 Adding values to a trie worked
+ [PASS] 	 Contains worked
+ [PASS] 	 Adding Multiple values to a trie worked
+ [PASS] 	 Printing a trie worked
+*[FAIL]*	 Prefix based searches did not work
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+*[FAIL]*	1 Unit Tests for Trie failed ! 
+
+
+
+
+====#====#====#====#====#====#====#====#====#==== 
+*[FAIL]*	 1 Sets of Unit Tests failed ! 
+
+   Sun Jan 22 00:48:30 2017
+ 
+====#====#====#====#====#====#====#====#====#==== 
+====                                         ==== 
+====                UNIT TESTING             ==== 
+====                                         ==== 
+====#====#====#====#====#====#====#====#====#==== 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Stacks 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed stack pointer was not null
+ [PASS] 	 Two constructed stacks did not have the same pointer
+ [PASS] 	 Pushing a value to a stack worked
+ [PASS] 	 Pushing multiple values to a stack worked
+ [PASS] 	 Popping a value off a stack worked
+ [PASS] 	 Popping multiple values off a stack worked
+ [PASS] 	 Adding values to one stack doesnt affect the other stack
+ [PASS] 	 Checking if a stack isEmpty worked
+ [PASS] 	 Checking if a stack isFull worked
+ [PASS] 	 Peeking at a value in a stack worked
+ [PASS] 	 Turning a stack into an array worked
+ [PASS] 	 Checking a stacks Height worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Stacks passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Trie 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed trie pointer was not null
+ [PASS] 	 Adding values to a trie worked
+ [PASS] 	 Contains worked
+ [PASS] 	 Adding Multiple values to a trie worked
+ [PASS] 	 Printing a trie worked
+*[FAIL]*	 Prefix based searches did not work
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+*[FAIL]*	1 Unit Tests for Trie failed ! 
+
+
+
+
+====#====#====#====#====#====#====#====#====#==== 
+*[FAIL]*	 1 Sets of Unit Tests failed ! 
+
+   Sun Jan 22 00:59:29 2017
+ 
+====#====#====#====#====#====#====#====#====#==== 
+====                                         ==== 
+====                UNIT TESTING             ==== 
+====                                         ==== 
+====#====#====#====#====#====#====#====#====#==== 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Stacks 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed stack pointer was not null
+ [PASS] 	 Two constructed stacks did not have the same pointer
+ [PASS] 	 Pushing a value to a stack worked
+ [PASS] 	 Pushing multiple values to a stack worked
+ [PASS] 	 Popping a value off a stack worked
+ [PASS] 	 Popping multiple values off a stack worked
+ [PASS] 	 Adding values to one stack doesnt affect the other stack
+ [PASS] 	 Checking if a stack isEmpty worked
+ [PASS] 	 Checking if a stack isFull worked
+ [PASS] 	 Peeking at a value in a stack worked
+ [PASS] 	 Turning a stack into an array worked
+ [PASS] 	 Checking a stacks Height worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Stacks passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Trie 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed trie pointer was not null
+ [PASS] 	 Adding values to a trie worked
+ [PASS] 	 Contains worked
+ [PASS] 	 Adding Multiple values to a trie worked
+ [PASS] 	 Printing a trie worked
+*[FAIL]*	 Prefix based searches did not work
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+*[FAIL]*	1 Unit Tests for Trie failed ! 
+
+
+
+
+====#====#====#====#====#====#====#====#====#==== 
+*[FAIL]*	 1 Sets of Unit Tests failed ! 
+
+   Sun Jan 22 01:00:17 2017
+ 
+====#====#====#====#====#====#====#====#====#==== 
+====                                         ==== 
+====                UNIT TESTING             ==== 
+====                                         ==== 
+====#====#====#====#====#====#====#====#====#==== 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Stacks 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed stack pointer was not null
+ [PASS] 	 Two constructed stacks did not have the same pointer
+ [PASS] 	 Pushing a value to a stack worked
+ [PASS] 	 Pushing multiple values to a stack worked
+ [PASS] 	 Popping a value off a stack worked
+ [PASS] 	 Popping multiple values off a stack worked
+ [PASS] 	 Adding values to one stack doesnt affect the other stack
+ [PASS] 	 Checking if a stack isEmpty worked
+ [PASS] 	 Checking if a stack isFull worked
+ [PASS] 	 Peeking at a value in a stack worked
+ [PASS] 	 Turning a stack into an array worked
+ [PASS] 	 Checking a stacks Height worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Stacks passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Trie 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed trie pointer was not null
+ [PASS] 	 Adding values to a trie worked
+ [PASS] 	 Contains worked
+ [PASS] 	 Adding Multiple values to a trie worked
+ [PASS] 	 Printing a trie worked
+*[FAIL]*	 Prefix based searches did not work
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+*[FAIL]*	1 Unit Tests for Trie failed ! 
+
+
+
+
+====#====#====#====#====#====#====#====#====#==== 
+*[FAIL]*	 1 Sets of Unit Tests failed ! 
+
+   Sun Jan 22 01:00:55 2017
+ 
+====#====#====#====#====#====#====#====#====#==== 
+====                                         ==== 
+====                UNIT TESTING             ==== 
+====                                         ==== 
+====#====#====#====#====#====#====#====#====#==== 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Stacks 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed stack pointer was not null
+ [PASS] 	 Two constructed stacks did not have the same pointer
+ [PASS] 	 Pushing a value to a stack worked
+ [PASS] 	 Pushing multiple values to a stack worked
+ [PASS] 	 Popping a value off a stack worked
+ [PASS] 	 Popping multiple values off a stack worked
+ [PASS] 	 Adding values to one stack doesnt affect the other stack
+ [PASS] 	 Checking if a stack isEmpty worked
+ [PASS] 	 Checking if a stack isFull worked
+ [PASS] 	 Peeking at a value in a stack worked
+ [PASS] 	 Turning a stack into an array worked
+ [PASS] 	 Checking a stacks Height worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Stacks passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Trie 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed trie pointer was not null
+ [PASS] 	 Adding values to a trie worked
+*[FAIL]*	 Contains did not work
+*[FAIL]*	 Adding Multiple values to a trie di not work
+ [PASS] 	 Printing a trie worked
+*[FAIL]*	 Prefix based searches did not work
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+*[FAIL]*	3 Unit Tests for Trie failed ! 
+
+
+
+
+====#====#====#====#====#====#====#====#====#==== 
+*[FAIL]*	 1 Sets of Unit Tests failed ! 
+
+   Sun Jan 22 01:01:16 2017
+ 
+====#====#====#====#====#====#====#====#====#==== 
+====                                         ==== 
+====                UNIT TESTING             ==== 
+====                                         ==== 
+====#====#====#====#====#====#====#====#====#==== 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Stacks 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed stack pointer was not null
+ [PASS] 	 Two constructed stacks did not have the same pointer
+ [PASS] 	 Pushing a value to a stack worked
+ [PASS] 	 Pushing multiple values to a stack worked
+ [PASS] 	 Popping a value off a stack worked
+ [PASS] 	 Popping multiple values off a stack worked
+ [PASS] 	 Adding values to one stack doesnt affect the other stack
+ [PASS] 	 Checking if a stack isEmpty worked
+ [PASS] 	 Checking if a stack isFull worked
+ [PASS] 	 Peeking at a value in a stack worked
+ [PASS] 	 Turning a stack into an array worked
+ [PASS] 	 Checking a stacks Height worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Stacks passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Trie 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed trie pointer was not null
+ [PASS] 	 Adding values to a trie worked
+*[FAIL]*	 Contains did not work
+*[FAIL]*	 Adding Multiple values to a trie di not work
+ [PASS] 	 Printing a trie worked
+*[FAIL]*	 Prefix based searches did not work
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+*[FAIL]*	3 Unit Tests for Trie failed ! 
+
+
+
+
+====#====#====#====#====#====#====#====#====#==== 
+*[FAIL]*	 1 Sets of Unit Tests failed ! 

@@ -17,6 +17,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "Queue.h"
 
 
@@ -36,7 +37,7 @@ typedef struct Item Item;
 /// Prototypes
 /// ====
 
-Item *itemConstructor(int value);
+Item *itemConstructor(size_t size, void *data);
 void itemDeconstructor(Item *item);
 
 
