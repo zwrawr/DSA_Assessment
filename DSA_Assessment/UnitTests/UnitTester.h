@@ -15,7 +15,7 @@
 /// ====
 
 // Returns 1 if all tests passed
-int UnitTester_RunTests(void);
+int UnitTester_RunTestSets(void);
 
 #endif // UNITTESTER_H_INCLUDED
 

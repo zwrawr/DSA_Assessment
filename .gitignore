@@ -253,8 +253,15 @@ ModelManifest.xml
 /[Rr]eport/*.toc
 /[Rr]eport/*.aux
 
-/[Uu]nit[Tt]est/**
-/[Dd][Ss][Aa]_[Aa]ssessment/[Uu]nit[Tt]est/**
-/[Dd][Ss][Aa]_[Aa]ssessment/[Uu]nit[Tt]est/**/*
+/UnitTest
 
-
+DSA_Assessment/UnitTest/DSA_Assessment.tlog/*.lastbuildstate
+DSA_Assessment/UnitTest/DSA_Assessment.tlog/*.tlog
+DSA_Assessment/UnitTest/*.idb
+*.tlog
+DSA_Assessment/UnitTest/DSA_Assessment.tlog/CL.command.1.tlog
+DSA_Assessment/UnitTest/DSA_Assessment.tlog/CL.write.1.tlog
+DSA_Assessment/UnitTest/DSA_Assessment.tlog/link.write.1.tlog
+*.idb
+UnitTest/DSA_Assessment.exe
+*.enc
