@@ -94,6 +94,7 @@ ListNode *listNode_Constructor(size_t size, void *data)
     ListNode *node;
     
     node = malloc(sizeof(ListNode));
+    node->data = malloc(size);
     memcpy(node->data, data, size);
     node->next = NULL;
     node->prev = NULL;
@@ -155,7 +156,7 @@ int list_Read( List *list, int index, void *data)
         return -1;
     }
     
-    if ((index <= 0) || (index > list->size))
+    if ((index < 0) || (index >= list->size))
     {
         printf("\nWARNING :attempted to read from an index outside the bounds of an list\n");
         return 0;
@@ -186,7 +187,7 @@ int list_Remove(List *list, int index)
         return -1;
     }
     
-    if ((index <= 0) || (index > list->size))
+    if ((index < 0) || (index >= list->size))
     {
         printf("\nWARNING :attempted to remove a node from an index outside the bounds of an list\n");
         return 0;

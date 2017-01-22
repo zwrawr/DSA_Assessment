@@ -15,13 +15,12 @@
 
 #include "../Libarys/Trie.h"
 #include "../Libarys/Stack.h"
-#include "../Libarys/Queue.h"
 #include "../Libarys/List.h"
 
 /// ====
 /// Defines
 /// ====
-#define ALPHABETSIZE 36
+
 
 /// ====
 /// Type Definitions
@@ -36,12 +35,10 @@ typedef struct TrieElement TrieElement;
 TrieElement *trieElement_Constructor();
 void trieElement_Deconstructor(TrieElement *trieElement);
 int recursivePrint(TrieElement *curr, Stack *charStack, int depth);
-int charToIndex(char c);
-char indexToChar(int index);
 char *indicesToString(int *array, int length);
 int insert(Trie *trie, char *string);
 TrieElement *getElement(TrieElement *curr, char *item, int offset);
-int findWordsAtDepthBelow(TrieElement *curr, int depth, char **results, int bufferSize, Stack *wordStack, int *foundOnLayer);
+int recursive_searchByPrefix(TrieElement *curr, Stack *wordStack, List *foundWords, int numLeftToFind);
 
 
 
@@ -60,9 +57,6 @@ struct TrieElement
     TrieElement *parent;
     
     bool starred; // if 1 this node represents a compleate word. All leaf elements are starred elements.
-    
-    char c; //TODO :: remove
-    
 };
 
 /// ====
@@ -80,9 +74,9 @@ Trie *trie_Constructor()
         return NULL;
     }
     
-    trie->root = trieElement_Constructor(' ');
-    trie->root->parent = trie->root; // the first element in the trie is it's own parent
-    trie->size = 1;
+    trie->root = trieElement_Constructor();
+    trie->root->parent = NULL; // the first element in the trie has no parent
+    trie->size = 0;
     return trie;
 }
 
@@ -100,7 +94,7 @@ void trie_Deconstructor(Trie *trie)
     return;
 }
 
-TrieElement *trieElement_Constructor(char c)
+TrieElement *trieElement_Constructor()
 {
     TrieElement *trieElement;
     trieElement = malloc(sizeof(TrieElement));
@@ -117,20 +111,6 @@ TrieElement *trieElement_Constructor(char c)
     
     // Don't create the child elements till we need them
     trieElement->children = NULL;
-    ///trieElement->children = malloc(ALPHABETSIZE * sizeof(TrieElement *));
-    
-    ///if (trieElement->children == NULL)
-    ///{
-    ///    printf("[ERR!] \tUnable to assign memory for trieElement->children\n");
-    ///    return NULL;
-    ///}
-    
-    ///for (int i = 0; i < ALPHABETSIZE; i++)
-    ///{
-    ///    trieElement->children[i] = NULL;
-    ///}
-    
-    trieElement->c = c;
     
     return trieElement;
 }
@@ -295,18 +275,9 @@ int trie_Contains(Trie *trie, char *item)
     }
 }
 
-// Searches the trie for words prefixed by partial word.
-// Returns a value > 0 and < numPredictions if words were found.
-// Retuns 0 if no words are found.
-// Returns -1 if trie is NULL, item is NULL, result is NULL, item has no characters in it, item isnt in trie.
+
 int trie_searchByPrefix(Trie *trie, char *item, char **results, int numToFind)
 {
-    // ideally we want to find the results with the minimum extra letters
-    // e.g. for input "hel" , we want "help" or "helm" before we want "hello" before we want "helicopter"
-    // this means we want to proform level order traversal (Breath first)
-    // until we find enough results or hit the bottom of the tree. we visit each layer and see if it has any words.
-    
-    
     if (trie == NULL || item == NULL || results == NULL || numToFind < 1 || strlen(item) < 1)
     {
         return -1;
@@ -320,9 +291,6 @@ int trie_searchByPrefix(Trie *trie, char *item, char **results, int numToFind)
         return -1;
     }
     
-    // creating a queue of elements to proccess
-    Queue *elements = queue_Constructor(sizeof(TrieElement *));
-    
     // make a stack to keep our word in, and add the partial word.
     Stack *wordStack = stack_Constructor();
     
@@ -332,50 +300,14 @@ int trie_searchByPrefix(Trie *trie, char *item, char **results, int numToFind)
     // and the partial word to it
     for (int i = 0; i < (int)strlen(item); i++)
     {
-        stack_Push(wordStack, charToIndex(item[i]));
+        stack_Push(wordStack, trie_CharToIndex(item[i]));
     }
     
+    // recursivly search for every word below this
+    int leftToFind = recursive_searchByPrefix(curr, wordStack, foundWords, numToFind);
     
-    // whilst we have still have elemenets to process
-    while (curr != NULL)
-    {
-        for (int i = 0; i < ALPHABETSIZE; i++)
-        {
-            if (curr->children != NULL && curr->children[i] != NULL)
-            {
-                if (curr->starred == true)
-                {
-                    // this is a word so we want to add it to our list
-                    int *tmpArray = stack_ToArray(wordStack);
-                    char *tmpString = indicesToString(tmpArray, stack_GetHeight(wordStack));
-                    
-                    // add it to our list of found words
-                    list_Add(foundWords, tmpString);
-                    
-                    free(tmpArray);
-                    free(tmpString);
-                    
-                    // if we have enough values then break the loop
-                    if (list_Size(foundWords) >= numToFind)
-                    {
-                        break;
-                    }
-                }
-            }
-            
-            queue_Enqueue(elements, &(curr->children[i]));
-        }
-        
-        queue_Dequeue(elements, &curr);
-    }
-    
-    stack_Deconstructor(wordStack);
-    queue_Deconstructor(elements);
-    
-    // move values from list into results
-    int found = list_Size(foundWords);
-    
-    for (int i = 0; i < found; i++)
+    // move the words from the list to the results array
+    for (int i = 0; i < (numToFind - leftToFind); i++)
     {
         char *tmp = malloc(MAXWORDLENGTH * sizeof(char));
         list_Read(foundWords, i, tmp);
@@ -386,7 +318,66 @@ int trie_searchByPrefix(Trie *trie, char *item, char **results, int numToFind)
     }
     
     list_Destructor(foundWords);
-    return found;
+    
+    // return how many words we found
+    return (numToFind - leftToFind);
+}
+
+int recursive_searchByPrefix(TrieElement *curr, Stack *wordStack, List *foundWords, int numLeftToFind)
+{
+    // if there we dont want to find any more words then return
+    if (numLeftToFind <= 0)
+    {
+        return 0;
+    }
+    
+    // if the node we were passed is null return
+    if (curr == NULL)
+    {
+        return 0;
+    }
+    
+    // if this node is a word
+    if (curr->starred == true)
+    {
+        //TODO:: wrapper function for stack to string
+        int *tmpArray = stack_ToArray(wordStack);
+        char *tmpString = indicesToString(tmpArray, stack_GetHeight(wordStack));
+        ///printf("Found %s_\n", tmpString);
+        
+        // Add it to our list of found words
+        list_Add(foundWords, tmpString);
+        
+        free(tmpArray);
+        free(tmpString);
+        
+        numLeftToFind--;
+    }
+    
+    // if we have children
+    if (curr->children != NULL)
+    {
+        // then loop over each one of them
+        for (int i = 0; i < ALPHABETSIZE; i++)
+        {
+            // and if there not null
+            if (curr->children[i] != NULL)
+            {
+                // update the stack and recurse with the child node
+                stack_Push(wordStack, i);
+                numLeftToFind = recursive_searchByPrefix(curr->children[i], wordStack, foundWords, numLeftToFind);
+                stack_Pop_nv(wordStack);
+                
+                // if we dont want to find any more nodes then break the loop to return
+                if (numLeftToFind <= 0)
+                {
+                    break;
+                }
+            }
+        }
+    }
+    
+    return numLeftToFind;
 }
 
 
@@ -404,17 +395,13 @@ TrieElement *getElement(TrieElement *curr, char *item, int offset)
         return NULL;
     }
     
-    printf("%c-", item[offset]);
-    
-    if (offset == (strlen(item) - 1))
+    if (offset == strlen(item))
     {
-        printf("\n");
-        
         return curr;
     }
     
     char c = item[offset];
-    int index = charToIndex(c);
+    int index = trie_CharToIndex(c);
     
     if (curr->children != NULL && curr->children[index] != NULL )
     {
@@ -442,7 +429,7 @@ int recursivePrint(TrieElement *curr, Stack *charStack, int depth)
     if (curr->starred == true)
     {
         char *string = indicesToString(stack_ToArray(charStack), stack_GetHeight(charStack));
-        printf("> %s\n", string);
+        printf("> %s.\n", string);
         free(string);
         printed++;
     }
@@ -464,8 +451,9 @@ int recursivePrint(TrieElement *curr, Stack *charStack, int depth)
 }
 
 // Maps a Char to an index value
-// Returns a number between 0 and ALPHABETSIZE - 1 if successful else returns -1
-int charToIndex(char c)
+// Returns a number between 0 and ALPHABETSIZE - 1 if successful
+// Returns -1 if unsuccessful
+int trie_CharToIndex(char c)
 {
     // This function is linked to ALPHABETSIZE if the result from the function fall out size of 0 to ALPHABETSIZE - 1
     // THINGS WILL BREAK
@@ -497,8 +485,9 @@ int charToIndex(char c)
 }
 
 // Maps an index value back to a char
+// Returns a char a-z 0-9 if successful
 // Returns '#' if index is out side range
-char indexToChar(int index)
+char trie_IndexToChar(int index)
 {
     if (index < 0 || index > ALPHABETSIZE)
     {
@@ -535,7 +524,7 @@ char *indicesToString(int *array, int length)
     
     for (k = 0; k < length; k++)
     {
-        word[k] = indexToChar(array[k]);
+        word[k] = trie_IndexToChar(array[k]);
     }
     
     word[k] = '\0'; // remember the null terminator char
@@ -559,7 +548,7 @@ int insert(Trie *trie, char *string)
     
     while ( i < valueLength)
     {
-        index = charToIndex(string[i]);
+        index = trie_CharToIndex(string[i]);
         
         // if this char is not alphabeticnumeric skip it else try to walk further
         if (index == -1)
@@ -579,7 +568,7 @@ int insert(Trie *trie, char *string)
     
     while (i < valueLength)
     {
-        index = charToIndex(string[i]);
+        index = trie_CharToIndex(string[i]);
         
         if (index == -1)
         {
@@ -605,7 +594,7 @@ int insert(Trie *trie, char *string)
                 }
             }
             
-            curr->children[index] = trieElement_Constructor(string[index]);
+            curr->children[index] = trieElement_Constructor();
             curr->children[index]->parent = curr;
             curr = curr->children[index];
             i++;

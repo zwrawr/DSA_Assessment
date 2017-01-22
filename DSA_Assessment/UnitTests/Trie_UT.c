@@ -50,7 +50,8 @@ int trie_UT_RunTests(FILE *log)
         RunTest_2,
         RunTest_3,
         RunTest_4,
-        RunTest_5
+        RunTest_5,
+        RunTest_6
     };
     
     int numTestFunctions = sizeof(TestFunctions) / sizeof(TestFunctions[0]);
@@ -232,6 +233,10 @@ int RunTest_3(UTRunner *utr)
     info = (trie_Contains(trie, words2[4]) == 1) ? info : -1;
     info = (trie_Contains(trie, newWord) == 1) ? info : -1;
     
+    // lets check to see if prefixes are in there
+    info = (trie_Contains(trie, "horserac") == 0) ? info : -1;
+    info = (trie_Contains(trie, "dea") == 0) ? info : -1;
+    info = (trie_Contains(trie, "a") == 0) ? info : -1;
     
     
     
@@ -298,24 +303,24 @@ int RunTest_5(UTRunner *utr)
     
     char *words[] =
     {
-        "he\n",
-        "hey\n",
-        "hello\n",
-        "hell\n",
-        "help\n",
-        "havoc\n",
-        "helipad\n",
-        "helicopter\n",
-        "death\n",
-        "dead\n",
-        "deadly\n",
-        "bead\n",
-        "cread\n",
-        "fell\n",
-        "helicopters\n",
-        "heliocentric\n",
-        "units\n",
-        "avacado\n"
+        "he",
+        "hey",
+        "hello",
+        "hell",
+        "help",
+        "havoc",
+        "helipad",
+        "helicopter",
+        "death",
+        "dead",
+        "deadly",
+        "bead",
+        "cread",
+        "fell",
+        "helicopters",
+        "heliocentric",
+        "units",
+        "avacado"
     };
     int numWords = sizeof(words) / sizeof(words[0]);
     
@@ -325,20 +330,23 @@ int RunTest_5(UTRunner *utr)
     for (int i = 0; i < numResults; i++)
     {
         results[i] = malloc(MAXWORDLENGTH * sizeof(char));
+        results[i][0] = '\0';
     }
     
     Trie *trie = trie_Constructor();
     
+    /*
     // make sure we cannot look up word if we have no weare to put them
     info = (trie_searchByPrefix(trie, "test", NULL, 0) == -1) ? info : -1;
     info = (trie_searchByPrefix(trie, "test", NULL, 2) == -1) ? info : -1;
     info = (trie_searchByPrefix(trie, NULL, results, 2) == -1) ? info : -1;
     info = (trie_searchByPrefix(trie, "test", results, 0) == -1) ? info : -1;
     info = (trie_searchByPrefix(trie, "test", results, -1) == -1) ? info : -1;
-    
+     */
     // add the words to the trie
     info = (trie_AddMultiple(trie, words, numWords) == 1) ? info : -1;
     
+    /*
     // print it for debug
     trie_Print(trie);
     
@@ -349,24 +357,24 @@ int RunTest_5(UTRunner *utr)
     info = (trie_searchByPrefix(trie, "helico", results, numResults) == 2) ? info : -1;
     info = (strcmp(results[0], "helicopter"), 0) ? info : -1;
     info = (strcmp(results[1], "helicopters"), 0) ? info : -1;
-    
+    */
     // lets look words prexifed by heli (in trie but not starred),should return 4 (helipad, helicopter, helicopters,heliocentric)
     info = (trie_searchByPrefix(trie, "heli", results, numResults) == 4) ? info : -1;
-    info = (strcmp(results[0], "helipad"), 0) ? info : -1;
-    info = (strcmp(results[1], "helicopter"), 0) ? info : -1;
-    info = (strcmp(results[2], "helicopters"), 0) ? info : -1;
-    info = (strcmp(results[3], "heliocentric"), 0) ? info : -1;
+    info = (strcmp(results[0], "helicopter") == 0) ? info : -1;
+    info = (strcmp(results[1], "helicopters") == 0) ? info : -1;
+    info = (strcmp(results[2], "heliocentric") == 0) ? info : -1;
+    info = (strcmp(results[3], "helipad") == 0) ? info : -1;
     
     // lets look only 2 words prexifed by heli (in trie but not starred),should return 4 (helipad, helicopter, helicopters,heliocentric)
     info = (trie_searchByPrefix(trie, "heli", results, 2) == 2) ? info : -1;
-    info = (strcmp(results[0], "helipad"), 0) ? info : -1;
-    info = (strcmp(results[1], "helicopter"), 0) ? info : -1;
+    info = (strcmp(results[0], "helicopter") == 0) ? info : -1;
+    info = (strcmp(results[1], "helicopters") == 0) ? info : -1;
     
     // lets try to find words prefixed by a word in the trie
     info = (trie_searchByPrefix(trie, "de", results, numResults) == 3) ? info : -1;
-    info = (strcmp(results[0], "dead"), 0) ? info : -1;
-    info = (strcmp(results[1], "death"), 0) ? info : -1;
-    info = (strcmp(results[2], "deadly"), 0) ? info : -1;
+    info = (strcmp(results[0], "dead") == 0) ? info : -1;
+    info = (strcmp(results[1], "deadly") == 0) ? info : -1;
+    info = (strcmp(results[2], "death") == 0) ? info : -1;
     
     // lets look for a
     info = (trie_searchByPrefix(trie, "test", results, numResults) == -1) ? info : -1;
@@ -385,6 +393,77 @@ int RunTest_5(UTRunner *utr)
     return passed;
 }
 
+int RunTest_6(UTRunner *utr)
+{
+    // make sure char to index and index to char works
+    int info = 0;
+    
+    // check lower case
+    for (char c = 'a'; c <= 'z'; c++)
+    {
+        int index = trie_CharToIndex(c);
+        info = ( index >= 0  &&  index < ALPHABETSIZE) ? info : -1;
+        char mapped = trie_IndexToChar(index);
+        info = ((mapped >= 'a' && mapped <= 'z') || (mapped >= '0' && mapped <= '9')) ? info : -1;
+        info = (c == mapped) ? info : -1;
+    }
+    
+    // check upper case
+    for (char c = 'A'; c <= 'Z'; c++)
+    {
+        int index = trie_CharToIndex(c);
+        info = (index >= 0 && index < ALPHABETSIZE) ? info : -1;
+        char mapped = trie_IndexToChar(index);
+        info = ((mapped >= 'a' && mapped <= 'z') || (mapped >= '0' && mapped <= '9')) ? info : -1;
+        info = ((c + 32) == mapped) ? info : -1;
+    }
+    
+    // check numbers
+    for (char c = '0'; c <= '9'; c++)
+    {
+        int index = trie_CharToIndex(c);
+        info = (index >= 0 && index < ALPHABETSIZE) ? info : -1;
+        char mapped = trie_IndexToChar(index);
+        info = ((mapped >= 'a' && mapped <= 'z') || (mapped >= '0' && mapped <= '9')) ? info : -1;
+        info = (c == mapped) ? info : -1;
+    }
+    
+    // check others
+    
+    // before numbers
+    for (char c = 0; c < 48; c++)
+    {
+        int index = trie_CharToIndex(c);
+        info = (index = -1 ) ? info : -1;
+    }
+    
+    // between numbers and upper case
+    for (char c = 58; c < 65; c++)
+    {
+        int index = trie_CharToIndex(c);
+        info = (index = -1) ? info : -1;
+    }
+    
+    // between upper case and lower case
+    for (char c = 91; c < 97; c++)
+    {
+        int index = trie_CharToIndex(c);
+        info = (index = -1) ? info : -1;
+    }
+    
+    // after lower case
+    for (char c = 123; c < 127; c++)
+    {
+        int index = trie_CharToIndex(c);
+        info = (index = -1) ? info : -1;
+    }
+    
+    
+    int passed = (info != 0) ? 0 : 1;
+    
+    utr_PrintMessage(utr, passed, "Alphabet mapping works", "Alphabet mapping did not work");
+    return passed;
+}
 
 char *getTooLongWord()
 {
