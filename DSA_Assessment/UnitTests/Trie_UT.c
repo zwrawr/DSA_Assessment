@@ -25,12 +25,13 @@
 // These are all of our tests
 // They all retrun 1 if they passed
 
-int RunTest_0(UTRunner *utr);
-int RunTest_1(UTRunner *utr);
-int RunTest_2(UTRunner *utr);
-int RunTest_3(UTRunner *utr);
-int RunTest_4(UTRunner *utr);
-int RunTest_5(UTRunner *utr);
+int RunTest_ConstructedTrieNotNull(UTRunner *utr);
+int RunTest_CanAddValues(UTRunner *utr);
+int RunTest_Contains(UTRunner *utr);
+int RunTest_CanAddMultiple(UTRunner *utr);
+int RunTest_CanPrint(UTRunner *utr);
+int RunTest_CanSearchByPrefix(UTRunner *utr);
+int RunTest_CanMapAlphabet(UTRunner *utr);
 
 char *getTooLongWord();
 
@@ -44,13 +45,13 @@ int trie_UT_RunTests(FILE *log)
 {
     int(*TestFunctions[])(UTRunner * utr) =
     {
-        RunTest_0,
-        RunTest_1,
-        RunTest_2,
-        RunTest_3,
-        RunTest_4,
-        RunTest_5,
-        RunTest_6
+        RunTest_ConstructedTrieNotNull,
+        RunTest_CanAddValues,
+        RunTest_Contains,
+        RunTest_CanAddMultiple,
+        RunTest_CanPrint,
+        RunTest_CanSearchByPrefix,
+        RunTest_CanMapAlphabet
     };
     
     int numTestFunctions = sizeof(TestFunctions) / sizeof(TestFunctions[0]);
@@ -68,7 +69,7 @@ int trie_UT_RunTests(FILE *log)
 /// Hidden Functions
 /// ====
 
-int RunTest_0(UTRunner *utr)
+int RunTest_ConstructedTrieNotNull(UTRunner *utr)
 {
     // test to see if that a constructed trie isnt null
     Trie *trie = trie_Constructor();
@@ -80,7 +81,7 @@ int RunTest_0(UTRunner *utr)
     return passed;
 }
 
-int RunTest_1(UTRunner *utr)
+int RunTest_CanAddValues(UTRunner *utr)
 {
     // test to see if that we can add values to a trie
     char *tooLongWord = getTooLongWord();
@@ -113,7 +114,7 @@ int RunTest_1(UTRunner *utr)
     return passed;
 }
 
-int RunTest_2(UTRunner *utr)
+int RunTest_Contains(UTRunner *utr)
 {
     // test to see if that contains is working
     char *tooLongWord = getTooLongWord();
@@ -171,7 +172,7 @@ int RunTest_2(UTRunner *utr)
 }
 
 
-int RunTest_3(UTRunner *utr)
+int RunTest_CanAddMultiple(UTRunner *utr)
 {
     // test to see if that we can add multiple values to a trie
     
@@ -246,7 +247,7 @@ int RunTest_3(UTRunner *utr)
     return passed;
 }
 
-int RunTest_4(UTRunner *utr)
+int RunTest_CanPrint(UTRunner *utr)
 {
     // test to see if trie print is working
     
@@ -291,7 +292,7 @@ int RunTest_4(UTRunner *utr)
     return passed;
 }
 
-int RunTest_5(UTRunner *utr)
+int RunTest_CanSearchByPrefix(UTRunner *utr)
 {
     // test to see if trie searchByPrefix works
     
@@ -392,7 +393,7 @@ int RunTest_5(UTRunner *utr)
     return passed;
 }
 
-int RunTest_6(UTRunner *utr)
+int RunTest_CanMapAlphabet(UTRunner *utr)
 {
     // make sure char to index and index to char works
     int info = 0;
