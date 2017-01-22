@@ -61,9 +61,9 @@ int UnitTester_RunTestSets(void)
     
     info = trie_UT_RunTests(log);
     failed += ((info == 1) ? 0 : 1);
-
-	info = PredictiveTextEngine_UT_RunTests(log);
-	failed += ((info == 1) ? 0 : 1);
+    
+    info = PredictiveTextEngine_UT_RunTests(log);
+    failed += ((info == 1) ? 0 : 1);
     
     printf("\n\n\n====#====#====#====#====#====#====#====#====#==== \n");
     fprintf(log, "\n\n\n====#====#====#====#====#====#====#====#====#==== \n");
