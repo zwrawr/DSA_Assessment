@@ -149,6 +149,7 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
         for (int i = 0; i < numberOfPredictionsToMake; i++)
         {
             words[i] = malloc(MAXWORDLENGTH * sizeof(char));
+			words[i][0] = '\0';
         }
         
         // find if there are any words in the trie that are prefixed by our partial word
@@ -167,7 +168,7 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
         
         for (int i = 0; i < numberOfPredictionsToMake; i++)
         {
-            words[i] = malloc(MAXWORDLENGTH * sizeof(char));
+            free(words[i]);
         }
         
         free(words);
@@ -297,6 +298,8 @@ char **getWordsArray(FILE *file, int *lines)
     for (int i = 0; i < *lines; i++)
     {
         words[i] = malloc(sizeof(char) * MAXWORDLENGTH);
+		words[i][0] = '\0';
+
         
         if (fgets(words[i], MAXWORDLENGTH, file) != NULL)
         {
