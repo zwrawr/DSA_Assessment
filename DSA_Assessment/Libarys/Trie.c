@@ -430,9 +430,7 @@ int recursivePrint(TrieElement *curr, Stack *charStack, int depth)
     {
         char *string = indicesToString(stack_ToArray(charStack), stack_GetHeight(charStack));
         
-#ifndef UTEST // if UTEST is defined then dont print to the screen
         printf("> %s.\n", string);
-#endif 
         
         free(string);
         printed++;

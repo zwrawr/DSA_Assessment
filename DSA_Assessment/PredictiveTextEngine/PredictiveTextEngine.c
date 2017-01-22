@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include "../Libarys/Trie.h"
 
@@ -94,24 +95,21 @@ void predictiveTextEngine_Deconstructor(PredictiveTextEngine *ptEngine)
 /// ====
 
 // Predicts a set of words from a partialWord
-// Returns 1 if the partial word is a word
-// Returns 0 if possible words are found
+// Returns >0 if multiple words were found
+// Returns 0 if no words are found
 // Returns -1 if no word is found
 int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWord, char **predictions, int numPredictions)
 {
     // This is probably the most important function
     // TODO : improve this function.
+    
+    // Validity checks
     if ((pte == NULL) || (partialWord == NULL) || (predictions == NULL) || (numPredictions < 1))
     {
         return -1;
     }
     
-    int SuggestionsFound = 0; // Keeps a count of how many possible words we have found so far.
     int len = (int)strlen(partialWord);
-    
-    // we always return the partial word as a suggestion because the user might want that word
-    strcpy_s(predictions[0], MAXWORDLENGTH, partialWord);
-    SuggestionsFound++;
     
     // Dont make guesses for words less than 2 letters long just return the input
     if (len < 2)
@@ -120,27 +118,20 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
         return -1;
     }
     
-    // 1st prediction is always just the partial word so numPredictions must be one to make sense
-    if (numPredictions < 2)
-    {
-        printf("[MESG] \t numPredictions is too small must be at least 2.\n");
-        return -1;
-    }
     
-    //TODO:: switch/case statemnet
-    //TODO:: have some defines in stead of checking against 0 , 1, -1
+    int SuggestionsFound = 0; // Keep a count of how many possible words we have found so far.
+    
     // check to see if the partial word is in the trie
     int info = trie_Contains(pte->trie, partialWord);
     
-    // The partial word is considered a word
     if (info == 1)
     {
-        // word is in the trie so
+        // word is in the trie and is a full word
         strcpy_s(predictions[SuggestionsFound], MAXWORDLENGTH, partialWord);
         SuggestionsFound++;
     }
     
-    // if the partial word is in the trie and we need more suggestions
+    // if the partial word is in the trie (weather its a full word or partial) and we need more suggestions
     if ( info != -1 && SuggestionsFound <= numPredictions)
     {
         int numberOfPredictionsToMake = (numPredictions - SuggestionsFound);
@@ -157,15 +148,16 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
         
         if (numFound > 0)
         {
-            // we found some word prefixed by our partial word put them in our predictions array.
+            // we found some word prefixed by our partial word, so put them in our predictions array.
             for (int i = 0; i < numFound; i++)
             {
                 strcpy_s(predictions[SuggestionsFound + i], MAXWORDLENGTH, words[i]);
             }
+            
+            SuggestionsFound += numFound;
         }
         
-        SuggestionsFound += numFound;
-        
+        // clean up our buffers
         for (int i = 0; i < numberOfPredictionsToMake; i++)
         {
             free(words[i]);
@@ -180,9 +172,18 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
         // then we check upwards . . .
     }
     
-    // check too see if there are words prefixed with partial word
-    // if we have found more than just the partial word the return 0
-    return (SuggestionsFound > 1) ? 0 : -1;
+    if (SuggestionsFound > 0)
+    {
+        return SuggestionsFound; // we found some suggestions
+    }
+    else if (SuggestionsFound == 0)
+    {
+        return 0; // no suggestions were found
+    }
+    else
+    {
+        return -1; // something went wrong
+    }
 }
 
 // Returns the maximum word length supported by the trie

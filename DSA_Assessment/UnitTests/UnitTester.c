@@ -30,7 +30,7 @@
 int UnitTester_RunTestSets(void)
 {
     FILE *log;
-    fopen_s(&log, LOGFILE, "a");
+    fopen_s(&log, LOGFILE, "w");
     
     time_t now;
     time(&now);
