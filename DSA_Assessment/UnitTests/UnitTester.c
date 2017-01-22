@@ -11,6 +11,7 @@
 // all of the unittesting files
 #include "..\UnitTests\Stack_UT.h"
 #include "..\UnitTests\Trie_UT.h"
+#include "..\UnitTests\PredictiveTextEngine_UT.h"
 
 /// ====
 /// Defines
@@ -29,7 +30,7 @@
 int UnitTester_RunTestSets(void)
 {
     FILE *log;
-    fopen_s(&log, LOGFILE, "a");
+    fopen_s(&log, LOGFILE, "w");
     
     time_t now;
     time(&now);
@@ -59,6 +60,9 @@ int UnitTester_RunTestSets(void)
     failed += (( info == 1) ? 0 : 1);
     
     info = trie_UT_RunTests(log);
+    failed += ((info == 1) ? 0 : 1);
+    
+    info = PredictiveTextEngine_UT_RunTests(log);
     failed += ((info == 1) ? 0 : 1);
     
     printf("\n\n\n====#====#====#====#====#====#====#====#====#==== \n");

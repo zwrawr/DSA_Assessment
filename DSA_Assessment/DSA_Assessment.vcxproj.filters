@@ -42,11 +42,8 @@
     <ClCompile Include="UnitTests\Trie_UT.c">
       <Filter>UnitTests</Filter>
     </ClCompile>
-    <ClCompile Include="Libarys\Queue.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Libarys\List.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="UnitTests\PredictiveTextEngine_UT.c">
+      <Filter>UnitTests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,11 +68,8 @@
     <ClInclude Include="UnitTests\Trie_UT.h">
       <Filter>UnitTests</Filter>
     </ClInclude>
-    <ClInclude Include="Libarys\Queue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Libarys\List.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="UnitTests\PredictiveTextEngine_UT.h">
+      <Filter>UnitTests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

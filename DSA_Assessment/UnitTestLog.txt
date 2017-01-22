@@ -1,5 +1,5 @@
 
-   Sun Jan 22 21:48:11 2017
+   Sun Jan 22 22:50:12 2017
  
 ====#====#====#====#====#====#====#====#====#==== 
 ====                                         ==== 
@@ -41,6 +41,16 @@
  [PASS] 	 Alphabet mapping works
 ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
  [PASS] 	All Unit Tests for Trie passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING PTE 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed pte pointer was not null
+ [PASS] 	 Predicting words worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for PTE passed ! 
 
 
 
