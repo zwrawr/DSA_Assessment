@@ -248,7 +248,45 @@ sorting=ynt
 			    The time complexity of deletions in a array list is the same as insertions \begin{math}O(n)\end{math}.
 			    
 			    Array lists have some advantages over hash maps and binary search trees when it comes to prefix look up. Because the words in an array list would be sorted any words that share a prefix will be guaranteed to be neighbours. Which is similar to the trie.
-
+    \section{Design}
+        \subsection{Structure}
+            The first thing to when designing a system is to decide upon the structure. In the case of a software project, like this, UML class diagrams are a good choice. The full diagram can be found in appendix \ref{appendix:UnitTestOutput}. The Class diagram helped show that the predictive text system can be spilt into 4 distinct layers. These are the application/UI layer, the predictive text engine layer, the dictionary storage layer and a library layer.
+            \begin{description}
+            \item[The application/UI layer] will the the entry point of the program and will be responsible of creating and managing the predictive text engine. It will also manage the UI and inputs from the user.
+            Partial words from the user input will be passed to the predictive text engine, which will respond with suggestions for complete words.
+            
+            \item[The predictive text engine layer] will be responsible for creating an managing the dictionary storage layer. It will read the dictionary from the word list text file ``word.txt" and add the words to the storage layer. The application layer will use this layer to query the storage layer. The predictive text engine will query the data storage layer to see if words are contained in storage and weather there are any words prefixed by a partial word in storage.
+            
+            \item[The dictionary storage layer] will be responsible for storing and accessing the large set of words (\textgreater 25k). It will use a Trie data structure to do this. It will provide fast look ups and prefixed based searching. It will use Library classes such as queues and stacks to simplify its own logic.
+            
+            \item[The library layer] contains stack, queue and list classes that can be used by the other layer if they need them. (standard c libraries such as stdlib, stdbool, string are not shown in the class diagram).
+            \end{description}
+        \subsection{How suggestions are made}
+            When a user has typed in section of text the application/UI layer separates the last word from the rest of the string. It does this by scanning the string backwards for the for first occurrence of a word separator (the first occurrence of a separator when scanning backwards is the last separator in the string). It then knows that the last word is between that separator and the end of the string. It then passes the partial word to the text engine layer along with the number of suggestions it wants.
+            
+            Once the partial word gets to the predictive text engine layer, the first thing the engine does is check to see if the partial word is contained in the data storage layer. 
+            
+            The data storage layer will then respond indicating weather the partial word is contained in the trie. This will tell the engine weather the partial word is either in the trie and starred (is a word), in the trie but not starred (a prefix) or not in the trie.
+            
+            If the partial word is contained in storage and is a full word then we will add the partial word to the list of found suggestions. If the application/UI layer only requested one suggestion then we return the list now, if not we continue onwards.
+            
+            If the partial word was in storage but not starred then we can look for words that are prefixed by the partial word (e.g. if input was ``Dat" the we can look for words like ``Data" and ``Date" ). The predictive text engine passes the partial word to the dictionary storage layer, to preform a breadth first search of words prefixed by the partial word.
+            
+            Before starting a breadth first search, the data structure layer walks the trie to find the node that represents the partial word. All words that are prefixed by the partial word will be children of this node. This node will be the starting point for the breadth first search.
+            
+            Once the starting node has been found a breadth first search is preformed. The current node is added to a queue and we repeat the process below until the queue is empty.
+            
+            The first thing done is de-queueing an item from the queue this is now the current node.
+            The current node is check to see weather it is starred (is a compleate word). If the current node is then we add it to the list of found suggestions. If enough suggestions have been then found then the loop is broken.
+            Then all of the children of the current node are added to the queue in order.
+            
+            For the loop to have finished either enough suggestions were found or there we no more nodes to check. This means we now have a list of the shortest possible suffixes to the partial word. These are returned to the predictive text engine.
+            
+            The predictive text engine now has a list of suggestions that may contain the partial word its self and words prefixed by the partial word. The predictive text engine then returns this list tp the application/UI layer where they are printed to the screen, next to the key needed to chose the particular suggestion.
+            
+            The application/UI layer then lets the user either pick a suggestion or continue typing.
+            
+    
 	\section{Testing}
 	
 	    The testing of the predictive test system will be split up into three distinct sections. The first of these sections will involve testing the time complexity of the system and seeing if it matches expectations. The second section is the unit testing of the system. The final section of testing will be testing the user interacts of the system and comparing the behaviour against the behaviour defined in the success criteria.
@@ -279,8 +317,16 @@ sorting=ynt
 	\newpage
 	\printbibliography
 	\newpage
-	\appendix
-	\section{Unit Testing Output} \label{appendix:UnitTestOutput}
+	
+    \appendix
+    \section*{Appendices}
+    \addcontentsline{toc}{section}{Appendices}
+    \renewcommand{\thesubsection}{\Alph{subsection}}
+
+    \subsection{Class Diagram}
+        \includegraphics[width=\textwidth]{PredictiveTextUML}
+
+	\subsection{Unit Testing Output} \label{appendix:UnitTestOutput}
 	    \begin{lstlisting}
 	        
    Fri Jan 20 19:32:16 2017
