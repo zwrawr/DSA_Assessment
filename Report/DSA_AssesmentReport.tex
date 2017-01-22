@@ -112,7 +112,7 @@ sorting=ynt
 	\section{What is a predictive text system and how do they work?}
 		In order to create a predictive text system, their behaviour has to be understood.
 		
-		A predictive text system's (also known as  auto-complete or word completion) role is to take a partial word and return a list of suggestions. They use some form of dictionary of known words to offer these suggestions.
+		The role of a predictive text system (also known as  auto-complete or word completion) is to take a partial word and return a list of suggestions. They use some form of dictionary of known words to offer these suggestions.
 		\subsection{How users interact with predictive text systems.}
 			Users interact with predictive text systems via some kind of text input device. Most users interact with some kind of predictive text system on a daily basis on either their PC or mobile device. The UI for both desktop and mobile devices follow the same basic pattern. The user begins by entering text normally via a keyboard or touch screen and once there are a sufficient number of letters for the system to make a reasonable guess (often two letters), the system presents the user with a list of predicted words. The user is then able to press a key to select which of the suggestions they want to use or continue typing and ignore the systems suggestions. The suggested word replaces the partial word they were typing so that they can move on the the next word.
 		\subsection{The behaviour of predictive text systems.}
@@ -120,10 +120,10 @@ sorting=ynt
 			\begin{description}
 				\item [The input.] One of the options in a predictive text system is always to keep the partial word that you already have. This is often achieved by returning the input as one of the items in the suggestion list. This behaviour can also happen if the partial word is actually a valid word from the predictive text systems dictionary.
 				\item [A word prefixed by the partial word.] The most common results from predictive text systems are words that are prefixed by the partial word the user has entered. An example of this is that ``hel" may return ``hel\textit{p}", ``hel\textit{l}" or ``hel\textit{lo}". 
-				\item [A word that shares a prefix with the partial word.] An example of this is that ``applez" may return ``apple", ``apples" or``app". 
+				\item [Shared Prefixes] Words that share a common prefix with the partial word. An example of this is that ``applez" may return ``apple", ``apples" or``app". 
+				\item[Others] 
+				More sophisticated system may also use frequency analysis techniques, lexicographical distance algorithms or even Markov chains to find suggestions. These are out side of the scope of this project and require other types of data sets. The word list available doesn't contain any frequency data or phrase data.
 			\end{description}
-			
-			More sophisticated system may also use frequency analysis techniques, lexicographical distance algorithms and consider context to make smarter suggestions. These are out side of the scope of this project ( Our dictionary doesn't contain any frequency data or phrase data).
 
 	\section{Requirements}
 		Now that a predictive text systems behaviour has been defined, a set of success criteria can be derived.
@@ -157,7 +157,7 @@ sorting=ynt
 	\section{Data Structures}
 		A predictive text program needs a to be able to access a set of common words.
 		 Storing and accessing these words efficiently is one of the challenges in creating a fast predictive text engine.
-		  I decided to use a trie\cite{book:ADS:trie} structure.
+		  After researching the topic, Tries seem to be the best data structure for this role in this system.\cite{book:ADS:trie}.
 		  
 		\subsection{Trie}
 			\subsubsection{What is a trie}
@@ -169,40 +169,46 @@ sorting=ynt
     				\label{fig:Trie_example}
 				\end{wrapfigure}
 				
-				The trie is a tree-like data structure often used for storing strings. Each node in the trie represents a single letter in a string. Each node in a trie has a fixed number of child nodes like a binary search tree. Unlike the binary search tree the trie does not have two child nodes, it has one for each letter of the alphabet. This allows the trie nodes to not store their value because their position determines it. A node's children share a common prefix, that prefix is the value of there parent node.
+				The trie is a tree-like data structure that is often used for storing strings (also used for IP addresses). Each node in the trie represents a single letter in a string and each node has a fixed number of child nodes like a binary search tree. Unlike the binary search tree the trie does not have two child nodes, it has one for each letter of the alphabet. This allows the trie nodes to not store their value because their position determines it. A node's children share a common prefix, that prefix is the value of there parent node.
 
-                There are many features of tries that make them a good choice for a predictive text system. One of them is that values can be look up by their prefixes. Predictive text systems use a partial word (a prefix) to search for possible full words. So it's important that prefix look-ups are fast and efficient. [TODO:: ADD MORE STUFF HERE]
+                There are many features of tries that make them a good choice for a predictive text system. One of them is that values can be look up by their prefixes. Predictive text systems use a partial word (a prefix) to search for possible full words. So it's important that prefix look-ups are fast and efficient. 
 				
 			\subsubsection{Time complexity of a trie}
 			    Tries are structure in such a way that they perform look ups rather than searches.
 			
-				The look up time for a value in a trie is dependant upon \begin{math}len(string)\end{math}, where \begin{math}len(string)\end{math} is the length of the word to look up\cite{book:ADS:complexity}. This gives the trie a \begin{math} O(1) \end{math} search time in regards to \begin{math} n \end{math} (the number of words). Meaning that searches in a trie do not depend on the number of items in the trie. A predictive text function relies upon look ups. Every time a user presses a key the system will preform at least one look up and so it is vital that these searches be fast. 
+				The look up time for a value in a trie is dependant upon \begin{math}len(w)\end{math}, where \begin{math}len(w)\end{math} is the length of the word to look up\cite{book:ADS:complexity}. This gives the trie a \begin{math} O(1) \end{math} search time in regards to \begin{math} n \end{math} (the number of words). Meaning that searches in a trie do not depend on the number of items in the trie. This is the best big-O time complexity achievable. A predictive text function relies upon look ups. Every time a user presses a key the system will preform multiple look ups, so it is vital that these searches be fast. 
 				
-				The time complexity of deletion in a trie is also linear. Deletions time complexity is 
-				\begin{math}\vert A \vert * len(string)\end{math}, where \begin{math}len(string)\end{math} is the length of the word to look up and \begin{math}\vert A \vert \end{math} is the size of the alphabet\cite{book:ADS:complexity}.
+				The time complexity of deletion in a trie is also constant in regards to n. The time complexity of deletions are \begin{math}\vert A \vert * len(w)\end{math}, where \begin{math}len(w)\end{math} is the length of the word to look up and \begin{math}\vert A \vert \end{math} is the size of the alphabet \cite{book:ADS:complexity}.
 				This is also a \begin{math} O(1) \end{math} operation.
 				In the use case as a Predictive text engine deletions will be very rare or non-existent.
-				A simple implementation of predictive text may not allow the user to delete words form the dictionary at all. 
+				A simple implementation of predictive text may not even allow the user to delete words form the dictionary. 
 				
 				The time complexity of insertion in a trie is the same as for deletions. Insertion time complexity is \begin{math}\vert A \vert  * len(string))\end{math}, where \begin{math}len(string)\end{math} is the length of the word to look up and \begin{math}\vert A \vert \end{math} is the size of the alphabet\cite{book:ADS:complexity}.
-				This, again, is a \begin{math} O(1) \end{math} operation.
+				This, again, is a \begin{math} O(1) \end{math} operation in regards to the number of words (\begin{math}n\end{math}).
 				When used in a predictive text engine most of the insertion into the trie will be made when loading the dictionary from file. 
 				
 			\subsubsection{Space complexity of a trie}
 			    The space complexity of a trie is \begin{math} \vert A \vert \Sigma_i len(w_i)\end{math} where there are strings \begin{math} w_0 \end{math} to \begin{math} w_n \end{math} and \begin{math}\vert A \vert \end{math} is the size of the alphabet \cite{book:ADS:complexity}.
 			    This is saying that the space complexity of a trie is equal to the size of the alphabet by the total length of all the strings.
 			    Expressed in therms of \begin{math} n \end{math} this becomes \begin{math} \vert A \vert * n * l \end{math} where \begin{math}\vert A \vert \end{math} is the size of the alphabet and \begin{math} l \end{math} is the average length of the words.
-			    In this form it is easy to see that the space required to store is governed by a  \begin{math} O(n) \end{math} relationship ship.
+			    In this form it is easy to see that the space required to store is governed by a  \begin{math} O(n) \end{math} relationship ship. The big-O time complexity is the same as nearly all data structure \cite{website:bigocheatsheet}, But the space complexity of each node in a trie is quite large due to the array of pointer to children.
 			    
             \subsubsection{Space vs Time}
                 The tire data structure sacrifices a good space complexity for time complexity that doesn't depend on the number of strings that it is storing. 
+                There are ways to modify the trie data structure to have a smaller space complexity.
+                
+                The simplest method of doing this is to reduce size if the alphabet. A naive implementation of a trie may use a pointer for each possible value in Extended ASCII character set. This is 256 pointers per node. But most of these character will not be used in normal typing. The only characters that are normally used are a-z and 0-9. This means alphabet size can be reduced from 256 to 36. You may also want to include A-Z and common punctuation but your over all space complexity of each node will still be massively reduced. 
+                
+                There are methods that get rid of the child pointer completely by using lists or hash tables to store the children of each node , but both of these methods increase the time complexity of look ups by a factor of \begin{math}\vert A \vert \end{math}. With space complexity reducing by that same factor.
+                
+                Radix trees or compressed tries could also be used, as well as deterministic acyclic finite state automaton. But these are much more complicated data structures.
                 
 		\subsection{Alternative Data structures}
-		    This section details some alternative data structures that were be considered for storing the word list.
+		    This section details some of the alternative data structures that were be considered for storing the word list. Tries were chosen over these data structures due to haveing better time and space complexity's.
 		    
 			\subsubsection{Binary Search Trees vs Tries}
 			    Both BST (Binary search trees) and Tries are ordered trees.
-			    Unlike tries each node in a BST contains a maximum of 2 children. All of a nodes children on the 'left' side have a smaller value than the node and all the nodes on the right have a large value (identical values are normal omitted from BST). BST differ from tries in that each node in a BST stores a value.
+			    Unlike tries each node in a BST contains a maximum of 2 children. All of a nodes children on the 'left' side have a smaller value than the node and all the nodes on the ``right" have a large value (identical values are normal omitted from BST). BST differ from tries in that each node in a BST stores it's value.
 			    
 			    When considering space complexity BST can be shown to have a complexity of \begin{math}O(n)\end{math} \cite{book:BST:complexity}. 
 			    The big-O space complexity of a trie and BST is the same.
@@ -213,74 +219,119 @@ sorting=ynt
 			    
 			    It is also worth noting that BST require a lot of comparisons. Comparisons of two strings is not an atomic operation and its worst case time complexity is \begin{math}O(l)\end{math}, where \begin{math}l\end{math} is the length of the string.
 			    
-			    Trie are a better choice for the purpose of a predictive text system. 
+			    Tries are a better choice for the purpose of a predictive text system. 
 			    
 			\subsubsection{Hash Table vs Tries}
 			    Hash tables are an associative data structure where a key can be used to look up a value and the value is used to generate the key.
 			    
-			    They require the use of a hash function which are proportional to the length of the input string, not constant time.
+			    They require the use of a hash function. A good hash functions time complexity is not constant in regards to the length of the input. This is important when comparing hash tables are tries.
 			    
-			    The space complexity of a hash map is \begin{math} O(n) \end{math} which is the same as a trie.
+			    The space complexity of a hash map is \begin{math} O(n) \end{math} which is the same big-O complexity as a trie. But the total space complexity of a trie is larger than that of a hash table as it has to store a set of pointer of each node.
 			    
-			    The time complexity of look up in a hash table is \begin{math} O(1) \end{math} if there are no collisions but could be \begin{math} O(n) \end{math} in the worst case. In the best case Tries and Hash tables have the same time complexity to look up a value. In the worst case Tries still have \begin{math} O(1) \end{math} performance which is better than the hash table.
+			    The time complexity of look up in a hash table is \begin{math} O(1) \end{math} if there are no collisions but could be \begin{math} O(n) \end{math} in the worst case. In the best case Tries and Hash tables have the same time complexity to look up a value. But in the worst case Tries still have \begin{math} O(1) \end{math} performance which is better than the hash table.
 			    
 			    There are also other notable conditions in which a hash table preforms worse than a trie. Consider attempting to look up a word (e.g. "zoologist") starting with a letter ("z") in a hash table or trie that contain no words starting with that letter ("z"). The hash table would evaluate the hash of that word which takes time proportional to the length of the word. Where as the trie would make a single check and know the word isn't is contained within.
 			    
-			    A standard hash table can not preform prefix based look ups either, because similar words produce dissimilar hashes.
-			    
-			    
+			    A standard hash table can not preform prefix based look ups. This is because similar words produce dissimilar hashes.
 			    
 			\subsubsection{Array Lists vs Tries}
-			    Array Lists are dynamically realizable arrays. They behave exactly like a standard array, but if an addition/insert is done when the list is already full, it automatically increases its size.
+			    Array Lists are dynamically realizable arrays. They behave exactly like a standard array, but if an addition/insert is done when the list is full, it automatically increases its size.
 			    
 			    The space complexity of an array list is dependant upon the number of elements in the array and the number of allocated but free elements. This means that the space complexity of an array list is 
 			    \begin{math} O(n) \end{math} . Array lists and tries have the same big-O space complexity. But an array list will have a smaller space foot print in practice as its space usage \begin{math} n * l + k \end{math} where as a trie uses \begin{math} n * l * \vert A \vert \end{math}, where \begin{math} l \end{math} is the average word length, \begin{math} k \end{math} is the unused elements and \begin{math} \vert A \vert \end{math} is the alphabet size.
 			    
 			    The time complexity of a search in an array list depends on the searching algorithm. For efficient searches the array must be sorted. So search complexity cannot be considered without considering the complexity or sorting the data.
 			    
-			    In the use case of a predictive text system, words will be inserted infrequently but searches are done often. This means that in this use case the time complexity of sorts matter much less than the time complexity of searching. The best time complexity of a sorting algorithms is \begin{math} O(n * log(n)) \end{math} and the time complexity of a binary search is \begin{math}O(log(n))\end{math}. 
-			    Since the words may only have to be sorted once for hundreds or thousands of searches, in this use case searching will take \begin{math}O(log(n))\end{math} time.
-			    Whilst this is a good time complexity it doesn't math the tries \begin{math} O(1) \end{math} time complexity.
+			    In the use case of a predictive text system, words will be inserted infrequently but searches are done often. This means that in this use case the time complexity of sorts matter much less than the time complexity of searching. The best time complexity of a sorting algorithms is \begin{math} O(n * log(n)) \end{math} and the time complexity of a binary search is \begin{math}O(log(n))\end{math}.
+			    Since the words may only have to be sorted once for hundreds or thousands of searches it is better to consider the amortized cost. In this use case searching will take \begin{math}O(log(n))\end{math} time.
+			    Whilst this is a good time complexity it doesn't match the tries \begin{math} O(1) \end{math} time complexity.
 			    
-			    The time complexity of inserting a value into an array tree is \begin{math}O(1)\end{math} to insert at the end and \begin{math}O(n)\end{math} to insert in the middle or beginning.That is if the number of items in the array list is smaller or equal to its size. But if the array has to resize this may not be the case. The performance can be \begin{math}O(n)\end{math} if the reallocation of the array fails (due to memory fragmentation) and a new array has to created in different area in memory. Because all of the items in the array have to be copied to the new array. 
+			    The time complexity of inserting a value into an array tree is \begin{math}O(1)\end{math} to insert at the end and \begin{math}O(n)\end{math} to insert in the middle or beginning.That is if the number of items in the array list is smaller or equal to its size. 
+			    But if the array has to resize this may not be the case. The performance can be \begin{math}O(n)\end{math} if the reallocation of the array fails (due to memory fragmentation) and a new array has to created in different area in memory. Because all of the items in the array have to be copied to the new array. 
 			    The tries time complexity for insertion is constant time and so is better than the array lists linear time.
 			
-			    The time complexity of deletions in a array list is the same as insertions \begin{math}O(n)\end{math}.
+			    Considering the amortized time complexity, deletions in a array list are the same as insertions \begin{math}O(n)\end{math}. This worst than tries.
 			    
-			    Array lists have some advantages over hash maps and binary search trees when it comes to prefix look up. Because the words in an array list would be sorted any words that share a prefix will be guaranteed to be neighbours. Which is similar to the trie.
-
-	\section{Testing}
+			    Array lists have some advantages over hash maps and binary search trees when it comes to prefix look up. Because the words in an array list would be sorted any words that share a prefix will be guaranteed to be neighbours. Which is similar to the trie, but not quite as structured.
+    \section{Design}
+        \subsection{Structure}
+            The first thing to when designing a system is to decide upon the structure. In the case of a software project, like this, UML class diagrams are a good choice. The full diagram can be found in appendix \ref{appendix:UnitTestOutput}. The Class diagram helped show that the predictive text system can be spilt into 4 distinct layers. These are the application/UI layer, the predictive text engine layer, the dictionary storage layer and a library layer.
+            \begin{description}
+            \item[The application/UI layer] will the the entry point of the program and will be responsible of creating and managing the predictive text engine. It will also manage the UI and inputs from the user.
+            Partial words from the user input will be passed to the predictive text engine, which will respond with suggestions for complete words.
+            
+            \item[The predictive text engine layer] will be responsible for creating an managing the dictionary storage layer. It will read the dictionary from the word list text file ``word.txt" and add the words to the storage layer. The application layer will use this layer to query the storage layer. The predictive text engine will query the data storage layer to see if words are contained in storage and weather there are any words prefixed by a partial word in storage.
+            
+            \item[The dictionary storage layer] will be responsible for storing and accessing the large set of words (\textgreater 25k). It will use a Trie data structure to do this. It will provide fast look ups and prefixed based searching. It will use Library classes such as queues and stacks to simplify its own logic.
+            
+            \item[The library layer] contains stack, queue and list classes that can be used by the other layer if they need them. (standard c libraries such as stdlib, stdbool, string are not shown in the class diagram).
+            \end{description}
+        \subsection{How suggestions are made}
+            When a user has typed in section of text the application/UI layer separates the last word from the rest of the string. It does this by scanning the string backwards for the for first occurrence of a word separator (the first occurrence of a separator when scanning backwards is the last separator in the string). It then knows that the last word is between that separator and the end of the string. It then passes the partial word to the text engine layer along with the number of suggestions it wants.
+            
+            Once the partial word gets to the predictive text engine layer, the first thing the engine does is check to see if the partial word is contained in the data storage layer. 
+            
+            The data storage layer will then respond indicating weather the partial word is contained in the trie. This will tell the engine weather the partial word is either in the trie and starred (is a word), in the trie but not starred (a prefix) or not in the trie.
+            
+            If the partial word is contained in storage and is a full word then we will add the partial word to the list of found suggestions. If the application/UI layer only requested one suggestion then we return the list now, if not we continue onwards.
+            
+            If the partial word was in storage but not starred then we can look for words that are prefixed by the partial word (e.g. if input was ``Dat" the we can look for words like ``Data" and ``Date" ). The predictive text engine passes the partial word to the dictionary storage layer, to preform a breadth first search of words prefixed by the partial word.
+            
+            Before starting a breadth first search, the data structure layer walks the trie to find the node that represents the partial word. All words that are prefixed by the partial word will be children of this node. This node will be the starting point for the breadth first search.
+            
+            Once the starting node has been found a breadth first search is preformed. The current node is added to a queue and we repeat the process below until the queue is empty.
+            
+            The first thing done is de-queueing an item from the queue this is now the current node.
+            The current node is check to see weather it is starred (is a compleate word). If the current node is then we add it to the list of found suggestions. If enough suggestions have been then found then the loop is broken.
+            Then all of the children of the current node are added to the queue in order.
+            
+            For the loop to have finished either enough suggestions were found or there we no more nodes to check. This means we now have a list of the shortest possible suffixes to the partial word. These are returned to the predictive text engine.
+            
+            The predictive text engine now has a list of suggestions that may contain the partial word its self and words prefixed by the partial word. The predictive text engine then returns this list tp the application/UI layer where they are printed to the screen, next to the key needed to chose the particular suggestion.
+            
+            The application/UI layer then lets the user either pick a suggestion or continue typing.
+            
+    
+	\section{Testing Methodology}
 	
 	    The testing of the predictive test system will be split up into three distinct sections. The first of these sections will involve testing the time complexity of the system and seeing if it matches expectations. The second section is the unit testing of the system. The final section of testing will be testing the user interacts of the system and comparing the behaviour against the behaviour defined in the success criteria.
 		\subsection{Complexity}
 		    In order to test the time complexity of our system relative to the number of words in our word list we will have to create multiple word lists each of different size. The file ``words.txt" that was provided is a list of 25,143 words. I have also obtained lists of the 10, 100, 1000 and 10000 most common words (from Google's Trillion word data set \cite{github:wordlist:first20hours} ). These are contained in the files named ``10words.txt" , ``100words.txt" , ``1000words.txt" and ``10000words.txt".
 		    
-		    This means we can run a function on each of these data sets then use the resulting times to estimate the real word time complexity of the function.
-		    
-			\subsubsection{Results}
-				
+		    This means we can run a function on each of these data sets then use the resulting times to estimate the real word time complexity of the function.				
 
 				
 		\subsection{Unit Testing}
 		    Every module (.c file) used within the system (excluding main.c, the unit tests themselves and the unit test runner) has a corresponding unit test file (ending with ``\_UT.c" ). These unit tests evaluate the behaviour of all of the functions a module makes public via its interface (.h file). The module UnitTester is responsible for running each set of unit tests. Each unit test is written to evaluate the behaviour of a specific part of the module under test.
 		    
 		    To run these unit tests the Symbol UTEST has to be defined at compile time. This can be done by switching from the debug/release configuration to the unittest configuration. If UTEST is defined the UnitTester module is ran, and preforms all unit tests and prints out weather the tests are failing or passing. 
-		    
-            \subsubsection{Results}
-			     The results from running the unit tests on the final build can be found in appendix \ref{appendix:UnitTestOutput} or in a file named ``.\textbackslash Log\textbackslash UnitTestLog.txt", to get these results from the program use the method described above.
 			     
 		\subsection{User interactions}
 			Unlike the other two sections these tests are not strictly quantitative. Each of the success criteria that relate to user input or interaction will be evaluated. 
 			
-			\subsubsection{Results}
-            
+	\section{Test Results}
+	        \subsection{Complexity results}
 
-		
+            \subsection{Results}
+			     The results from running the unit tests on the final build can be found in appendix \ref{appendix:UnitTestOutput} or in a file named ``.\textbackslash Log\textbackslash UnitTestLog.txt", to get these results from the program use the method described above.
+			     
+			\subsection{User interaction results}
+            
+    \section{Conclusion}
+		% did we make our criteria 
 	\newpage
 	\printbibliography
 	\newpage
-	\appendix
-	\section{Unit Testing Output} \label{appendix:UnitTestOutput}
+	
+    \appendix
+    \section*{Appendices}
+    \addcontentsline{toc}{section}{Appendices}
+    \renewcommand{\thesubsection}{\Alph{subsection}}
+
+    \subsection{Class Diagram}
+        \includegraphics[width=\textwidth]{PredictiveTextUML}
+
+	\subsection{Unit Testing Output} \label{appendix:UnitTestOutput}
 	    \begin{lstlisting}
 	        
    Fri Jan 20 19:32:16 2017
