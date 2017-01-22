@@ -265,3 +265,4 @@ DSA_Assessment/UnitTest/DSA_Assessment.tlog/link.write.1.tlog
 *.idb
 UnitTest/DSA_Assessment.exe
 *.enc
+*.xml

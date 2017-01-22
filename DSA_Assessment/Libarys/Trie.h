@@ -15,6 +15,7 @@
 /// Defines
 /// ====
 #define MAXWORDLENGTH 64
+#define ALPHABETSIZE 36
 
 /// ====
 /// Type Definitions
@@ -57,6 +58,16 @@ int trie_Contains(Trie *trie, char *item);
 // Returns a value > 0 and < numPredictions if words were found.
 // Returns -1 if no words where found.
 int trie_searchByPrefix(Trie *trie, char *item, char **result, int num);
+
+// Maps a Char to an index value
+// Returns a number between 0 and ALPHABETSIZE - 1 if successful
+// Returns -1 if unsuccessful
+int trie_CharToIndex(char c);
+
+// Maps an index value back to a char
+// Returns a char a-z 0-9 if successful
+// Returns '#' if index is out side range
+char trie_IndexToChar(int index);
 
 #endif // TRIE_H_INCLUDED
 
