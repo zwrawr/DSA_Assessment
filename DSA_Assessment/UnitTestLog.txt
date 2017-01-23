@@ -1,5 +1,5 @@
 
-   Sun Jan 22 22:50:12 2017
+   Mon Jan 23 00:32:18 2017
  
 ====#====#====#====#====#====#====#====#====#==== 
 ====                                         ==== 
@@ -51,6 +51,21 @@
  [PASS] 	 Predicting words worked
 ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
  [PASS] 	All Unit Tests for PTE passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Lists 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed list pointer was not null
+ [PASS] 	 Two constructed lists did not have the same pointer
+ [PASS] 	 Adding a value to a list worked
+ [PASS] 	 Adding multiple values to a list worked
+ [PASS] 	 Adding multiple values to a list worked
+ [PASS] 	 list isEmpty worked
+ [PASS] 	 list Size worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Lists passed ! 
 
 
 

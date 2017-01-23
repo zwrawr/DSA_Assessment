@@ -21,7 +21,7 @@ typedef struct List List;
 /// Constructors and Destructor
 /// ====
 List *list_Constructor(size_t itemSize);
-void list_Destructor(List *list);
+void list_Deconstructor(List *list);
 
 
 /// ====
