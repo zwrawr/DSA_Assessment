@@ -33,7 +33,7 @@ typedef struct ListNode ListNode;
 /// Prototypes
 /// ====
 ListNode *listNode_Constructor(size_t itemSize, void *data);
-void listNode_Destructor(ListNode *);
+void listNode_Deconstructor(ListNode *);
 
 ListNode *getNode(List *list, int index);
 
@@ -73,7 +73,7 @@ struct List *list_Constructor(size_t itemSize)
     return list;
 }
 
-void list_Destructor(List *list)
+void list_Deconstructor(List *list)
 {
     ListNode *currentRecord;
     ListNode *nextRecord = list->head;
@@ -83,7 +83,7 @@ void list_Destructor(List *list)
         currentRecord = nextRecord;
         nextRecord = currentRecord->next;
         
-        listNode_Destructor(currentRecord);
+        listNode_Deconstructor(currentRecord);
     }
     
     free(list);
@@ -102,7 +102,7 @@ ListNode *listNode_Constructor(size_t size, void *data)
     return node;
 }
 
-void listNode_Destructor(ListNode *node)
+void listNode_Deconstructor(ListNode *node)
 {
     free(node->data);
     free(node);
@@ -201,20 +201,34 @@ int list_Remove(List *list, int index)
         return 0;
     }
     
-    node->prev->next = node->next;
-    node->next->prev = node->prev;
-    
-    if (node->next == NULL)
+    if (list->size == 1)
     {
+        // were the only item
+        list->head = NULL;
+        list->tail = NULL;
+    }
+    else if (node->next == NULL)
+    {
+        // were at the tail
+        node->prev->next = node->next;
         list->tail = node->prev;
     }
-    
-    if (node->prev == NULL)
+    else if (node->prev == NULL)
     {
+        // were at the head
         list->head = node->next;
+        node->next->prev = NULL;
+    }
+    else
+    {
+        // were in the middle
+        node->prev->next = node->next;
+        node->next->prev = node->prev;
     }
     
-    listNode_Destructor(node);
+    
+    
+    listNode_Deconstructor(node);
     list->size--;
     return 1;
 }
@@ -262,7 +276,7 @@ int list_isEmpty(List *list)
 ListNode *getNode(List *list, int index)
 {
 
-    if ((index <= 0) || (index > list->size))
+    if ((index < 0) || (index >= list->size))
     {
         printf("\nWARNING :attempted to get a node from an index outside the bounds of an list\n");
         return NULL;

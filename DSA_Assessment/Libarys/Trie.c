@@ -317,7 +317,7 @@ int trie_searchByPrefix(Trie *trie, char *item, char **results, int numToFind)
         free(tmp);
     }
     
-    list_Destructor(foundWords);
+    list_Deconstructor(foundWords);
     
     // return how many words we found
     return (numToFind - leftToFind);
