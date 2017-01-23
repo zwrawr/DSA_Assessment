@@ -56,7 +56,7 @@ struct TrieElement
     TrieElement **children;//ALPHABETSIZE number of pointers one for each letter of the alphabet and one for each number
     TrieElement *parent;
     
-    bool starred; // if 1 this node represents a compleate word. All leaf elements are starred elements.
+    bool starred; // if 1 this node represents a complete word. All leaf elements are starred elements.
 };
 
 /// ====
@@ -88,7 +88,7 @@ void trie_Deconstructor(Trie *trie)
         return; // cannot free a NULL trie
     }
     
-    // clean up any elements accociated with this trie
+    // clean up any elements associated with this trie
     trieElement_Deconstructor(trie->root);
     free(trie);
     return;
@@ -147,14 +147,14 @@ void trieElement_Deconstructor(TrieElement *trieElement)
 /// ====
 
 // Adds the item(word) to the trie data structure
-// Returns 1 if addition was succesful
+// Returns 1 if addition was successful
 // Returns 0 if word could not be added
-// Returns -1 if params are NULL
+// Returns -1 if parameters are NULL
 int trie_Add(Trie *trie, char *item)
 {
     if (trie == NULL || trie->root == NULL || item == NULL)
     {
-        return -1; // NULL or broken trie so dont attempt to add to it
+        return -1; // NULL or broken trie so don't attempt to add to it
     }
     else if ( ( strlen(item) < 1 ) || ( strlen(item) > (MAXWORDLENGTH - 1) ) )
     {
@@ -170,8 +170,8 @@ int trie_Add(Trie *trie, char *item)
 }
 
 // Adds the items(words) to the trie data structure
-// Returns 1 if additions were succesful
-// Returns 0 if any additions were unsuccesful
+// Returns 1 if additions were successful
+// Returns 0 if any additions were unsuccessful
 int trie_AddMultiple(Trie *trie, char **items, int num)
 {
     if (items == NULL || num < 1)
@@ -192,7 +192,7 @@ int trie_AddMultiple(Trie *trie, char **items, int num)
     {
         if (trie_Add(trie, items[i]) != 1)
         {
-            errs++; // if and addtion was unsuccesful increment the number of errors
+            errs++; // if and addition was unsuccessful increment the number of errors
         }
     }
     
@@ -221,10 +221,10 @@ int trie_Print(Trie *trie)
     
     // were going to construct the word on a stack,
     // pushing a char every time we go down into a node and
-    // poping a char every time we exit a node
+    // popping a char every time we exit a node
     Stack *charStack = stack_Constructor();
     
-    // traverse the trie in pre-order and print the node if its starred
+    // traverse the trie in preorder and print the node if its starred
     int info = recursivePrint(curr, charStack, 0);
     stack_Deconstructor(charStack);
     
@@ -265,12 +265,12 @@ int trie_Contains(Trie *trie, char *item)
     }
     else if (found->starred == true)
     {
-        // if the found node was starred then it was a compleate word.
+        // if the found node was starred then it was a complete word.
         return 1;
     }
     else
     {
-        // wasn't a compleate word.
+        // wasn't a complete word.
         return 0;
     }
 }
@@ -285,17 +285,19 @@ int trie_searchByPrefix(Trie *trie, char *item, char **results, int numToFind)
     
     TrieElement *curr = getElement(trie->root, item, 0);
     
-    if (curr == NULL)
+    if (curr == NULL || curr->children == NULL)
     {
-        //printf("[WARN] item isn't in the trie so its impossible for any word to be prefixed by it.");
+        //item isn't in the trie so its impossible for any word to be prefixed by it or it has no children so no prefixes
+        return -1;
+    }
+    
+    if (strlen(item) < 2)
+    {
         return -1;
     }
     
     // make a stack to keep our word in, and add the partial word.
     Stack *wordStack = stack_Constructor();
-    
-    // make a list to store the words we find
-    List *foundWords = list_Constructor(MAXWORDLENGTH * sizeof(char));
     
     // and the partial word to it
     for (int i = 0; i < (int)strlen(item); i++)
@@ -303,7 +305,10 @@ int trie_searchByPrefix(Trie *trie, char *item, char **results, int numToFind)
         stack_Push(wordStack, trie_CharToIndex(item[i]));
     }
     
-    // recursivly search for every word below this
+    // make a list to store the words we find
+    List *foundWords = list_Constructor(MAXWORDLENGTH * sizeof(char));
+    
+    // recursively search for every word below this
     int leftToFind = recursive_searchByPrefix(curr, wordStack, foundWords, numToFind);
     
     // move the words from the list to the results array
@@ -325,7 +330,7 @@ int trie_searchByPrefix(Trie *trie, char *item, char **results, int numToFind)
 
 int recursive_searchByPrefix(TrieElement *curr, Stack *wordStack, List *foundWords, int numLeftToFind)
 {
-    // if there we dont want to find any more words then return
+    // if there we don't want to find any more words then return
     if (numLeftToFind <= 0)
     {
         return 0;
@@ -343,7 +348,6 @@ int recursive_searchByPrefix(TrieElement *curr, Stack *wordStack, List *foundWor
         //TODO:: wrapper function for stack to string
         int *tmpArray = stack_ToArray(wordStack);
         char *tmpString = indicesToString(tmpArray, stack_GetHeight(wordStack));
-        ///printf("Found %s_\n", tmpString);
         
         // Add it to our list of found words
         list_Add(foundWords, tmpString);
@@ -368,7 +372,7 @@ int recursive_searchByPrefix(TrieElement *curr, Stack *wordStack, List *foundWor
                 numLeftToFind = recursive_searchByPrefix(curr->children[i], wordStack, foundWords, numLeftToFind);
                 stack_Pop_nv(wordStack);
                 
-                // if we dont want to find any more nodes then break the loop to return
+                // if we don't want to find any more nodes then break the loop to return
                 if (numLeftToFind <= 0)
                 {
                     break;
@@ -421,7 +425,7 @@ TrieElement *getElement(TrieElement *curr, char *item, int offset)
     }
 }
 
-// Recurively prints the trie
+// Recursively prints the trie
 // Returns number of items printed if successful
 // Returns -1 if unsuccessful
 int recursivePrint(TrieElement *curr, Stack *charStack, int depth)
@@ -433,7 +437,7 @@ int recursivePrint(TrieElement *curr, Stack *charStack, int depth)
     
     int printed = 0;
     
-    // if this node is starred then it is a compleate word, so print it out
+    // if this node is starred then it is a complete word, so print it out
     if (curr->starred == true)
     {
         char *string = indicesToString(stack_ToArray(charStack), stack_GetHeight(charStack));
@@ -521,7 +525,7 @@ char trie_IndexToChar(int index)
 
 // Maps an array of indices back to a string
 // Returns a string representing the mapped version of the array
-// Returns NULL if input array was NULL or has langth < 1
+// Returns NULL if input array was NULL or has length < 1
 char *indicesToString(int *array, int length)
 {
     if (array == NULL || length < 1)
@@ -549,7 +553,7 @@ int insert(Trie *trie, char *string)
     if (trie == NULL || trie->root == NULL || string == NULL || strlen(string) < 1)
     {
         printf("[WARN] \tAttempted to insert a word to a NULL or broken trie\n");
-        return 0; // NULL or broken trie or NULL or empty string so dont attempt to add to it
+        return 0; // NULL or broken trie or NULL or empty string so don't attempt to add to it
     }
     
     TrieElement *curr = trie->root;
@@ -560,7 +564,7 @@ int insert(Trie *trie, char *string)
     {
         index = trie_CharToIndex(string[i]);
         
-        // if this char is not alphabeticnumeric skip it else try to walk further
+        // if this char is not alphanumeric skip it else try to walk further
         if (index == -1)
         {
             i++;
@@ -582,7 +586,7 @@ int insert(Trie *trie, char *string)
         
         if (index == -1)
         {
-            // if charToIndex return -1 then we dont care about this char so skip it e.g. fullstops
+            // if charToIndex return -1 then we don't care about this char so skip it e.g. fullstops
             i++;
         }
         else

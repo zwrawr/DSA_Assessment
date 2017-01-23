@@ -11,7 +11,7 @@
 #include "..\UnitTests\UnittestRunner.h"
 
 
-// all of the unittesting files
+// all of the unit testing files
 #include "..\UnitTests\Stack_UT.h"
 #include "..\UnitTests\Trie_UT.h"
 #include "..\UnitTests\PredictiveTextEngine_UT.h"

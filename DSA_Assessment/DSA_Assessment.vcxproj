@@ -261,6 +261,7 @@
     <ClInclude Include="Libarys\Stack.h" />
     <ClInclude Include="Libarys\Trie.h" />
     <ClInclude Include="PredictiveTextEngine\PredictiveTextEngine.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="UnitTests\Complexity_UT.h" />
     <ClInclude Include="UnitTests\List_UT.h" />
     <ClInclude Include="UnitTests\PredictiveTextEngine_UT.h" />
@@ -270,9 +271,12 @@
     <ClInclude Include="UnitTests\UnitTester.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Data\10000words.txt" />
+    <Text Include="Data\1000words.txt" />
     <Text Include="Data\100words.txt">
       <DeploymentContent>true</DeploymentContent>
     </Text>
+    <Text Include="Data\10words.txt" />
     <Text Include="Data\words.txt">
       <DeploymentContent>true</DeploymentContent>
     </Text>

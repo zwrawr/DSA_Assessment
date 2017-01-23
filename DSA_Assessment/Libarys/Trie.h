@@ -35,12 +35,12 @@ void trie_Deconstructor(Trie *trie);
 /// ====
 
 // Adds the item(word) to the trie data structure
-// Returns 1 if addition was succesful
-// Returns 0 if unsuccesful
+// Returns 1 if addition was successful
+// Returns 0 if unsuccessful
 int trie_Add(Trie *trie, char *item);
 
 // adds the items(words) to the trie data structure
-// returns 1 if additions were succesful
+// returns 1 if additions were successful
 int trie_AddMultiple(Trie *trie, char **items, int num);
 
 // Prints out the words in the trie in alphabetical order
@@ -55,7 +55,7 @@ int trie_Print(Trie *trie);
 int trie_Contains(Trie *trie, char *item);
 
 // searches the trie for words prefixed by partial word.
-// Returns a value > 0 and < numPredictions if words were found.
+// Returns a value > 0 and < num if words were found.
 // Returns -1 if no words where found.
 int trie_searchByPrefix(Trie *trie, char *item, char **result, int num);
 

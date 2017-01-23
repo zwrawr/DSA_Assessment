@@ -1,7 +1,7 @@
 // =====================================================
 // <summary>
 //  This file provides a public interface for the file
-//  "List.c". This is a generic list implimentation,
+//  "List.c". This is a generic list implementation,
 // </summary>
 // <project> Predictive Text </project>
 // <author> Y3839090 </author>

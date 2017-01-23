@@ -1,7 +1,7 @@
 // =====================================================
 // <summary>
 //  This file creates and manages predictive text engines that
-//  can taje partial words and make suggestions of complete words
+//  can take partial words and make suggestions of complete words
 //  that appear in a word list.
 // </summary>
 // <project> Predictive Text </project>
@@ -70,9 +70,6 @@ PredictiveTextEngine *predictiveTextEngine_Constructor(void)
     trie_AddMultiple(ptEngine->trie, words, len);
     freeWordsArray(words, len);
     
-    // vv good for debugging vv
-    //trie_Print(ptEngine->trie);
-    
     return ptEngine;
 }
 
@@ -111,7 +108,7 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
     
     int len = (int)strlen(partialWord);
     
-    // Dont make guesses for words less than 2 letters long just return the input
+    // Don't make guesses for words less than 2 letters long just return the input
     if (len < 2)
     {
         printf("[MESG] \t Partial word is too short to make any guesses, must be at least 2 letters long.\n");
@@ -166,7 +163,7 @@ int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWo
         free(words);
     }
     
-    // If we still havent got enough suggestions (might be here becuase the partial word isnt in the trie)
+    // If we still haven't got enough suggestions (might be here because the partial word isn't in the trie)
     if ( SuggestionsFound <= numPredictions )
     {
         // then we check upwards . . .
@@ -197,7 +194,7 @@ int predictiveTextEngine_MaxWordLength()
 /// ====
 
 // Opens the file at *path for reading.
-// Returns a pointer to the opened file or a NULL pointer if file couldnt be opened
+// Returns a pointer to the opened file or a NULL pointer if file couldn't be opened
 FILE *loadFile(char *path)
 {
     // Validity checks
@@ -271,7 +268,7 @@ int countLinesInFile(FILE *file)
 
 // Reads in *file one line at a time to obtain an array of lines
 // Returns a char** of all the lines in the file
-// Retruns NULL if file is NULL,file could not be read, has no lines.
+// Returns NULL if file is NULL,file could not be read, has no lines.
 char **getWordsArray(FILE *file, int *lines)
 {
     if (file == NULL)
@@ -290,7 +287,7 @@ char **getWordsArray(FILE *file, int *lines)
     //make sure were at the begging of the file
     fseek(file, 0, SEEK_SET);
     
-    // allocate aa array that can hold a string for each line of the file
+    // allocate an array that can hold a string for each line of the file
     char **words = malloc(*lines * sizeof(char *));
     
     
@@ -322,7 +319,7 @@ char **getWordsArray(FILE *file, int *lines)
     return words;
 }
 
-// Frees a char** of length length
+// Frees a char** of length
 void freeWordsArray(char **words, int length)
 {
     if (words == NULL )

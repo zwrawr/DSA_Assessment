@@ -266,3 +266,4 @@ DSA_Assessment/UnitTest/DSA_Assessment.tlog/link.write.1.tlog
 UnitTest/DSA_Assessment.exe
 *.enc
 *.xml
+/DSA_Assessment/resource.h
