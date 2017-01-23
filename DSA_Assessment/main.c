@@ -10,6 +10,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
+#include "./Libarys/Stack.h"
+#include "./Libarys/List.h"
 #include "PredictiveTextEngine/PredictiveTextEngine.h"
 
 /// ====
@@ -26,7 +29,10 @@
 /// ====
 void waitForInput(char *message);
 void textEntryLoop();
-void doPrediction(char *partial);
+List *doPrediction(char *partial);
+char *addStackToListAndClear(Stack *stack, List *list);
+char *stackToString(Stack *stack);
+void printTextSoFar(List *list);
 
 /// ====
 /// Global
@@ -75,62 +81,116 @@ int main(void)
 void textEntryLoop()
 {
     int maxWordLength = predictiveTextEngine_MaxWordLength();
-    char *inputBuffer = malloc(256 * sizeof(char));
+    
+    Stack *letterStack = stack_Constructor();
+    List *wordList = list_Constructor(maxWordLength * sizeof(char));
+    
+    char *inputBuffer = malloc(maxWordLength * sizeof(char));
     inputBuffer[0] = '\0';// strings have to end
+    
+    List *Suggestions = NULL;
     
     while (1)
     {
-        fputc(' ', stdin);
-        
+    
         // TODO improve this
         
-        // a buffer of out word. Auto resizing array list implementation would be better
-        // and then read the new text in char by char and add it to the array
-        char *info = fgets(inputBuffer, 256, stdin);
+        char letter = _getch();
         
-        //TODO :: Check info
-        printf("\n=>\t %s \n", inputBuffer);
+        if (((letter >= 48) && (letter < 58)) || ((letter >= 65) && (letter < 91)) || ((letter >= 97) && (letter < 123)))
+        {
+            // the input is alphanumeric
+            stack_Push(letterStack, (int)letter);
+        }
+        else if ( letter == 13)
+        {
+            // the input is an enter so add a new line to the terminal and finish the current word
+            printf("\n");
+            char *word = addStackToListAndClear(letterStack, wordList);
+            free(word);
+        }
+        else if (letter == 8 || letter == 127)
+        {
+            // the input is delete or back space
+            
+            // if this word is not empty
+            if (stack_GetHeight(letterStack) > 0)
+            {
+                stack_Pop_nv(letterStack);
+            }
+        }
+        else if (letter == 32)
+        {
+            // the input is a space
+            char *word = addStackToListAndClear(letterStack, wordList);
+            free(word);
+            
+        }
+        else if (letter == 0)
+        {
+            letter = _getch();
+            
+            // F1 - 6
+            if (letter > 58 && letter < 66)
+            {
+            
+                if (Suggestions != NULL &&  list_Size(Suggestions) > ((int)letter - 59))
+                {
+                    // clear the stack and add the chosen suggestion to the list
+                    int stackHeight = stack_GetHeight(letterStack);
+                    
+                    for (int i = 0; i < stackHeight; i++)
+                    {
+                        stack_Pop_nv(letterStack);
+                    }
+                    
+                    char *tmp = malloc(maxWordLength * sizeof(char));
+                    list_Read(Suggestions, ((int)letter - 59), tmp);
+                    
+                    list_Add(wordList, tmp);
+                    free(tmp);
+                    
+                }
+            }
+            
+        }
         
-        // process to find just the last word.
-        char *lastWord = malloc(maxWordLength * sizeof(char));
-        lastWord[0] = '\0';
+        // grab the current partial word.
+        char *lastWord = stackToString(letterStack);
         
         int len = (int)strlen(inputBuffer);
-        int i = 0;
         
-        // walk backwards from the end of the string till we hit a space
-        while (inputBuffer[len - i] != ' ')
+        // we need at least two char to make a prediction
+        if (strlen(lastWord) > 1)
         {
-            i++;
+        
+        
+            if (Suggestions != NULL)
+            {
+                list_Deconstructor(Suggestions);
+            }
+            
+            Suggestions = doPrediction(lastWord);
         }
         
-        //TODO:: other possible word separators '-' '_'
-        // scan the buffer starting at the end looking for a space.
-        char *lastSpace = strrchr(inputBuffer, ' ');
+        printTextSoFar(wordList);
         
-        // if we didn't find a space then assume that the entire buffer is one string
-        if (lastSpace == NULL)
-        {
-            lastSpace = inputBuffer;
-        }
+        printf("\r%s\t\t\t\t\t|", lastWord);
         
-        // the last word is between len and len-i
-        int result = strcpy_s(lastWord, maxWordLength, lastSpace);
-        
-        // TODO:: check result
-        printf("=>\t %s \n\n", lastWord);
-        
-        // try to predict a word based on the users input.
-        doPrediction(lastWord);
+        free(lastWord);
     }
     
     free(inputBuffer);
 }
 
-void doPrediction(char *partial)
+List *doPrediction(char *partial)
 {
     int numGuesses = 8, maxWordLength = predictiveTextEngine_MaxWordLength();
     char **guesses = malloc(numGuesses * sizeof(char *));
+    
+    // enough new lines to clear the screen
+    printf("\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n");
+    
     
     for (int k = 0; k < numGuesses; k++)
     {
@@ -138,36 +198,33 @@ void doPrediction(char *partial)
         guesses[k][0] = '\0';
     }
     
-    int info = predictiveTextEngine_predictWords(ptEngine, partial, guesses, 8);
+    int info = predictiveTextEngine_predictWords(ptEngine, partial, guesses, numGuesses);
     
     // TODO:: clean input string before printing
     // TODO:: switch statement and expose some defines that make this more maintainable
     if (info == 1)
     {
-        printf("=>\t  %s is a word!\n", partial);
+        printf("[F1]\t %s\n", partial);
     }
-    else if (info == 0)
+    else if (info > 0)
     {
         for (int i = 0; i < numGuesses; i++)
         {
-            printf("=>\t  %s is probably %s\n", partial, guesses[i]);
+            printf("[F%d]\t %s\n", i + 1 , guesses[i]);
         }
     }
-    else if (info == -1)
-    {
-        printf("=>\t  %s wasn't found in the dictionary :'(", partial);
-    }
-    else
-    {
-        printf("[WARN] \t attempted to predict a word but got an unexpected value back !");
-    }
+    
+    List *suggestions = list_Constructor(maxWordLength * sizeof(char));
     
     for (int j = 0; j < numGuesses; j++)
     {
+        list_Add(suggestions, guesses[j]);
         free(guesses[j]);
     }
     
     free(guesses);
+    
+    return suggestions;
 }
 
 // Block execution till the user presses enter
@@ -177,4 +234,56 @@ void waitForInput(char *message)
     int result = getchar();
     printf("\n");
     return;
+}
+
+// turns a stack into a string and adds it to the list
+char *addStackToListAndClear(Stack *stack, List *list)
+{
+    int height = stack_GetHeight(stack);
+    char *tmpString = malloc(predictiveTextEngine_MaxWordLength() * sizeof(char));
+    
+    for (int i = 0; i < height; i++)
+    {
+        int popped = 'a';
+        stack_Pop(stack, &popped);
+        tmpString[height - i - 1] = (char)popped; // remember stacks are backwards. A queue may be better for this but that means adding more code
+    }
+    
+    tmpString[height] = '\0';
+    
+    list_Add(list, tmpString);
+    
+    return tmpString;
+}
+
+char *stackToString(Stack *stack)
+{
+    int height = stack_GetHeight(stack);
+    char *tmpString = malloc(predictiveTextEngine_MaxWordLength() * sizeof(char));
+    
+    for (int i = 0; i < height; i++)
+    {
+        int peeked = 'a';
+        stack_Peek(stack, i, &peeked);
+        tmpString[i] = (char)peeked;
+    }
+    
+    tmpString[height] = '\0';
+    
+    return tmpString;
+}
+
+void printTextSoFar(List *list)
+{
+    int length = list_Size(list);
+    char *tmpString = malloc(predictiveTextEngine_MaxWordLength() * sizeof(char));
+    tmpString[0] = '\0';
+    
+    for (int i = 0; i < length; i++)
+    {
+        list_Read(list, i, tmpString);
+        printf("%s ", tmpString);
+    }
+    
+    free(tmpString);
 }
