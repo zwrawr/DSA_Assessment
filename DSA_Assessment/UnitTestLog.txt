@@ -1,5 +1,5 @@
 
-   Mon Jan 23 00:32:18 2017
+   Mon Jan 23 03:02:30 2017
  
 ====#====#====#====#====#====#====#====#====#==== 
 ====                                         ==== 
@@ -66,6 +66,44 @@
  [PASS] 	 list Size worked
 ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
  [PASS] 	All Unit Tests for Lists passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Complexity 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	  
+Took 0.000000 seconds to insert 10 items, time per item 0.000000 
+  Took 0.000000 seconds to lookup 10 items, time per item 0.000000 
+  Took 0.001000 seconds to to search by prefix 10 items, time per item 0.000100 
+ 
+
+ [PASS] 	  
+Took 0.001000 seconds to insert 100 items, time per item 0.000100 
+  Took 0.000000 seconds to lookup 100 items, time per item 0.000000 
+  Took 0.000000 seconds to to search by prefix 100 items, time per item 0.000000 
+ 
+
+ [PASS] 	  
+Took 0.001000 seconds to insert 1000 items, time per item 0.000100 
+  Took 0.000000 seconds to lookup 1000 items, time per item 0.000000 
+  Took 0.004000 seconds to to search by prefix 1000 items, time per item 0.000400 
+ 
+
+ [PASS] 	  
+Took 0.010000 seconds to insert 10000 items, time per item 0.001000 
+  Took 0.004000 seconds to lookup 10000 items, time per item 0.000400 
+  Took 0.043000 seconds to to search by prefix 10000 items, time per item 0.004300 
+ 
+
+ [PASS] 	  
+Took 0.035000 seconds to insert 25143 items, time per item 0.003500 
+  Took 0.014000 seconds to lookup 25143 items, time per item 0.001400 
+  Took 0.107000 seconds to to search by prefix 25143 items, time per item 0.010700 
+ 
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Complexity passed ! 
 
 
 

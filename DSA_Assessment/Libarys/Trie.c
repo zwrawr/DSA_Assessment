@@ -403,13 +403,21 @@ TrieElement *getElement(TrieElement *curr, char *item, int offset)
     char c = item[offset];
     int index = trie_CharToIndex(c);
     
-    if (curr->children != NULL && curr->children[index] != NULL )
+    if (index != -1)
     {
-        return getElement(curr->children[index], item, offset + 1);
+    
+        if (curr->children != NULL && curr->children[index] != NULL)
+        {
+            return getElement(curr->children[index], item, offset + 1);
+        }
+        else
+        {
+            return NULL;
+        }
     }
     else
     {
-        return NULL;
+        return getElement(curr, item, offset + 1);
     }
 }
 

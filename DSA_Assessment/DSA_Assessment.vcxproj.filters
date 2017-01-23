@@ -51,6 +51,9 @@
     <ClCompile Include="UnitTests\List_UT.c">
       <Filter>UnitTests</Filter>
     </ClCompile>
+    <ClCompile Include="UnitTests\Complexity_UT.c">
+      <Filter>UnitTests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PredictiveTextEngine\PredictiveTextEngine.h">
@@ -81,6 +84,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UnitTests\List_UT.h">
+      <Filter>UnitTests</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitTests\Complexity_UT.h">
       <Filter>UnitTests</Filter>
     </ClInclude>
   </ItemGroup>

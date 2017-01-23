@@ -16,6 +16,8 @@
 #include "..\UnitTests\Trie_UT.h"
 #include "..\UnitTests\PredictiveTextEngine_UT.h"
 #include "..\UnitTests\List_UT.h"
+#include "..\UnitTests\Complexity_UT.h"
+
 
 /// ====
 /// Defines
@@ -63,7 +65,8 @@ int UnitTester_RunTestSets(void)
         stack_UT_RunTests,
         trie_UT_RunTests,
         PredictiveTextEngine_UT_RunTests,
-        list_UT_RunTests
+        list_UT_RunTests,
+        complexity_UT_RunTests
     };
     
     int numTestFunctions = sizeof(TestFunctions) / sizeof(TestFunctions[0]);
