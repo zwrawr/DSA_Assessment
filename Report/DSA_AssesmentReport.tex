@@ -17,7 +17,7 @@
 \usepackage{graphicx} % support the \includegraphics command and options
 \usepackage{wrapfig}
 
-\usepackage{xcolor}
+\usepackage[table,xcdraw]{xcolor}
 
 \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
 
@@ -49,7 +49,7 @@
 \renewcommand{\headrulewidth}{1pt} % customise the layout...
 \lhead{\@title}\chead{}\rhead{\@author}
 \lfoot{}\cfoot{\thepage}\rfoot{}
-
+\usepackage{multirow}
 %%% SECTION TITLE APPEARANCE
 \usepackage{sectsty}
 \allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
@@ -348,8 +348,28 @@ sorting=ynt
 
 	\section{Test Results}
 	        \subsection{Complexity results}
-
-            \subsection{Results}
+                \begin{table}[h]
+                \centering
+                \caption{Table of results from complexity testing}
+                \label{my-label}
+                \begin{tabular}{lllllll}
+                \rowcolor[HTML]{C0C0C0} 
+                \cellcolor[HTML]{FFFFFF}{\color[HTML]{000000} }                                  & \multicolumn{2}{l}{\cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Insertion Time}} & \multicolumn{2}{l}{\cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} LookUp Time}} & \multicolumn{2}{l}{\cellcolor[HTML]{C0C0C0}{\color[HTML]{000000} Search By Prefix Time}} \\
+                \rowcolor[HTML]{EFEFEF} 
+                \multirow{-2}{*}{\cellcolor[HTML]{FFFFFF}{\color[HTML]{000000} Number of Words}} & Total                                & Per Element                                & Total                               & Per Element                              & Total                                    & Per Element                                   \\
+                \cellcolor[HTML]{EFEFEF}10                                                       & 0                                    & 0                                          & 0                                   & 0                                        & 0.001                                    & 0.0001                                        \\
+                \cellcolor[HTML]{EFEFEF}100                                                      & 0.001                                & 0.0001                                     & 0                                   & 0                                        & 0                                        & 0                                             \\
+                \cellcolor[HTML]{EFEFEF}1000                                                     & 0.001                                & 0.0001                                     & 0                                   & 0                                        & 0.004                                    & 0.0004                                        \\
+                \cellcolor[HTML]{EFEFEF}10000                                                    & 0.01                                 & 0.001                                      & 0.004                               & 0.0004                                   & 0.043                                    & 0.0043                                        \\
+                \cellcolor[HTML]{EFEFEF}25143                                                    & 0.035                                & 0.0035                                     & 0.014                               & 0.0014                                   & 0.107                                    & 0.0107                                       
+                \end{tabular}
+                \end{table}
+                
+                Because the system is efficient the times for tens of thousands of operations on the trie are still fractions of a second.
+                These tests have not provided good enough numbers to be able to calculate the complexity. But they do show that the system is very efficient.
+                
+                Raw results can be found in appendix \ref{appendix:UnitTestOutput} .
+            \subsection{Unit test results}
 			     The results from running the unit tests on the final build can be found in appendix \ref{appendix:UnitTestOutput} or in a file named ``.\textbackslash Log\textbackslash UnitTestLog.txt", to get these results from the program use the method described Section \ref{section:unittesting}.
 			     
 			     All unit tests passed.
@@ -372,8 +392,8 @@ sorting=ynt
 
 	\subsection{Unit Testing Output} \label{appendix:UnitTestOutput}
 	    \begin{lstlisting}
-	        
-   Fri Jan 20 19:32:16 2017
+
+   Mon Jan 23 03:02:30 2017
  
 ====#====#====#====#====#====#====#====#====#==== 
 ====                                         ==== 
@@ -409,8 +429,67 @@ sorting=ynt
  [PASS] 	 Constructed trie pointer was not null
  [PASS] 	 Adding values to a trie worked
  [PASS] 	 Contains worked
+ [PASS] 	 Adding Multiple values to a trie worked
+ [PASS] 	 Printing a trie worked
+ [PASS] 	 Prefix based searches work
+ [PASS] 	 Alphabet mapping works
 ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
  [PASS] 	All Unit Tests for Trie passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING PTE 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed pte pointer was not null
+ [PASS] 	 Predicting words worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for PTE passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Lists 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	 Constructed list pointer was not null
+ [PASS] 	 Two constructed lists did not have the same pointer
+ [PASS] 	 Adding a value to a list worked
+ [PASS] 	 Adding multiple values to a list worked
+ [PASS] 	 Adding multiple values to a list worked
+ [PASS] 	 list isEmpty worked
+ [PASS] 	 list Size worked
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Lists passed ! 
+
+
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+               UNIT TESTING Complexity 
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	  
+  Took 0.000000 s to insert 10 items, time per item 0.000000 s
+  Took 0.000000 s to lookup 10 items, time per item 0.000000 s
+  Took 0.001000 s to to search by prefix 10 items, time per item 0.000100 s 
+ [PASS] 	  
+  Took 0.001000 s to insert 100 items, time per item 0.000100 s
+  Took 0.000000 s to lookup 100 items, time per item 0.000000 s
+  Took 0.000000 s to to search by prefix 100 items, time per item 0.000000 s 
+ [PASS] 	  
+  Took 0.001000 s to insert 1000 items, time per item 0.000100 s
+  Took 0.000000 s to lookup 1000 items, time per item 0.000000 s
+  Took 0.004000 s to to search by prefix 1000 items, time per item 0.000400 s
+ [PASS] 	  
+  Took 0.010000 s to insert 10000 items, time per item 0.001000 s
+  Took 0.004000 s to lookup 10000 items, time per item 0.000400 s
+  Took 0.043000 s to to search by prefix 10000 items, time per item 0.004300 s 
+ [PASS] 	  
+  Took 0.035000 s to insert 25143 items, time per item 0.003500 s
+  Took 0.014000 s to lookup 25143 items, time per item 0.001400 s
+  Took 0.107000 s to to search by prefix 25143 items, time per item 0.010700 s
+ 
+
+==== ==== ==== ==== ==== ==== ==== ==== ==== ==== 
+ [PASS] 	All Unit Tests for Complexity passed ! 
 
 
 
