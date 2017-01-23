@@ -94,7 +94,7 @@ void predictiveTextEngine_Deconstructor(PredictiveTextEngine *ptEngine)
 // Predicts a set of words from a partialWord
 // Returns >0 if multiple words were found
 // Returns 0 if no words are found
-// Returns -1 if no word is found
+// Returns -1 if input is NULL
 int predictiveTextEngine_predictWords(PredictiveTextEngine *pte, char *partialWord, char **predictions, int numPredictions)
 {
     // This is probably the most important function
