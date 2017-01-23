@@ -140,17 +140,18 @@ sorting=ynt
 			\item The system must be able to check to see if a partial word is contained in that data structure.
 			\item The system must be able to check to see if a partial word that is stored in the data structure is a complete word from the dictionary.
 			\item The system must be able to make suggestions of words that are prefixed by a partial word.
-			\item The system must be able to make suggestions of words that share a common prefix with a partial word.
+
 			
 			\item The system must let the user enter a string of text.
 			\item The system must be able to present the user with a suggestion mode where they will be presented with a set of suggestions which they can chose between.
 			
+			\item \label{criteria:commonprefix}The system should be able to make suggestions of words that share a common prefix with a partial word.
 			\item The system should let the user select the one of these suggestions.
 			\item The system should replace the partial word with the selected word.
 			\item The system should let the user delete characters with backspace.
 
-			\item The system could be extended to deal with punctuation.
-			\item The system could be extended to deal with Capitalisation.
+			\item \label{criteria:punctuation} The system could be extended to deal with punctuation.
+			\item \label{criteria:capitals} The system could be extended to deal with Capitalisation.
 			\item The system could present the users with suggestions as they are typing.
 			
 		\end{enumerate}
@@ -159,13 +160,13 @@ sorting=ynt
 		 Storing and accessing these words efficiently is one of the challenges in creating a fast predictive text engine.
 		  After researching the topic, Tries seem to be the best data structure for this role in this system.\cite{book:ADS:trie}.
 		  
-		\subsection{Trie}
+		\subsection{Trie} \label{section:trie}
 			\subsubsection{What is a trie}
 			
 				\begin{wrapfigure}{r}{0.33\textwidth} %this figure will be at the right
     				\centering
     				\includegraphics[width=0.33\textwidth]{Trie_example}
-    				\caption{A trie for keys "A", "to", "tea", "ted", "ten", "i", "in", and "inn" \cite{fig:Trie_example}. }
+    				\caption{A trie for keys "A","to", "tea", "ted", "ten", "i", "in", and "inn"\cite{fig:Trie_example}.}
     				\label{fig:Trie_example}
 				\end{wrapfigure}
 				
@@ -183,7 +184,7 @@ sorting=ynt
 				In the use case as a Predictive text engine deletions will be very rare or non-existent.
 				A simple implementation of predictive text may not even allow the user to delete words form the dictionary. 
 				
-				The time complexity of insertion in a trie is the same as for deletions. Insertion time complexity is \begin{math}\vert A \vert  * len(string))\end{math}, where \begin{math}len(string)\end{math} is the length of the word to look up and \begin{math}\vert A \vert \end{math} is the size of the alphabet\cite{book:ADS:complexity}.
+				The time complexity of insertion in a trie is the same as for deletions. Insertion time complexity is \begin{math}\vert A \vert  * len(string)\end{math}, where \begin{math}len(string)\end{math} is the length of the word to look up and \begin{math}\vert A \vert \end{math} is the size of the alphabet\cite{book:ADS:complexity}.
 				This, again, is a \begin{math} O(1) \end{math} operation in regards to the number of words (\begin{math}n\end{math}).
 				When used in a predictive text engine most of the insertion into the trie will be made when loading the dictionary from file. 
 				
@@ -264,10 +265,11 @@ sorting=ynt
             
             \item[The dictionary storage layer] will be responsible for storing and accessing the large set of words (\textgreater 25k). It will use a Trie data structure to do this. It will provide fast look ups and prefixed based searching. It will use Library classes such as queues and stacks to simplify its own logic.
             
-            \item[The library layer] contains stack, queue and list classes that can be used by the other layer if they need them. (standard c libraries such as stdlib, stdbool, string are not shown in the class diagram).
+            \item[The library layer] contains stack and list classes that can be used by the other layers. (standard c libraries such as stdlib, stdbool, string are not shown in the class diagram).
             \end{description}
         \subsection{How suggestions are made}
-            When a user has typed in section of text the application/UI layer separates the last word from the rest of the string. It does this by scanning the string backwards for the for first occurrence of a word separator (the first occurrence of a separator when scanning backwards is the last separator in the string). It then knows that the last word is between that separator and the end of the string. It then passes the partial word to the text engine layer along with the number of suggestions it wants.
+        
+            When a user has typed in section of text the application/UI layer separates the last word from the rest of the string. It does this by scanning the string backwards for the for first occurrence of a word separator (the first occurrence of a separator when scanning backwards is the last separator in the string). It then knows that the last word is between that separator and the end of the string. It then passes the last word to the text engine layer along with the number of suggestions it wants.
             
             Once the partial word gets to the predictive text engine layer, the first thing the engine does is check to see if the partial word is contained in the data storage layer. 
             
@@ -275,11 +277,11 @@ sorting=ynt
             
             If the partial word is contained in storage and is a full word then we will add the partial word to the list of found suggestions. If the application/UI layer only requested one suggestion then we return the list now, if not we continue onwards.
             
-            If the partial word was in storage but not starred then we can look for words that are prefixed by the partial word (e.g. if input was ``Dat" the we can look for words like ``Data" and ``Date" ). The predictive text engine passes the partial word to the dictionary storage layer, to preform a breadth first search of words prefixed by the partial word.
+            If the partial word was in storage we can look for words that are prefixed by the partial word (e.g. if input was ``Dat" the we can look for words like ``Data" and ``Date" ). The predictive text engine passes the partial word to the dictionary storage layer, to preform a breadth first search of words prefixed by the partial word.
             
             Before starting a breadth first search, the data structure layer walks the trie to find the node that represents the partial word. All words that are prefixed by the partial word will be children of this node. This node will be the starting point for the breadth first search.
             
-            Once the starting node has been found a breadth first search is preformed. The current node is added to a queue and we repeat the process below until the queue is empty.
+            [NOT CURRENTLY USING BREADTH FIRST SEARCH] Once the starting node has been found a breadth first search is preformed. The current node is added to a queue and we repeat the process below until the queue is empty.
             
             The first thing done is de-queueing an item from the queue this is now the current node.
             The current node is check to see weather it is starred (is a compleate word). If the current node is then we add it to the list of found suggestions. If enough suggestions have been then found then the loop is broken.
@@ -301,19 +303,56 @@ sorting=ynt
 		    This means we can run a function on each of these data sets then use the resulting times to estimate the real word time complexity of the function.				
 
 				
-		\subsection{Unit Testing}
+		\subsection{Unit Testing} \label{section:unittesting}
 		    Every module (.c file) used within the system (excluding main.c, the unit tests themselves and the unit test runner) has a corresponding unit test file (ending with ``\_UT.c" ). These unit tests evaluate the behaviour of all of the functions a module makes public via its interface (.h file). The module UnitTester is responsible for running each set of unit tests. Each unit test is written to evaluate the behaviour of a specific part of the module under test.
 		    
 		    To run these unit tests the Symbol UTEST has to be defined at compile time. This can be done by switching from the debug/release configuration to the unittest configuration. If UTEST is defined the UnitTester module is ran, and preforms all unit tests and prints out weather the tests are failing or passing. 
 			     
 		\subsection{User interactions}
 			Unlike the other two sections these tests are not strictly quantitative. Each of the success criteria that relate to user input or interaction will be evaluated. 
+	\section{Expected Results}
+		\subsection{Complexity}
+		The complexity of the trie data structure is expected to be the same as discussed in Section \ref{section:trie} about Tries.
+		
+    		\begin{itemize}
+    		    \item Space complexity is \begin{math} \vert A \vert \Sigma_i len(w_i)\end{math}. In terms of n this is \begin{math} \vert A \vert * n * l \end{math}. And in big-O notaion this is \begin{math} O(n) \end{math}.
+    		    
+    		    \item Time complexity of lookups is \begin{math}len(w)\end{math}. In big-O notaion this is \begin{math} O(1) \end{math}.
+    		    
+    		    \item Time complexity for inserts is \begin{math}\vert A \vert  * len(string)\end{math}. Which is \begin{math} O(1) \end{math} in big-O notation.
+
+    		\end{itemize}
+		
+		\subsection{Unit Testing}
+		Because the system was unit tested though out its development, all of the bugs found from unit tested were dealt with as they were found. This means that all of the unit tests are expected to pass.
+		
+		\subsection{User interactions}
+		The completed system is expected to meet all of the ``must do" criteria and some of the ``should do" and ``could do" criteria. Below are the criteria where the completed system is expected to fall short.
+		
+		\begin{description}
+		    
+			\item [Criteria \ref{criteria:commonprefix} ] The system should be able to make suggestions of words that share a common prefix with a partial word.
 			
+			This functionality is currently not implemented in the system.
+			
+		    \item [Criteria \ref{criteria:punctuation} ] The system could be extended to deal with punctuation.
+		    
+		    The completed system does not deal with punctuation in any way. It strips it from the loaded words and may replace any punctuation that comes from user input.
+			
+			\item [Criteria  \ref{criteria:capitals} ] The system could be extended to deal with Capitalisation.
+			
+			The completed system does not deal with capitalization. Words loaded from file are processed in such away that capitals and lower case letters are mapped to the same space and so all capitalization data is lost.
+			
+			
+        \end{description}
+
 	\section{Test Results}
 	        \subsection{Complexity results}
 
             \subsection{Results}
-			     The results from running the unit tests on the final build can be found in appendix \ref{appendix:UnitTestOutput} or in a file named ``.\textbackslash Log\textbackslash UnitTestLog.txt", to get these results from the program use the method described above.
+			     The results from running the unit tests on the final build can be found in appendix \ref{appendix:UnitTestOutput} or in a file named ``.\textbackslash Log\textbackslash UnitTestLog.txt", to get these results from the program use the method described Section \ref{section:unittesting}.
+			     
+			     All unit tests passed.
 			     
 			\subsection{User interaction results}
             
