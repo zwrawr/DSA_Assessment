@@ -225,6 +225,11 @@
     <ClCompile Include="Libarys\Trie.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="PredictiveTextEngine\PredictiveTextEngine.c" />
+    <ClCompile Include="UnitTests\Complexity_UT.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
+    </ClCompile>
     <ClCompile Include="UnitTests\List_UT.c" />
     <ClCompile Include="UnitTests\PredictiveTextEngine_UT.c" />
     <ClCompile Include="UnitTests\Trie_UT.c">
@@ -256,6 +261,7 @@
     <ClInclude Include="Libarys\Stack.h" />
     <ClInclude Include="Libarys\Trie.h" />
     <ClInclude Include="PredictiveTextEngine\PredictiveTextEngine.h" />
+    <ClInclude Include="UnitTests\Complexity_UT.h" />
     <ClInclude Include="UnitTests\List_UT.h" />
     <ClInclude Include="UnitTests\PredictiveTextEngine_UT.h" />
     <ClInclude Include="UnitTests\Trie_UT.h" />
