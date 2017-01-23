@@ -23,7 +23,7 @@
 /// ====
 
 // These are all of our tests
-// They all retrun 1 if they passed
+// They all return 1 if they passed
 
 int RunTest_ConstructedPTENotNull(UTRunner *utr);
 int RunTest_CanPredictWords(UTRunner *utr);
@@ -59,7 +59,7 @@ int PredictiveTextEngine_UT_RunTests(FILE *log)
 
 int RunTest_ConstructedPTENotNull(UTRunner *utr)
 {
-    // test to see if that a constructed pte isnt null
+    // test to see if that a constructed pte isn't null
     PredictiveTextEngine *pte = predictiveTextEngine_Constructor();
     
     int passed = (pte == NULL) ? 0 : 1;
@@ -86,10 +86,9 @@ int RunTest_CanPredictWords(UTRunner *utr)
         results[i][0] = '\0';
     }
     
-    //lets try to do some preictions for words that are in the list
-    info = (predictiveTextEngine_predictWords(pte, "hello", results, 2) == 2) ? info : -1;
+    //lets try to do some predictions for words that are in the list
+    info = (predictiveTextEngine_predictWords(pte, "hello", results, 2) == 1) ? info : -1;
     info = (strcmp("hello", results[0]) == 0) ? info : -1;
-    info = (strcmp("hello", results[1]) == 0) ? info : -1;
     
     info = (predictiveTextEngine_predictWords(pte, "hel", results, 4) == 4) ? info : -1;
     info = (strcmp("held", results[0]) == 0) ? info : -1;

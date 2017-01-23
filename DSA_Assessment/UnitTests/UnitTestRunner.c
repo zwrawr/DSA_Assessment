@@ -35,7 +35,7 @@ struct UTRunner
 /// ====
 
 /// ====
-/// Constructors and DeConstrutors
+/// Constructors and DeConstructors
 /// ====
 UTRunner *utr_Constructor(int num, int (**funcs)(UTRunner *utr), char *name, FILE *log)
 {
@@ -76,7 +76,7 @@ int utr_RunTests(UTRunner *utr)
     {
         // run the unit test and get the result, info will be 1 if test passed
         int info = utr->TestFunctions[i](utr);
-        // if the test didn't pass incriment the the fails counter
+        // if the test didn't pass increment the fails counter
         totalFailed += (info == 1) ? 0 : 1;
     }
     

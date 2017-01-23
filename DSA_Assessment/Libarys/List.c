@@ -114,7 +114,7 @@ void listNode_Deconstructor(ListNode *node)
 /// ====
 
 // Reads the value form a item in the list
-// Returns 1 if succesful
+// Returns 1 if successful
 // Returns -1 if list is NULL
 int list_Add(List *list, void *data)
 {
@@ -146,7 +146,7 @@ int list_Add(List *list, void *data)
 }
 
 // Reads the value form a item in the list
-// Returns 1 if succesful
+// Returns 1 if successful
 // Returns 0 if unsuccessful
 // Returns -1 if list is NULL
 int list_Read( List *list, int index, void *data)
@@ -177,7 +177,7 @@ int list_Read( List *list, int index, void *data)
 }
 
 // Removes an item from a list
-// Returns 1 if succesful
+// Returns 1 if successful
 // Returns 0 if unsuccessful
 // Returns -1 if list is NULL
 int list_Remove(List *list, int index)
@@ -246,7 +246,7 @@ int list_Size(List *list)
     return list->size;
 }
 
-// Checks weather a list isempty
+// Checks weather a list is empty
 // Return 0 if the list is not empty
 // Returns 1 if the array list is empty
 // Returns -1 if list is null

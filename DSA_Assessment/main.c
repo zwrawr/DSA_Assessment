@@ -1,7 +1,7 @@
 // =====================================================
 // <summary>
 //  This is the entry point for the predictive text program
-//  it is responsible for the ui and user interactions with the
+//  it is responsible for the UI and user interactions with the
 //  system.
 // </summary>
 // <project> Predictive Text </project>
@@ -84,14 +84,14 @@ void textEntryLoop()
         
         // TODO improve this
         
-        // a buffer of out word. Auto resizing array list implimentation would be better
-        // and then read the new text in nchar by char and add it to the array
+        // a buffer of out word. Auto resizing array list implementation would be better
+        // and then read the new text in char by char and add it to the array
         char *info = fgets(inputBuffer, 256, stdin);
         
         //TODO :: Check info
         printf("\n=>\t %s \n", inputBuffer);
         
-        // proccess to find just the last word.
+        // process to find just the last word.
         char *lastWord = malloc(maxWordLength * sizeof(char));
         lastWord[0] = '\0';
         
@@ -104,11 +104,11 @@ void textEntryLoop()
             i++;
         }
         
-        //TODO:: other possible word seperators '-' '_'
+        //TODO:: other possible word separators '-' '_'
         // scan the buffer starting at the end looking for a space.
         char *lastSpace = strrchr(inputBuffer, ' ');
         
-        // if we didn't find a space then assume that the entrie buffer is one string
+        // if we didn't find a space then assume that the entire buffer is one string
         if (lastSpace == NULL)
         {
             lastSpace = inputBuffer;

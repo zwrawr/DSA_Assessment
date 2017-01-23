@@ -35,13 +35,13 @@ void stack_Deconstructor(Stack *stack);
 
 // Checks to see weather the stack is empty
 // Returns 1 if stack is empty
-// Returns 0 if stack isnt empty
+// Returns 0 if stack isn't empty
 // Returns -1 if stack is NULL
 int stack_isEmpty(Stack *stack);
 
 // Checks to see weather the stack is full
 // Returns 1 if stack is full
-// Returns 0 if stack isnt full
+// Returns 0 if stack isn't full
 // Returns -1 if stack is NULL
 int stack_isFull(Stack *stack);
 
@@ -70,13 +70,13 @@ int stack_Peek(Stack *stack, int index, int *peeked);
 int stack_Pop_nv(Stack *stack);
 
 // Creates an array of the values in the stack.
-// Returns the array representaion of the values in the stack
-// Returns NULL if stack is NULL or unsuccessul
+// Returns the array representation of the values in the stack
+// Returns NULL if stack is NULL or unsuccessful
 int *stack_ToArray(Stack *stack);
 
 // Gets the height of the stack.
 // Returns the Height of the stack
-// Returns -1 if stack is NULL or unsuccessul
+// Returns -1 if stack is NULL or unsuccessful
 int stack_GetHeight(Stack *stack);
 
 #endif // STACK_H_INCLUDED

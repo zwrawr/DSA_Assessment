@@ -14,7 +14,7 @@
 // Some of the code below may be from the source above.
 // =====================================================
 
-//TODO:: Make Generic . . . after making queue generic i've decided not to make the stack generic as that took alot of work.
+//TODO:: Make Generic . . . after making list generic I've decided not to make the stack generic as generics in take a lot of work.
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -67,7 +67,7 @@ void stack_Deconstructor(Stack *stack)
 
 // Checks to see weather the stack is empty
 // Returns 1 if stack is empty
-// Returns 0 if stack isnt empty
+// Returns 0 if stack isn't empty
 // Returns -1 if stack is NULL
 int stack_isEmpty(Stack *stack)
 {
@@ -81,7 +81,7 @@ int stack_isEmpty(Stack *stack)
 
 // Checks to see weather the stack is full
 // Returns 1 if stack is full
-// Returns 0 if stack isnt full
+// Returns 0 if stack isn't full
 // Returns -1 if stack is NULL
 int stack_isFull(Stack *stack)
 {
@@ -109,10 +109,10 @@ int stack_Push(Stack *stack, int value)
         stack->length *= 2;
         stack->array = realloc(stack->array, stack->length * sizeof(int));
         
-        // TODO: make this try mallocing a diff buffer if it failes not just die
         if (stack->array == NULL)
         {
-            // realloc failed thats bad
+            // TODO: make this try allocating a different buffer if it fails not just die
+            // reallocating failed thats bad
             return 0;
         }
     }
@@ -182,8 +182,8 @@ int stack_Peek(Stack *stack, int index, int *peeked)
 }
 
 // Returns an array of the values in the stack.
-// Returns the array representaion of the values in the stack
-// Returns NULL if stack is NULL or unsuccessul
+// Returns the array representation of the values in the stack
+// Returns NULL if stack is NULL or unsuccessful
 int *stack_ToArray(Stack *stack)
 {
     if (stack == NULL || stack_isEmpty(stack) == 1)
@@ -199,7 +199,7 @@ int *stack_ToArray(Stack *stack)
 
 // Gets the height of the stack.
 // Returns the Height of the stack
-// Returns -1 if stack is NULL or unsuccessul
+// Returns -1 if stack is NULL or unsuccessful
 int stack_GetHeight(Stack *stack)
 {
     if (stack == NULL)

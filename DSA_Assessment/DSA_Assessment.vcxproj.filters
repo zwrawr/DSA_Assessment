@@ -89,12 +89,24 @@
     <ClInclude Include="UnitTests\Complexity_UT.h">
       <Filter>UnitTests</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Data\words.txt">
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="Data\100words.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Data\10words.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Data\1000words.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Data\10000words.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

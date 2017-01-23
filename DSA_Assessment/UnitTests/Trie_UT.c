@@ -23,7 +23,7 @@
 /// ====
 
 // These are all of our tests
-// They all retrun 1 if they passed
+// They all return 1 if they passed
 
 int RunTest_ConstructedTrieNotNull(UTRunner *utr);
 int RunTest_CanAddValues(UTRunner *utr);
@@ -71,7 +71,7 @@ int trie_UT_RunTests(FILE *log)
 
 int RunTest_ConstructedTrieNotNull(UTRunner *utr)
 {
-    // test to see if that a constructed trie isnt null
+    // test to see if that a constructed trie isn't null
     Trie *trie = trie_Constructor();
     
     int passed = (trie == NULL) ? 0 : 1;
@@ -93,7 +93,7 @@ int RunTest_CanAddValues(UTRunner *utr)
     // we should be able to add values now
     info = (trie_Add(trie, "test") == 1) ? info : -1;
     
-    // shouldnt be able to add nothing
+    // shouldn't be able to add nothing
     info = (trie_Add(trie, "") == 0) ? info : -1;
     
     // should be able to add this
@@ -148,7 +148,7 @@ int RunTest_Contains(UTRunner *utr)
     info = (trie_Contains(trie, "hello") == 1) ? info : -1;
     info = (trie_Contains(trie, "help") == 1) ? info : -1;
     
-    // see if the trie contains words we didnt add
+    // see if the trie contains words we didn't add
     info = (trie_Contains(trie, "avacardo") == -1) ? info : -1;
     info = (trie_Contains(trie, "testEquipment") == -1) ? info : -1;
     info = (trie_Contains(trie, "z") == -1) ? info : -1;
@@ -192,7 +192,7 @@ int RunTest_CanAddMultiple(UTRunner *utr)
         "born",
         "border",
         "units",
-        "avacado"
+        "avocado"
     };
     
     char *words2[] =
@@ -251,8 +251,8 @@ int RunTest_CanPrint(UTRunner *utr)
 {
     // test to see if trie print is working
     
-    // I cannot think of a way to check if what is being printed out is correct appart from grabbing the screen buffer
-    // (which isnt ISO C) or mocking printf ( No idea how you'd go about mocking stuff in C )
+    // I cannot think of a way to check if what is being printed out is correct apart from grabbing the screen buffer
+    // (which isn't ISO C) or mocking printf ( No idea how you'd go about mocking stuff in C )
     
     int info = 0;
     char *words[] =
@@ -271,7 +271,7 @@ int RunTest_CanPrint(UTRunner *utr)
         "born",
         "border",
         "units",
-        "avacado"
+        "avocado"
     };
     int numWords = sizeof(words) / sizeof(words[0]);
     
@@ -320,7 +320,7 @@ int RunTest_CanSearchByPrefix(UTRunner *utr)
         "helicopters",
         "heliocentric",
         "units",
-        "avacado"
+        "avocado"
     };
     int numWords = sizeof(words) / sizeof(words[0]);
     
@@ -336,7 +336,7 @@ int RunTest_CanSearchByPrefix(UTRunner *utr)
     Trie *trie = trie_Constructor();
     
     /*
-    // make sure we cannot look up word if we have no weare to put them
+    // make sure we cannot look up word if we have no where to put them
     info = (trie_searchByPrefix(trie, "test", NULL, 0) == -1) ? info : -1;
     info = (trie_searchByPrefix(trie, "test", NULL, 2) == -1) ? info : -1;
     info = (trie_searchByPrefix(trie, NULL, results, 2) == -1) ? info : -1;
@@ -346,26 +346,31 @@ int RunTest_CanSearchByPrefix(UTRunner *utr)
     // add the words to the trie
     info = (trie_AddMultiple(trie, words, numWords) == 1) ? info : -1;
     
-    /*
+    
     // print it for debug
     trie_Print(trie);
     
-    // lets look words prexifed by a word thats not in the trie, this should return -1
+    // lets look words prefixed by a word thats not in the trie, this should return -1
     info = (trie_searchByPrefix(trie, "test", results, numResults) == -1) ? info : -1;
     
-    // lets look words prexifed by a word thats not in the trie,but the trie dose contain words prexied by it this should return 2 (helicopter and helicopters)
+    // lets look words prefixed by a word thats not in the trie,but the trie dose contain words prefixid by it this should return 2 (helicopter and helicopters)
     info = (trie_searchByPrefix(trie, "helico", results, numResults) == 2) ? info : -1;
-    info = (strcmp(results[0], "helicopter"), 0) ? info : -1;
-    info = (strcmp(results[1], "helicopters"), 0) ? info : -1;
-    */
-    // lets look words prexifed by heli (in trie but not starred),should return 4 (helipad, helicopter, helicopters,heliocentric)
+    info = (strcmp(results[0], "helicopter") == 0) ? info : -1;
+    info = (strcmp(results[1], "helicopters") == 0) ? info : -1;
+    
+    printf("%s.\n", results[0]);
+    printf("%s.\n", results[1]);
+    printf("%s.\n", results[2]);
+    printf("%s.\n", results[3]);
+    
+    // lets look words prefixed by heli (in trie but not starred),should return 4 (helipad, helicopter, helicopters,heliocentric)
     info = (trie_searchByPrefix(trie, "heli", results, numResults) == 4) ? info : -1;
     info = (strcmp(results[0], "helicopter") == 0) ? info : -1;
     info = (strcmp(results[1], "helicopters") == 0) ? info : -1;
     info = (strcmp(results[2], "heliocentric") == 0) ? info : -1;
     info = (strcmp(results[3], "helipad") == 0) ? info : -1;
     
-    // lets look only 2 words prexifed by heli (in trie but not starred),should return 4 (helipad, helicopter, helicopters,heliocentric)
+    // lets look only 2 words prefixed by heli (in trie but not starred),should return 4 (helipad, helicopter, helicopters,heliocentric)
     info = (trie_searchByPrefix(trie, "heli", results, 2) == 2) ? info : -1;
     info = (strcmp(results[0], "helicopter") == 0) ? info : -1;
     info = (strcmp(results[1], "helicopters") == 0) ? info : -1;

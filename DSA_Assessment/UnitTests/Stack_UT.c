@@ -23,7 +23,7 @@
 
 
 // These are all of our tests
-// They all retrun 1 if they passed
+// They all return 1 if they passed
 
 int RunTest_ConstructedStackNotNull(UTRunner *utr);
 int RunTest_TwoStackDontHaveSamePointer(UTRunner *utr);
@@ -78,7 +78,7 @@ int stack_UT_RunTests(FILE *log)
 
 int RunTest_ConstructedStackNotNull(UTRunner *utr)
 {
-    // test to see if that a constructed stack isnt null
+    // test to see if that a constructed stack isn't null
     Stack *stack = stack_Constructor();
     
     int passed = (stack == NULL) ? 0 : 1;
@@ -90,7 +90,7 @@ int RunTest_ConstructedStackNotNull(UTRunner *utr)
 
 int RunTest_TwoStackDontHaveSamePointer(UTRunner *utr)
 {
-    // test to see if that two constructed stacks dont have the same pointer
+    // test to see if that two constructed stacks don't have the same pointer
     Stack *stack1 = stack_Constructor();
     Stack *stack2 = stack_Constructor();
     
@@ -138,7 +138,7 @@ int RunTest_StackMultiplePushes(UTRunner *utr)
 
 int RunTest_StackPop(UTRunner *utr)
 {
-    // test to see if that poping a value off a stack is possible
+    // test to see if that popping a value off a stack is possible
     Stack *stack = stack_Constructor();
     
     int input = 9;
@@ -190,7 +190,7 @@ int RunTest_StackMultiplePops(UTRunner *utr)
 
 int RunTest_TwoStacksPushAndPop(UTRunner *utr)
 {
-    // test to see if adding a value to one stack affect a diffrent stack
+    // test to see if adding a value to one stack affect a different stack
     Stack *stack1 = stack_Constructor();
     Stack *stack2 = stack_Constructor();
     
@@ -206,7 +206,7 @@ int RunTest_TwoStacksPushAndPop(UTRunner *utr)
     int result1 = 0;
     int result2 = 0;
     
-    // make sure the values were poping off match the values we added
+    // make sure the values were popping off match the values we added
     info = ((stack_Pop(stack1, &result1) == 1) && (result1 == -17)) ? info : -1;
     info = ((stack_Pop(stack2, &result2) == 1) && (result2 == 41)) ? info : -1;
     info = ((stack_Pop(stack2, &result2) == 1) && (result2 == 31)) ? info : -1;
@@ -216,7 +216,7 @@ int RunTest_TwoStacksPushAndPop(UTRunner *utr)
     
     stack_Deconstructor(stack1);
     stack_Deconstructor(stack2);
-    utr_PrintMessage(utr, passed, "Adding values to one stack doesnt affect the other stack", "Adding values to one stack does affect the other stack");
+    utr_PrintMessage(utr, passed, "Adding values to one stack doesn't affect the other stack", "Adding values to one stack does affect the other stack");
     return passed;
 }
 
@@ -372,7 +372,7 @@ int RunTest_StackToArray(UTRunner *utr)
     
     free(array);
     
-    // add some more values to a stack that weve already turned into an array
+    // add some more values to a stack that we've already turned into an array
     for (int i = (testLength - 4); i < testLength; i++)
     {
         info = (stack_Push(stack, inputs[i]) == 1) ? info : -1;
@@ -412,14 +412,14 @@ int RunTest_StackHeight(UTRunner *utr)
     // try to get the height of an empty stack
     info = ((stack_GetHeight(stack) == 0)) ? info : -1;
     
-    // add a bunch of values to a stack and make sure the stack height is incressing
+    // add a bunch of values to a stack and make sure the stack height is increasing
     for (int i = 0; i < testLength; i++)
     {
         info = (stack_Push(stack, inputs[i]) == 1) ? info : -1;
         info = (stack_GetHeight(stack) == i + 1) ? info : -1;
     };
     
-    // pop a value from the stack and make sure the height is decressing
+    // pop a value from the stack and make sure the height is decreasing
     info = (stack_Pop(stack, &result) == 1) ? info : -1;
     
     info = (stack_GetHeight(stack) == testLength - 1) ? info : -1;
@@ -428,7 +428,7 @@ int RunTest_StackHeight(UTRunner *utr)
     
     info = (stack_GetHeight(stack) == testLength - 2) ? info : -1;
     
-    // make sure the height goes back up as we push morew stuff on to the stack
+    // make sure the height goes back up as we push more stuff on to the stack
     info = (stack_Push(stack, 1) == 1) ? info : -1;
     
     info = (stack_GetHeight(stack) == testLength - 1) ? info : -1;

@@ -1,8 +1,8 @@
 // =====================================================
 // <summary>
 //  This file is responsible for unit testing the file "List.c",
-//  The list implimentation is generic but it is only used for
-//  char* in the code base so that what im testing it with.
+//  The list implementation is generic but it is only used for
+//  char* in the code base so that what I am testing it with.
 // </summary>
 // <project> Predictive Text </project>
 // <author> Y3839090 </author>
@@ -30,7 +30,7 @@
 
 
 // These are all of our tests
-// They all retrun 1 if they passed
+// They all return 1 if they passed
 
 int RunTest_ConstructedListNotNull(UTRunner *utr);
 int RunTest_TwoListsDontHaveSamePointer(UTRunner *utr);
@@ -75,7 +75,7 @@ int list_UT_RunTests(FILE *log)
 
 int RunTest_ConstructedListNotNull(UTRunner *utr)
 {
-    // test to see if that a constructed list isnt null
+    // test to see if that a constructed list isn't null
     List *list = list_Constructor(STRING_LENGTH);
     
     int passed = (list == NULL) ? 0 : 1;
@@ -87,7 +87,7 @@ int RunTest_ConstructedListNotNull(UTRunner *utr)
 
 int RunTest_TwoListsDontHaveSamePointer(UTRunner *utr)
 {
-    // test to see if that two constructed lists dont have the same pointer
+    // test to see if that two constructed lists don't have the same pointer
     List *list1 = list_Constructor(STRING_LENGTH);
     List *list2 = list_Constructor(STRING_LENGTH);
     
@@ -121,7 +121,7 @@ int RunTest_ListMultipleAdd(UTRunner *utr)
     {
         "Hello World!",
         "Unit Testing is really boring",
-        "Avacado",
+        "Avocado",
         "Dyslexia is fun",
         "Rainbows",
         "Random Word",
@@ -152,7 +152,7 @@ int RunTest_ListRead(UTRunner *utr)
     {
         "Hello World!",
         "Unit Testing is really boring",
-        "Avacado",
+        "Avocado",
         "Dyslexia is fun",
         "Rainbows",
         "Random Word",
@@ -245,7 +245,7 @@ int RunTest_ListSize(UTRunner *utr)
     // check to see if a list isEmpty before we've added anything to it
     info = (list_Size(list) == 0) ? info : -1;
     
-    // add a value to the list and make sure itshas the correct size
+    // add a value to the list and make sure it has the correct size
     info = (list_Add(list, "hey") == 1) ? info : -1;
     info = (list_Size(list) == 1) ? info : -1;
     
