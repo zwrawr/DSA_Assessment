@@ -28,25 +28,25 @@ capitalisation will also be welcomed.
 The marks are broken down into the following categories:
 
 ### Choice of Data Structure (6)  
-* Space complexity (with respect to size of dictionary) 2  
-* Time complexity (with respect to size of dictionary) 2  
-* Simplicity of data structure 2  
+> * Space complexity (with respect to size of dictionary) 2  
+> * Time complexity (with respect to size of dictionary) 2  
+> * Simplicity of data structure 2  
 
 ### Program Implementation (20)  
-* Representational independence (interface and implementation separation) 3  
-* Modularity of program (at least three program files with appropriate contents) 2  
-* Functional modularity (program broken up into an appropriate series of functions) 3  
-* Program documentation (commenting, formatting, suitable names of variables etc) 2  
-* Clarity and simplicity of program (good program structure, logical flow) 3  
-* Execution (how well does the actual program work) 3  
-* Completeness (how complete is the submitted program, how functional) 2  
-* User interface 2  
+> * Representational independence (interface and implementation separation) 3  
+> * Modularity of program (at least three program files with appropriate contents) 2  
+> * Functional modularity (program broken up into an appropriate series of functions) 3  
+> * Program documentation (commenting, formatting, suitable names of variables etc) 2  
+> * Clarity and simplicity of program (good program structure, logical flow) 3  
+> * Execution (how well does the actual program work) 3  
+> * Completeness (how complete is the submitted program, how functional) 2  
+> * User interface 2  
 
 ### Report (24)  
-* Explanation of program 8  
-* Explanation of data structure chosen and discussion of alternatives 10  
-* Readability and formatting 4  
-*Testing strategy (how did you test your design?) 2  
+> * Explanation of program 8  
+> * Explanation of data structure chosen and discussion of alternatives 10  
+> * Readability and formatting 4  
+> * Testing strategy (how did you test your design?) 2  
 
 ## My submition
 
